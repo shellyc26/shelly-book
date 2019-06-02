@@ -206,7 +206,7 @@ To demonstrate using the states object in a mathematical expression, Kiara tells
 
 Leslie notes that 31 is printed in the Console. This is the value of `2 + 29`. Before they go on, Kiara wants to explain a few vocabulary terms to Leslie. When Leslie enters code and running the code results in something being displayed on the screen, the thing that is displayed is the **output**. For example, the 31 printed after running the code above is **output**. 
 
-### Unlock achievement 1: Check your understanding
+### Achievement 1: Check your understanding
 
 Assign your age in years to an object with your name. Add 5 to the object and press Enter to see how old you will be in 5 years.
 
@@ -382,7 +382,7 @@ Functions are objects that perform a series of R commands to do something in par
 
 Kiara explains to Leslie that when she is first starting to code it is a good time to develop a coding style and begin using a consistent way of annotating code and the recommended way of naming things. Kiara prefers dot case for variable names and using underscores for filenames and Leslie agrees, so the code examples throughout this text will use these styles along with the recommended styles for constants and functions.
 
-### Unlock achievement 2: Check your understanding
+### Achievement 2: Check your understanding
 
 Open a new script file (or modify the existing file if you have been following along) and create a prolog. Make a constant named kIllegalNum and assign it the value of *21*. Subtract 2 from the variable and check the value.
 
@@ -505,9 +505,9 @@ Examples of categorical variables can include variables like religion, marital s
 
 NOTE: Some letters and words are already used by R and will cause some confusion if used as object names. For example, the uppercase `T` and `F` are used in the code as shorthand for `TRUE` or `FALSE` so are not useful as object names. When possible, use words and abbreviations that are not common mathematical terms.
 
-### Unlocking achievement 3: Check your understanding
+### Achievement 3: Check your understanding
 
-Check the data type for the kIllegalNum constant you created to unlock achievement 1. 
+Check the data type for the kIllegalNum constant you created to check your understanding for achievement 1. 
 
 ## Acheivement 4: Entering or loading data into R
 
@@ -838,7 +838,7 @@ summary(object = gss.2016)
 
 Leslie uses class and summary to check and confirm that the variables are now the correct type.
 
-### Unlock achievement 4: Check your understanding
+### Achievement 4: Check your understanding
 
 Use `fread()` to open the GSS 2016 data set. Look in the environment pane to find the number of observations and the number and types of variables in the data frame.
 
@@ -976,7 +976,7 @@ gss.2016 <- gss.2016 %>%
 summary(object = gss.2016)
 ```
 
-### Unlock achievement 5: Check your understanding
+### Achievement 5: Check your understanding
 
 Describe what `mutate()`, `na_if()`, and `%>%` did in the final code Leslie wrote.
 
@@ -1189,7 +1189,7 @@ legalize.bar
 
 Finally the full graph appears. Leslie is overwhelmed by what seems to be hundreds of layers in `ggplot()` to create a single graph. Kiara and Nancy both reassure her that this is complicated coding and she will start to understand it more as she practices in subsequent chapters. But, Kiara says, it is fun to see the power of R early on so that there is something to look forward to.
 
-### Unlock achievement 6: Check your understanding
+### Achievement 6: Check your understanding
 
 Think about the number of missing values for grass and age. Run the summary command to confirm. If 1824 of the 2867 observations had values for both grass and age, 32 observations were missing age, and 1024 observations were missing grass. How many observations were missing values for both? 
 
