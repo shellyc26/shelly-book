@@ -2,9 +2,9 @@
 
 ## Achievements to unlock
 
-Leslie is excited to keep her R education going while she works with Nancy and Kiara to understand some more tricky problems. Nancy explains that the next step is to learn about **descriptive statistics.** Consistent with the name, she explained, **descriptive statistics** are statistics that *describe* whatever is being studied, like people or organizations. Descriptive statistics are important since they provide information on the characteristics of the observations in a data set and provide context for interpretation of the results from complex statistical tests. Descriptive statistics may also be used to help choose the correct statistical test to use to answer your questions.
+Leslie is excited to keep her R education going while she works with Nancy and Kiara to understand some more tricky problems. Nancy explains that the next step is to learn about **descriptive statistics.** Consistent with the name, she explained, descriptive statistics are statistics that *describe* whatever is being studied, like people or organizations. Descriptive statistics are important since they provide information on the characteristics of the observations in a data set and provide context for interpretation of the results from complex statistical tests. Descriptive statistics are also helpful for figuring out which statistical test is most appropriate for answering your question. 
 
-After getting used to the R environment and preparing data for analysis with the tricky weed problem, Leslie wonders if the group can tackle something she heard about on a podcast. Specifically, Leslie is interested in the issue of transgender health and how transgender patients are treated in a system that has traditionally focused on two sexes. Nancy and Kiara think this is a great idea and develops a list of R acheivements to improve Leslie's R skills while they work on understanding transgender healthcare. To work on this issue, Nancy and Kiara create an outline for what they will discuss:
+After getting used to the R environment and preparing data for analysis with the tricky weed problem, Leslie wonders if the group can tackle something she heard about on a podcast. Specifically, Leslie is interested in the issue of transgender health and how transgender patients are treated in a healthcare system (e.g., in hospitals, doctors offices etc.) that has traditionally focused on two sexes. Nancy and Kiara think this is a great idea and develops a list of acheivements to improve Leslie's R skills while they work on understanding transgender healthcare. To work on this issue, Nancy and Kiara create an outline for what they will discuss:
 
 * The tricky transgender healthcare problem
 * Achievement 1: Understanding variable types and data types
@@ -16,23 +16,23 @@ Before opening R and getting started, Leslie does some reading on the problem in
 
 ## The transgender healthcare problem
 
-Leslie first wants to clarify the definition of transgender to make sure they are all all on the same page. First, there is a difference between sex and gender that is important for understanding the term transgender and other terms related to gender identity and sexual orientation. The term _sex_ refers to biology and the term _gender_ refers to identity. Nancy agrees with the definition of sex, but had heard broader definitions of _gender_ that include aspects of biology, psychosocial factors, and culture along with identity [@mayer2008sexual]. She looks up the World Health Organization (WHO) definition for gender:
+Leslie first wants to clarify the definition of transgender to make sure they are all on the same page. First, there is a difference between sex and gender that is important for understanding the term transgender and other terms related to gender identity and sexual orientation. The term _sex_ refers to biology and the term _gender_ refers to identity. Nancy agrees with the definition of sex, but had heard broader definitions of _gender_ that included biological, psychosocial, and cultural factors along with identity [@mayer2008sexual]. She looks up the World Health Organization (WHO) definition for gender:
 
 > "Gender refers to the socially constructed characteristics of women and men – such as norms, roles and relationships of and between groups of women and men. It varies from society to society and can be changed. While most people are born either male or female, they are taught appropriate norms and behaviours – including how they should interact with others of the same or opposite sex within households, communities and work places." [@WHOGender-2019-04-23] 
 
-Leslie is glad they looked this up, it is much more clear than her initial description. She goes on to explain that *transgender* people are people whose *biological sex* is not consistent with their *gender* [@mayer2008sexual]. She quotes an older article from 2008 that she thinks has a clear definition that might help:
+Leslie is glad they looked this up. She goes on to explain that *transgender* people are people whose *biological sex* is not consistent with their *gender* [@mayer2008sexual]. She quotes an older article from 2008 that she thinks has a clearer definition:
 
 > "Transgender is an inclusive term to describe people who have gender identities, expressions, or behaviors not traditionally associated with their birth sex." ([@mayer2008sexual], page 990)
 
-The 2008 paper gives a few examples of transgender including a person who is biologically female but identifies as a man, a person who is biologically male but identifies as a woman, or someone who feels like both or neither gender [@mayer2008sexual]. Nancy is looking at the Centers for Disease control and Prevention (CDC) website and clarifies that gender identity is the gender a person identifies as and gender expression is the gender a person outwardly shows [@TransgenderPersons]. Now that they have a clearer idea of who is considered transgender, Leslie has some background on health and healthcare for transgender people.
+The 2008 paper gives a few examples of transgender including a person who is biologically female but identifies as a man, a person who is biologically male but identifies as a woman, or someone who feels like both or neither gender [@mayer2008sexual]. Nancy looks at the Centers for Disease Control and Prevention (CDC) website and explains that gender identity is the gender a person identifies as and gender expression is the gender a person outwardly shows [@TransgenderPersons]. When describing individuals, typically the word of the person's chosen identity is included. That is, a person that is biologically female but identifies as a man would be described as a "transgender man". Now that they have a clearer idea of who is considered transgender, Leslie gives some background on health and healthcare for transgender people to Nancy and Kiara.
 
-Transgender people face serious physical and mental health disparities [@safer2016barriers], often related to discrimination [@bradford2013experiences]. Among the most prevalent and concerning disparities are extremely high rates of HIV and other sextually transmitted infections, poor mental health, and high rates of substance use and abuse. For example, transgender women have a 19.1% prevalence of HIV worldwide [@baral2013worldwide] while reproductive age adults have an HIV prevalence of .4%. A survey of transgender adults in the United States found 44.1% with clinical depression, 33.2% with anxiety, and 27.5% with somatization, which are physical symptoms stemming from depression, anxiety, or another psychiatric condition [@lombardi2010transgender]. Attempted suicide rates range from 32% to 50% of transgender people worldwide, with higher rates among younger age groups [@virupaksha2016suicide]. 
+Transgender people face serious physical and mental health disparities [@safer2016barriers], often related to discrimination [@bradford2013experiences]. Among the most prevalent and concerning disparities are extremely high rates of HIV and other sexually transmitted infections, poor mental health, and high rates of substance use and abuse. For example, transgender women have a 19.1% prevalence of HIV worldwide [@baral2013worldwide] while reproductive aged adults have an HIV prevalence of .4%. A survey of transgender adults in the United States found 44.1% have clinical depression, 33.2% have anxiety, and 27.5% have somatization symptoms (e.g., physical symptoms stemming from depression, anxiety, or another psychiatric condition) [@lombardi2010transgender]. Attempted suicide rates range from 32% to 50% of transgender people worldwide, with higher rates among younger age groups [@virupaksha2016suicide]. 
 
-In 2011, the Institute of Medicine (IOM) report found 35.5% of transgender adults are current smokers; this is more than twice the percentage of straight adults (14.9% smoking rate) [@stratton2001institute]. Transgender adults also have higher rates of alcohol and substance abuse [@benotsch2013non; @santos2014alcohol] and of overweight and obesity [@boehmer2007overweight]. Exacerbating these health disparities are limitations on access to healthcare [@RefWorks:2299] and limitations of the healthcare system to effectively address the unique health needs of transgender people [@reisner2016global; @daniel2015lesbian]. 
+In 2011, an Institute of Medicine (IOM) report found 35.5% of transgender adults are current smokers; this is more than twice the percentage of cisgender (e.g., people whose gender identity matches their biological sex) adults (14.9% smoking rate) [@stratton2001institute]. Transgender adults also have higher rates of alcohol and substance abuse [@benotsch2013non; @santos2014alcohol] and of overweight and obesity [@boehmer2007overweight]. Exacerbating these health disparities are limitations on access to healthcare [@RefWorks:2299] and limitations of the healthcare system to effectively address the unique health needs of transgender people [@reisner2016global; @daniel2015lesbian]. 
 
-Given the high smoking rate, substance and alcohol use, and the prevalence of overweight and obesity, it is important that transgender people are adequately screened for cancer and other health conditions. One study found that transgender had 47% lower odds of breast cancer screening than cisgender adults (i.e., not transgender) attending an urban clinic [@bazzi2015adherence]. The findings from 2017 mammogram paper that Leslie read are not consistent with the 2015 study, finding that transgender and cisgender adults have comparable rates of mammography screening [@RefWorks:2300]. Nancy thinks maybe the rate is increasing over time since the 2017 study uses slightly newer data, but Kiara suggests that the Behavioral Risk Factor Surveillance Survey (BRFSS) data used in the second study likely measures people with different characteristics than the 2015 study which relied on people seeking care at an urban clinic. Both of these factors may contribute to the higher rate of screening in the more recent study. 
+Given the high smoking rate, substance and alcohol use, and the prevalence of overweight and obesity, it is important that transgender people are adequately screened for cancer and other health conditions. However, Leslie found some conflicting results on this topic. One study from **INSERT CORRECT YEAR HERE** found that transgender adults had a 47% lower odds of breast cancer screening than cisgender adults attending an urban clinic [@bazzi2015adherence] **CHECK THIS CITATION!**. However, a different study from **INSERT CORRECT YEAR HERE** reported that transgender and cisgender adults have comparable rates of mammography screening [@RefWorks:2300] **CHECK THIS CITATION!!**. **Nancy thinks maybe the rate is increasing over time since the more recent study uses slightly newer data, but Kiara suggests that the Behavioral Risk Factor Surveillance Survey (BRFSS) data used in the second study likely measures people with different characteristics than the 2015 study which relied on people seeking care at an urban clinic.** Both of these factors, may contribute to the higher rate of screening in the more recent study. 
 
-Leslie looks up the BRFSS and finds that it is a large national survey conducted by the CDC in the US by phone every year [@CDCBRFSS-2019-04-22]. The 2017 mammogram paper analyzed data from participants in the the 2014 BRFSS. The 2014 BRFSS included 464,664 participants and the sampling process was designed so that the sample would represent the US population as much as possible. The survey included questions about characteristics like age, sex, and income, along with questions about health behaviors and outcomes. 
+Leslie looks up the BRFSS and finds that it is a large national survey conducted by the CDC in the US by phone every year [@CDCBRFSS-2019-04-22]. The 2017 mammogram paper analyzed data from participants in the 2014 BRFSS. The 2014 BRFSS included 464,664 participants and the sampling process was designed so that the sample would represent the US population as much as possible. The survey included questions about characteristics like age, sex, and income, along with questions about health behaviors and outcomes. 
 
 In 2014, 19 states and Guam included a question about transgender transition status including male to female (MtF), female to male (FtM), or non-conforming. The entire sample from the 19 states and Guam included 151,456 people. Of the 151,456 participants, the study authors identified 222 survey participants who reported they were transgender, were 40-74 years old (the age range when mammograms are recommended), and were asked about having a mammogram. The mammogram question was only asked of those who describe themselves as being female sex.
 
@@ -137,7 +137,7 @@ table.data %>%
   kableExtra::group_rows("Health insurance?", 26, 26) 
 ```
 
-Leslie explains that, prior to examining statistical relationships among variables, published studies in academic journals usually present **descriptive statistics** like the ones in Table 1. She adds that descriptive statistics are often displayed in the first table in a published article or report and are therefore sometimes referred to as the **Table 1** statistics or, even more commonly, as the **descriptives**. She also points out that, in this case, all the descriptives in the transgender health paper are percentages showing the percentage of people in each category. She explains that percentages were computed for this table because of **the types of variables** the researchers examined. Now that they have some background and an idea of the topic and data they are working with, Nancy and Kiara are ready to get started. 
+Leslie explains that, prior to examining statistical relationships among variables, published studies in academic journals usually present descriptive statistics like the ones in Table 1. She adds that descriptive statistics are often displayed in the first table in a published article or report and are therefore sometimes referred to as the *Table 1* statistics or, even more commonly, as the *descriptives*. She also points out that, in this case, all the descriptives in the transgender health paper are percentages showing the percentage of people in each category. She explains that percentages were computed for this table because of *the types of variables* the researchers examined. Now that they have some background and an idea of the topic and data they are working with, Nancy and Kiara are ready to get started. 
 
 ## Achievement 1: Understanding variable types and data types
 
@@ -147,7 +147,7 @@ In Section \@ref(achievement-3:-understanding-and-changing-data-types) Kiara int
 
 Leslie then describes **ordinal categorical variables**, which are different from nominal because the categories have a logical order. One way Leslie likes to remember this is to notice that ordinal and order both start with *o-r-d*, so ordinal variables have an order. For example, income can be measured in categories such as: < \$10k, \$10k - \$24,999, \$25k - \$99,999, \$100k+. These categories have a logical order from the lowest income group to the highest income group.
 
-Another common ordinal way of measuring things is the use of the **Likert scale**. Likert scale categories go in a logical order from least to most or most to least. For example, Leslie suggests that measuring agreement with the statement that *R is awesome* could use a Likert scale with the following options: Strongly agree, somewhat agree, neutral, somewhat disagree, strongly disagree. Leslie explains to the rest of the R team that often people refer to the number of categories as the *points* in a Likert scale. So, the agreement scale shown here is a 5-point Likert scale.
+Another common ordinal way of measuring things is the use of the **Likert scale**. Likert scale categories go in a logical order from least to most or most to least. For example, Leslie suggests that measuring agreement with the statement that *R is awesome* could use a Likert scale with the following options: Strongly agree, somewhat agree, neutral, somewhat disagree, strongly disagree. Leslie explains to the rest of the R-Team that often people refer to the number of categories as the *points* in a Likert scale. So, the agreement scale shown here is a 5-point Likert scale.
 
 ### Data types for continuous variables
 
@@ -157,9 +157,9 @@ Kiara explains that the **numeric** data type is also used for variables that do
 
 Leslie remembers that each different type of variable requires a different approach for analysis. Before getting into any complex statistical modeling, she remembers that descriptive statistics are key for understanding who or what is in the data set and often help in choosing an appropriate statistical test and refining analysis planning. 
 
-### Achievement 1: Check your understanding
+### Unlock achievement 1: Check your understanding
 
-Identify the most appropriate R data type for the following variables: 
+Identify the most appropriate data type for the following variables: 
 
 * number of healthy days per month 
 * marital status
@@ -169,13 +169,13 @@ Identify the most appropriate R data type for the following variables:
 
 ## Achievement 2: Choosing and conducting descriptive analyses for categorical (factor) variables
 
-Since the table from the paper (Figure \@ref(fig:c2intro1)) shows all categorical variables, the team starts there. Leslie knows that the two most commonly used and reported descriptive statistics for categorical (or factor) data types are frequencies and percents. For a categorical variable, frequencies are the number of observations--often people or organizations--that fall into a given category and percents are the proportion of all observations that fall into a given category.
+Since the table from the paper (Figure \@ref(fig:c2intro1)) shows all categorical variables, the R-Team starts there. Leslie knows that the two most commonly used and reported descriptive statistics for categorical (or factor) data types are frequencies and percents. For a categorical variable, frequencies are the number of observations--often people or organizations--that fall into a given category and percents are the proportion of all observations that fall into a given category.
 
 ### Computing frequencies and frequency distributions
 
 Leslie also remembers that a **frequency distribution** shows the number of observations in each category for a factor or categorical variable. Leslie suggests that they could use a frequency distribution to examine how many observations there are for each transgender transition category in the BRFSS data set from the mammogram paper.
 
-Before opening the data, Leslie examines the codebook for the 2014 data set on the Centers for Disease Control and Prevention (CDC) BRFSS website [@CDCBRFSS-2019-04-22]. The team looks through the codebook [@brfss-2014-codebook] together and find the transgender transition status information on page 83. The frequencies in this **frequency distribution** are 363 MtF transgender, 212 FtM transgender, 116 gender nonconforming, 150,765 not transgender, 1,138 don't know/not sure, 1,468 refused, and 310,602 not asked or missing.
+Before getting started, the team looks through the 2014 BRFSS codebook [@brfss-2014-codebook] together (which can be found on the CDC BRFSS website [@CDCBRFSS-2019-04-22]), and finds the transgender transition status information on page 83. The frequencies in this frequency distribution are 363 MtF transgender, 212 FtM transgender, 116 gender nonconforming, 150,765 not transgender, 1,138 don't know/not sure, 1,468 refused, and 310,602 not asked or missing.
 
 ```{r echo = FALSE, fig.cap="Screenshot of 2014 BRFSS codebook page 83."}
 knitr::include_graphics("graphics/chap2-cdc-codebook.JPG")
@@ -183,14 +183,14 @@ knitr::include_graphics("graphics/chap2-cdc-codebook.JPG")
 
 Kiara suggests that Leslie recreate this frequency distribution in R by first opening the BRFSS data file and then using an R command for frequencies. On the BRFSS website [@@CDCBRFSS-2019-04-22], the data file is available in **XPT** or **ASCII** format. The XPT is a *transport* file type from SAS statistical software; Kiara explains that one of the great features of R is that it can open most data sets from most software packages. This is one of the features of R that make it easier to do reproducible work. She says R can open the XPT file type by using the <span style="font-family:Lucida Console, monospace;font-weight:bold">haven</span> package that is part of the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> in R. For now, Kiara says she has already downloaded, opened, and cleaned the data so they do not need to do all of that. Leslie is interested in understanding how she did this, so Kiara shares the code she used to download and clean the data with Leslie to review later (see Box \@ref(ch2kiara)).
 
-After cleaning the data, Kiara created a **.csv** (comma separated values) file with the variables needed to recreate the table. Nancy introduces Leslie to the `read.csv()` command to import the data. Leslie writes a line of code, being sure to use the object naming recommendations she learned in the data preparation lesson. To follow along, download the **transgender_hc_ch2.csv** data set from edge.sagepub.com/harris1e and save it. Enter the location where the data file is saved in place of `data` in the `read.csv()` command. 
+After cleaning the data, Kiara created a **.csv** (comma separated values) file with the variables needed to recreate the table. Nancy reminds Leslie of the `read.csv()` command to import the data. Leslie writes a line of code, being sure to use the object naming recommendations she learned in the data preparation lesson. To follow along, download the *transgender_hc_ch2.csv* data set from edge.sagepub.com/harris1e and save it. Enter the location where the data file is saved in place of `data` in the `read.csv()` command. 
  
 ```{r c2main1}
 # read the 2014 BRFSS data
 brfss.trans.2014 <- read.csv(file = "data/transgender_hc_ch2.csv")
 ```
 
-Leslie then highlights the code and uses the run button to import the data. The data show up in the Environment pane in the top right corner of R Studio. The entry in the Environment tab is under the *Data* heading and  reads **brfss.trans.2014** (the name given to the file). Next to the data frame name, Leslie can see that there are 464,664 observations and 9 variables in the data frame. This indicates that the data set contains 464,664 observations, which are people in this case, and this is consistent with the codebook, so Leslie is assured that the file is the data she needs.
+Leslie then highlights the code and uses the run button to import the data. The data show up in the Environment pane in the top right corner of R Studio. The entry in the Environment tab is under the *Data* heading and reads `brfss.trans.2014` (the name given to the file). Next to the data frame name, Leslie can see that there are 464,664 observations and 9 variables in the data frame. This indicates that the data set contains 464,664 observations, which are people in this case, and this is consistent with the codebook, so Leslie is assured that the file is the data she needs.
 
 ### Making a basic table of frequencies and percents
 
@@ -202,26 +202,26 @@ Nancy is delighted to start coding! She starts by showing Leslie the easiest way
 table(brfss.trans.2014$TRNSGNDR)
 ```
 
-The results show a set of numbers with the top row representing the categories and the bottom row giving the number of observations; the number of observations in each category is the **frequency**. It looks like the frequencies in this simple table match the frequencies in the 2014 BRFSS codebook [@@brfss-2014-codebook]. For example, the first category of MtF---where MtF stands for Male to Female---transgender shows 363 in the codebook and 363 in the table in R. 
+The results show a set of numbers with the top row representing the categories and the bottom row giving the number of observations; the number of observations in each category is the *frequency*. It looks like the frequencies in this simple table match the frequencies in the 2014 BRFSS codebook [@@brfss-2014-codebook]. For example, the first category of MtF---where MtF stands for Male to Female---transgender shows 363 in the codebook and 363 in the table in R. 
 
 While the numbers look ok, Nancy suggests that this table is poorly formatted and there is no way to know what any of the numbers stand for without more information. She explains that a table should include several features to make the contents of the table clear. These features include: 
 
 * A main title indicating what is in the table
     + the overall sample size 
-    + the year of data collection 
+    + key pieces of information that describe the sample (here, the year of data collection )
 * Clear column and row labels
     + row/column sample size if different from overall
     
 ### Data management {#datamgmt}
     
-In order to format this table so it is clear, Nancy advises that Leslie use some of the tools from Chapter 1 and some new tools. The first thing to do might be to add **labels** to the transgender variable so that it is clear which categories the frequencies represent. Leslie reminds herself that **labels** are the words that describe each category of a categorical or factor type variable. Before she can add labels, Leslie needs to know what type of variable the transgender variable is. Leslie starts by examining the data type of the variable with the `class()` command: 
+In order to format this table so it is clear, Nancy advises that Leslie use some of the tools from Chapter 1 and some new tools. The first thing to do might be to add **labels** to the transgender variable so that it is clear which categories the frequencies represent. Leslie reminds herself that **labels** are the words that describe each category of a categorical or factor type variable. Before she can add labels, Leslie needs to know data type of  the transgender variable (`TRNSGNDR`). Leslie starts by examining the data type of the variable with the `class()` command: 
 
 ```{r c2main3}
 # check data type for transgender variable
 class(x = brfss.trans.2014$TRNSGNDR)
 ```
 
-The class is `r class(brfss.trans.2014$TRNSGNDR)`, which does not seem right to Leslie. She knows that this variable has categories and so should be the **categorical** data type, which is **factor** in R. She starts her data management by changing the data type of TRNSGNDR to a factor using the tidyverse package with the `mutate()` command and `as.factor()`.
+The class is `r class(brfss.trans.2014$TRNSGNDR)`, which does not seem right to Leslie. She knows that this variable has categories and so should be the categorical data type, which is factor in R. She starts her data management by changing the data type of `TRNSGNDR` to a factor using the tidyverse package with the `mutate()` command and `as.factor()`.
 
 ```{r c2main4}
 # open tidyverse for data management
@@ -235,7 +235,7 @@ brfss.2014.cleaned <- brfss.trans.2014 %>%
 class(x = brfss.2014.cleaned$TRNSGNDR)
 ```
 
-It worked! Now Leslie wants to add the category labels to the variable. She decides to add this onto the data management code she has already started. Nancy says this sounds great, but that the `recode_factor()` they used in the preparing data activities will work to recode AND to change the variable to a factor, so she can save a line of code and just use `recode_factor()` with `mutate()` instead of using `as.factor()` and then `recode_factor()`. Leslie looks up the category names in the codebook [@@brfss-2014-codebook] and finds that the categories are: 
+It worked! Now Leslie wants to add the category labels to the variable. She decides to add this onto the data management code she has already started. Nancy says this sounds great, but that the `recode_factor()` they used in the preparing data activities will work to recode AND to change the variable to a factor, so she can save a line of code and just use `recode_factor()` with `mutate()` instead of using `as.factor()` and then `recode_factor()`. Leslie looks up the category names in the codebook [@@brfss-2014-codebook] and finds that the categories (or levels) are: 
 
 * 1 = Male to female 
 * 2 = Female to male 
@@ -245,7 +245,7 @@ It worked! Now Leslie wants to add the category labels to the variable. She deci
 * 9 = Refused 
 * NA 
 
-While Leslie is distracted, Nancy sees her chance to do some of the coding. She slides the laptop over and changes the `mutate()` code to use `recode_factor()` with the category labels. When she is done, she shares her work with Leslie and shows her that `recode_factor()` requires the original value of the variable on the left side of the `=` and that the original values are enclosed in backticks because the values are considered **names** rather than quantities. In R, **names** are labels given to a category or a variable or another object. Names that begin with a number are enclosed in backticks (or quote marks) in order to be recognized by R as a name and not a quantity or value. 
+While Leslie is distracted, Nancy sees her chance to do some of the coding. She slides the laptop over and changes the `mutate()` code to use `recode_factor()` with the category labels. When she is done, she shares her work with Leslie and shows her that `recode_factor()` requires the original value of the variable on the left side of the `=` and that the original values are enclosed in backticks (  \``value`\`  ) because the values are considered **names** rather than quantities. In R, **names** are labels given to a category or a variable or another object. Names that begin with a number are enclosed in backticks (or quote marks) in order to be recognized by R as a name and not a quantity or value. 
 
 ```{r c2main5}
 # cleaning the TRNSGNDR variable
@@ -259,7 +259,7 @@ brfss.2014.cleaned <- brfss.trans.2014 %>%
                                             `9` = 'Refused'))
 ```
 
-Leslie wonders aloud how she would ever be able to remember the rule about putting numbers in backticks for  `recode_factor()`. Nancy says that some code is easy to remember, especially if she uses it a lot, but otherwise she uses the help documentation almost every day she is coding. She reminds Leslie that the help documentation is easy to use directly from R Studio and can be found as one of the tabs in the bottom right pane. She shows Leslie how to type recode_factor in the search box at the top of the help pane and the documentation for `recode_factor()` appears in the pane. 
+Leslie wonders aloud how she would ever be able to remember the rule about putting numbers in backticks for `recode_factor()`. Nancy says that some code is easy to remember, especially if she uses it a lot, but otherwise she uses the help documentation almost every day she is coding. She reminds Leslie that the help documentation is easy to use directly from R Studio and can be found as one of the tabs in the bottom right pane. She shows Leslie how to type "recode_factor" in the search box at the top of the help pane and the documentation for `recode_factor()` appears in the pane. She also tells Leslie that you can type a single "?" and then the name of the function into the Console, and the help page will appear (`?recode_factor`).
 
 While she has this open, she shows Leslie one features of the help documentation, which is that the package for a command  shows at the top left of the help documentation. In this case, the documentation lists *{dplyr}* in the top left so `recode_factor()` is in the <span style="font-family:Lucida Console, monospace;font-weight:bold">dplyr</span> package. Occasionally, Kiara says, she remembers some code but not the package it comes from, so the help documentation can be useful for that as well. 
 
@@ -274,33 +274,7 @@ Once they are done looking at the help pane, Nancy suggests Leslie re-run `table
 table(brfss.2014.cleaned$TRNSGNDR)
 ```
 
-It looks better, but it still needs some work on the formatting before it is ready to share with others. The <span style="font-family:Lucida Console, monospace;font-weight:bold">descr</span> (short for descriptives) package has a good option for a basic frequencies table with the `freq()` command. Since they are only using this one command, Nancy wants to use the `::` structure to open the package and run `freq()`. Nancy also knows that a graph is automatically printed with the `freq()` output and it is not useful at this point, so she shows Leslie how she uses the `plot = FALSE` option to stop the graph from printing with the output.
-
-```{r c2main7}
-# use freq from the descr package to make a table of frequencies and percents
-# suppress the bar plot that automatically prints
-descr::freq(x = brfss.2014.cleaned$TRNSGNDR, plot = FALSE)
-```
-
-Leslie notices that there are two columns in the output that show percents. She reviews the columns and finds that the **Percent** column includes the missing data (**NA**) in the calculation of the percent of observations in each category. The **Valid Percent** column removes the **NA** values and calculates the percent of observations that falls into each category **excluding the observations missing values on this variable**. 
-
-Nancy thinks this is ok, but since they are already using the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> package, they might try using it for this instead of opening a new package. She writes some alternate code to show Leslie how she might create this table:
-
-```{r c2main8}
-# use tidyverse to make table of frequency and percent
-brfss.2014.cleaned %>%
-  group_by(TRNSGNDR) %>%
-  summarise(n = n()) %>%
-  mutate(perc = 100*(n / sum(n)))
-```
-
-Leslie is not impressed, this looks like a lot more work to get the same information. Nancy agrees that, in this situation, the code seems more complicated to get the same table. She explains that sometimes it might be worth the time to use the more complicated code in order to keep a consistent style or in order to be able to use the code or its output for other things later. Leslie nods but remains skeptical.
-
-Nancy notes that both the `freq()` and <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> tables include the information you might need for reporting, they are still not formatted in a way that is useful for incorporating directly into a report or other document. Leslie suggests that they copy these results into a word processing program and format the table there. 
-
-Kiara cringes at this suggestion. Copying from statistical output into another document is where many errors occur in scientific reporting [@RefWorks:2301] and is a major reason why research results are not reproducible. It is more efficient and accurate to create a formatted table in R and use it without transcribing or changing the contents. Nancy suggests there are two great options for creating reproducible tables directly in R using the <span style="font-family:Lucida Console, monospace;font-weight:bold">tableone</span> and <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span> packages (see Box \@ref(ch2nancy2).
-
-Leslie starts thinking about the information they get from `summary()` and wonders if that might also be a good way to get frequencies. Nancy thinks this is an interesting idea and they decide to try using `summary()` and saving the results as a data frame:
+It looks better, but it still needs some work on the formatting before it is ready to share with others. Leslie starts thinking about the `summary()` command from their last session, and wonders if that might also be a good way to get frequencies. Nancy thinks this is an interesting idea and they decide to try using `summary()` and saving the results as a data frame:
 
 ```{r c2main9}
 # save summary to an object 
@@ -313,31 +287,57 @@ desc.from.summary.df
 
 ```
 
-After looking over the results, the team decides *desc.from.summary* table and *desc.from.summary.df* do not look very easy to use. Leslie wonders if there is any other code like `summary()` that summarizes all the variables at once. Nancy says she has used `describe()` from the <span style="font-family:Lucida Console, monospace;font-weight:bold">Hmisc</span> package. She suggests they load the package and try it: 
+After looking over the results, the team decides that the `desc.from.summary` table and the `desc.from.summary.df` data frame do not look very easy to use. Leslie wonders if there is any other code like `summary()` that summarizes all the variables at once. Nancy says she has used `describe()` from the <span style="font-family:Lucida Console, monospace;font-weight:bold">Hmisc</span> package. Leslie recalls that a package must be installed once (you need an internet connection to do so), but after it's installed there are two ways to access the functions that come from the package. The first way is to load the entire package (kind of like opening Microsoft PowerPoint for slides) using `library(Hmisc)`. Yet since they only want to use the one `describe()` command, Nancy suggests using the `::` structure instead. Leslie gives it a shot:
 
 ```{r c2main10}
 # trying fivenum for descriptive statistics
 Hmisc::describe(x = brfss.2014.cleaned)
 ```
 
-They look through the information and see that percents are included, which is something that is not in the `summary()` output, however, there is a lot of output to read through in order to find specific information. Kiara says she prefers to use more targeted statistics and just uses `summary()` and `describe()` to get a sense of the data or to confirm her data management tasks have worked. Leslie thinks this is a good strategy, although she is curious what other packages might be out there and whether any of them and have the perfect descriptive statistics code. Kiara says she might like the <span style="font-family:Lucida Console, monospace;font-weight:bold">tableone</span> package they will use later.
+They look through the information and see that percents are included, which is something that is not in the `summary()` output, however, there is a lot of output to read through in order to find specific information. Kiara says she prefers to use more targeted statistics and just uses `summary()` and `describe()` to get a sense of the data or to confirm her data management tasks have worked. Leslie thinks this is a good strategy, although she is curious about alternatives from other packages.  
 
-### Achievement 2: Check your understanding
+Nancy says that the <span style="font-family:Lucida Console, monospace;font-weight:bold">descr</span> (short for descriptives) package has a good option for a basic frequencies table with the `freq()` command. Nancy also knows that a graph is automatically printed with the `freq()` output and it is not useful at this point, so she shows Leslie how she uses the `plot = FALSE` option to stop the graph from printing with the output.
 
-Use one of the methods shown to create a table of the HADMAM variable, which indicates whether or not the survey participant had a mammogram. Review the question and response options in the codebook and recode to ensure that the correct category labels show up in the table (see link in references [@brfss-2014-codebook]) before you begin. 
+```{r c2main7}
+# use freq from the descr package to make a table of frequencies and percents
+# suppress the bar plot that automatically prints
+descr::freq(x = brfss.2014.cleaned$TRNSGNDR, plot = FALSE)
+```
+
+Leslie notices that there are two columns in the output that show percents. She reviews the columns and finds that the *Percent* column includes the missing data (`NA`s) in the calculation of the percent of observations in each category. The *Valid Percent* column removes the `NA` values and calculates the percent of observations that falls into each category *excluding the observations missing values on this variable*. 
+
+Leslie thinks this is ok, but since they are already using the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> package, they might try using it for this instead of opening a new package. She writes some alternate code to show Leslie how she might create this table:
+
+```{r c2main8, warning=FALSE}
+# use tidyverse to make table of frequency and percent
+brfss.2014.cleaned %>%
+  group_by(TRNSGNDR) %>%
+  summarise(n = n()) %>%
+  mutate(perc = 100*(n / sum(n)))
+```
+
+Leslie is not impressed. This looks like a lot more work to get the same information. Nancy agrees that, in this situation, the code seems more complicated to get the same table. She explains that sometimes it might be worth the time to use the more complicated code in order to keep a consistent style or in order to be able to use the code or its output for other things later. Leslie nods but remains skeptical. Kiara points out that this is an example of how you can do the same thing in a number or different ways in R. There is usually no one "correct" way. 
+
+Nancy notes that while both the `freq()` and <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> tables include the information you might need for reporting, they are still not formatted in a way that can be directly incorporated into a report or other document. Leslie suggests that they copy these results into a word processing program and format the table there. 
+
+Kiara cringes at this suggestion. Copying from statistical output into another document is where many errors occur in scientific reporting [@RefWorks:2301] and is a major reason why research results are not reproducible. It is more efficient and accurate to create a formatted table in R and use it without transcribing or changing the contents. Nancy suggests there are two great options for creating reproducible tables directly in R using the <span style="font-family:Lucida Console, monospace;font-weight:bold">tableone</span> and <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span> packages (see Box \@ref(ch2nancy2). Kiara promises to go through making pretty tables that can be viewed outside of R in a bit, but for now the R-Team is happy with `desc::freq(brfss.2014.cleaned$TRNSGNDR, plot = FALSE)` code. 
+
+### Unlock achievement 2: Check your understanding
+
+Use one of the methods shown to create a table of the `HADMAM` variable, which indicates whether or not the survey participant had a mammogram. Review the question and response options in the codebook and recode to ensure that the correct category labels show up in the table (see link in references [@brfss-2014-codebook]) before you begin. 
  
 ## Achievement 3: Choosing and conducting descriptive analyses for continuous (numeric) variables 
 
 ### Why frequency distributions do not work for numeric variables
 
-Now that they have a good table of descriptive statistics for a **factor** variable, Nancy and Leslie move on to **numeric** variables. Numeric variables are measured on a continuum, and can be truly continuous or just close to continuous. Leslie knows these types of variables are not well described using **frequency distributions**. For example, a frequency table of the age variable looks like this:
+Now that they have a good table of descriptive statistics for a factor variable, Nancy and Leslie move on to numeric variables. Numeric variables are measured on a continuum, and can be truly continuous or just close to continuous. Leslie knows these types of variables are not well described using frequency distributions. For example, a frequency table of the age variable (column `X_AGE80`) looks like this:
 
 ```{r c2main11}
 # table with frequencies from the age variable
 table(brfss.2014.cleaned$X_AGE80)
 ```
 
-Nancy agrees that this display of age data provides very little useful information. Nancy explains that one option to use frequency tables with variables like age is to divide the variable up into groups and examine the frequencies in each group. For example, to divide the frequency distribution of age into five groups, Nancy shows Leslie the `cut()` command which she uses to divide the age variable into five groups. Once she has the five groups, she makes a table showing frequencies from the five groups with the `count()` command:
+Nancy agrees that this display of age data provides very little useful information. Nancy explains that one option for using frequency tables with variables like age is to divide the variable up into groups and examine the frequencies in each group. For example, to divide the frequency distribution of age into five groups, Nancy shows Leslie the `cut()` command which she uses to divide the age variable into five groups. Once she has the five groups, she makes a table showing frequencies from the five groups with the `count()` command:
 
 ```{r c2main12}
 # cut age into five intervals
@@ -347,7 +347,7 @@ brfss.2014.cleaned %>%
   count(vars = X_AGE80)
 ```
 
-Nancy asks Leslie if she knows what the different types of parentheses stand for; Leslie indicates that she does not know how these are different. Nancy explains that the five groups are shown with a round parenthesis on one side **(** and a square bracket **]** on the other. When using `cut()`, the round parenthesis indicate that the group *includes* observations with this number, while a square bracket indicates the intervals goes up to *but does not include* the value next to the square bracket. So, the first interval shows 48,812 people have an age from 17.9 years old up to--but not including--30.4 years old.
+Nancy asks Leslie if she knows what the different types of parentheses stand for; Leslie indicates that she does not know how these are different. Nancy explains that the five groups are shown with a round parenthesis on one side **`(`** and a square bracket **`]`** on the other. When using `cut()`, the round parenthesis indicate that the group *includes* observations with this number, while a square bracket indicates the intervals goes up to *but does not include* the value next to the square bracket. So, the first interval shows 48,812 people have an age from 17.9 years old up to--but not including--30.4 years old.
 
 While dividing variables that are continuous or **numeric** data type into groups can be useful in some cases, Nancy suggests that there are descriptive statistics to examine numeric variables directly. Leslie knows all about these statistics, which include measures of the **central tendency** and **spread** of the values for a **numeric** variable.
 
