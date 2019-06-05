@@ -337,7 +337,7 @@ Now that they have a good table of descriptive statistics for a factor variable,
 table(brfss.2014.cleaned$X_AGE80)
 ```
 
-Nancy agrees that this display of age data provides very little useful information. Nancy explains that one option for using frequency tables with variables like age is to divide the variable up into groups and examine the frequencies in each group. For example, to divide the frequency distribution of age into five groups, Nancy shows Leslie the `cut()` command which she uses to divide the age variable into five groups. Once she has the five groups, she makes a table showing frequencies from the five groups with the `count()` command:
+Nancy agrees that this display of age data provides very little useful information. **SHELLY SUGGESTS CUTTING EVERYTHING BETWEEN HERE AND LINE 352 -- SEE NOTES** Nancy explains that one option for using frequency tables with variables like age is to divide the variable up into groups and examine the frequencies in each group. For example, to divide the frequency distribution of age into five groups, Nancy shows Leslie the `cut()` command which she uses to divide the age variable into five groups. Once she has the five groups, she makes a table showing frequencies from the five groups with the `count()` command:
 
 ```{r c2main12}
 # cut age into five intervals
@@ -349,11 +349,11 @@ brfss.2014.cleaned %>%
 
 Nancy asks Leslie if she knows what the different types of parentheses stand for; Leslie indicates that she does not know how these are different. Nancy explains that the five groups are shown with a round parenthesis on one side **`(`** and a square bracket **`]`** on the other. When using `cut()`, the round parenthesis indicate that the group *includes* observations with this number, while a square bracket indicates the intervals goes up to *but does not include* the value next to the square bracket. So, the first interval shows 48,812 people have an age from 17.9 years old up to--but not including--30.4 years old.
 
-While dividing variables that are continuous or **numeric** data type into groups can be useful in some cases, Nancy suggests that there are descriptive statistics to examine numeric variables directly. Leslie knows all about these statistics, which include measures of the **central tendency** and **spread** of the values for a **numeric** variable.
+While dividing variables that are continuous or numeric data type into groups can be useful in some cases, Nancy suggests that there are descriptive statistics to examine numeric variables directly. Leslie knows all about these statistics, which include measures of the **central tendency** and **spread** of the values for a numeric variable.
 
 ### Defining and calculating central tendency {#centtend}
 
-Leslie remembers from her statistics courses that central tendency is a measure of the center, or typical value, of a variable and that there are three measures of central tendency: mean, median, and mode. 
+Leslie remembers from her statistics courses that **central tendency** is a measure of the center, or typical value, of a variable and that there are three measures of central tendency: mean, median, and mode. 
 
 * The **mean** is the sum of the values divided by the number of values 
 * The **median** is the middle value 
@@ -365,12 +365,12 @@ The most well-understood and widely used measure of central tendency is the mean
 
 $$
 \begin{equation}
-m_x=\frac{\sum_{i=1}^n{x}}{n}
+m_x=\frac{\sum\limits_{i=1}^n{x_{i}}{n}
  (\#eq:mean)
 \end{equation}
 $$
 
-Nancy is not as interested in the statistical theory, but Leslie explains anyway. She says that the numerator (top of the fraction) is the sum ($\sum$) of all the values of $x$ from the first value ($i = 1$) to the last value ($n$) divided by the number of values ($n$) Leslie remembers that, to use the mean, a variable should look **normally distributed**, or have values that resemble a bell curve when plotted. Nancy quickly codes a normal distribution to show Leslie. Leslie is impressed and confirms that this is how a variable should be distributed in order to use the mean.
+Nancy is not as interested in the statistical theory, but Leslie explains anyway. She says that the numerator (top of the fraction) is the sum ($\sum$) of all the values of $x$ from the first value ($i = 1$) to the last value ($n$) divided by the number of values ($n$). Leslie remembers that, to use the mean, a variable should look **normally distributed**, or have values that resemble a bell curve when plotted. Nancy quickly codes a normal distribution to show Leslie. Leslie is impressed and confirms that this is how a variable should be distributed in order to use the mean.
 
 ```{r c2main13, echo=FALSE, fig.cap="Histogram showing the shape of a normally distributed variable."}
 set.seed(123456)
@@ -391,9 +391,9 @@ hist(u, prob=T, main = "", xlab = "Values of variable", ylab = "Probability")
 curve(dnorm(x, mean=m, sd=std), col='deeppink', lwd=2, add=T)
 ```
 
-Leslie recognizes the underlying graph that Nancy has coded as a **histogram** which shows the values of a variable along the **x-axis** (horizontal axis) and the probability of each value of the variable along the **y-axis** (vertical axis). That is about all Leslie can remember about this graph and Kiara assures her that they will talk more about **histograms** in detail next time they meet. For now, they can just remember that normality is signified by the bell shape of the graph. 
+Leslie recognizes the underlying graph that Nancy has coded as a **histogram** which shows the values of a variable along the **x-axis** (horizontal axis) and the probability of each value of the variable along the **y-axis** (vertical axis). That is about all Leslie can remember about this graph and Kiara assures her that they will talk more about histograms in detail next time they meet. For now, they can just remember that normality is signified by the bell shape of the graph. 
 
-Leslie does remember that, for a variable with a distribution that is normal, or near normal, the mean value will be a good representation of the middle of the data. But, if the data look skewed, with some very large values on the right (right skewed) or left (left skewed), the median is more appropriate. Nancy gets her coding fingers ready and makes a couple of skewed histograms as examples: 
+Leslie does remember that, for a variable with a distribution that is normal, or near normal, the mean value will be a good representation of the middle of the data. But, if the data look **skewed**, with some very large values on the right (right skewed) or left (left skewed), the median is more appropriate. Nancy gets her coding fingers ready and makes a couple of skewed histograms as examples: 
 
 ```{r c2main15, echo=FALSE, fig.cap="Examples of skewed distributions."}
 set.seed(789456)
@@ -404,9 +404,9 @@ x2=rbeta(10000, 1.5,8)
 hist(x2, main="Right skewed distribution", xlab="Values of variable", ylab = "Count", prob=F)
 ```
 
-Leslie explains that the reason the mean is not a good representation of the data when it is skewed, is that adding together a set of values that includes a few very large or very small values like those on the far left of a left skewed distribution or the far right of the a right skewed distribution will result in a large or small total value in the numerator and therefore the mean will be a large or small value relative to where the middle of the data is. 
+Leslie explains that the reason the mean is not a good representation of skewed data is that adding together a set of values that includes a few very large or very small values like those on the far left of a left skewed distribution or the far right of the a right skewed distribution will result in a large or small total value in the numerator and therefore the mean will be a large or small value relative to the actual middle of the data. 
 
-That is, she says, the mean is influenced by the very large values and does not do a good representation of a typical value or the middle of the data, instead it is larger or smaller than the middle values in the data. Nancy remembers one example of this that is often used is income in the US. Say you collected the incomes of five of your friends and Bill Gates. Your friends made the following annual salaries in US dollars: 25,000; 62,000; 41,000; 96,000; and 62,000. Adding these five values together and dividing by five would result in a mean salary among your friends of $53,000. Given the salaries listed, this seems like a reasonable value that accurately represents a typical salary of your friends.
+That is, she says, the mean is influenced by the very large or very small values and is therefore not representative of a typical value or the middle of the data. Instead, it is larger or smaller than the middle values in the data. Nancy remembers one example of this that is often used is income in the US. Say you collected the incomes of five of your friends and Bill Gates. Your friends made the following annual salaries in US dollars: \$25,000, \$62,000, \$41,000, \$96,000, and \$62,000. Adding these five values together and dividing by five would result in a mean salary among your friends of \$53,000. Given the salaries listed, this seems like a reasonable value that accurately represents a typical salary of your friends.
 
 While she is explaining the example to Leslie, Nancy introduces the `mean()` command:
 
@@ -416,7 +416,7 @@ salaries <- c(25000, 41000, 41000, 96000, 53000)
 mean(x = salaries)
 ```
 
-However, Nancy explains, if Bill Gates just happened to be a friend of yours, you would include his $11.5 billion dollar salary by adding it to the existing salaries vector. Adding a value to a vector can be done by concatenating the existing values with the new values in a new vector, like this:
+However, Nancy explains, if Bill Gates just happened to be a friend of yours, you would include his $11.5 billion dollar salary by adding it to the existing `salaries` vector. Adding a value to a vector can be done by concatenating the existing values with the new values in a new vector using `c()`, like this:
 
 ```{r c2main17}
 # add Bill Gates and find the mean
@@ -424,7 +424,7 @@ salariesGates <- c(salaries, 11500000000)
 mean(x = salariesGates)
 ```
 
-Now it appears that your friends make a mean salary of $`r mean(salariesGates)`. While technically this may be true (if you count Bill Gates among your friends), Leslie can see that it is not a good representation of a typical salary for one of your friends (although she wishes it were!). In the case of skewed data, Leslie reminds Nancy, the **median** is a better choice. 
+Now it appears that your friends make a mean salary of \$`r mean(salariesGates)`. While technically this may be true (if you count Bill Gates among your friends), Leslie can see that it is not a good representation of a typical salary for one of your friends (although she wishes it were!). In the case of skewed data, Leslie reminds Nancy, the median is a better choice. 
 
 Leslie looks away for a minute and when she looks back, Nancy has coded a normal distribution with the mean represented by a green line. Leslie thinks this looks great. Visually, the mean for a normally distributed variable would be in the middle like the green line in Nancy's fancy distribution.
 
@@ -453,7 +453,7 @@ abline(v=mean(x2), col="#78A678", lwd=5)
 
 #### Using the median {#median}
 
-Leslie reminds everyone that the **median** is the middle number when numbers are in order from smallest to largest. When there are an even number of numbers, the median is the mean of the middle two numbers. Nancy types some quick code to show that, in the examples above, the median for the friend groups with and without Bill gates would be:
+Leslie reminds everyone that the **median** is the middle number when numbers are in order from smallest to largest. When there are an even number of numbers, the median is the mean of the middle two numbers. Nancy types some quick code to show that, in the examples above, the median for the friend groups with and without Bill Gates would be:
 
 ```{r c2main20}
 # median salary with and without Bill Gates
@@ -461,7 +461,7 @@ median(x = salaries)
 median(x = salariesGates)
 ```
 
-While Leslie noticed that the median increased with the addition of Bill Gates to her friend group, the result was still a reasonable representation of the middle of the salaries of this group of friends, unlike the mean of $`r mean(salariesGates)`.
+While Leslie noticed that the median increased with the addition of Bill Gates to her friend group, the result was still a reasonable representation of the middle of the salaries of this group of friends, unlike the mean of \$`r mean(salariesGates)`.
 
 Leslie goes on to explain that in a perfect normal distribution, the median would be exactly the same as the mean. In skewed distributions, the median will not be the same as the mean. For a variable that is left skewed, the median will usually be to the right of the mean [@vonHippel2005]. For a variable that is right skewed, the median will usually be to the left of the mean. Nancy is not paying close attention but realizes she could write some code to show the mean in green and the median in purple on the skewed distribution to demonstrate Leslie's point:
 
@@ -478,17 +478,17 @@ abline(v=mean(right.skewed), col="#78A678", lwd=4)
 abline(v=median(right.skewed), col="#7463AC", lwd=4)
 ```
 
-In this case, the median is not too far from the mean. Leslie is curious about how different from normal a distribution has to be before people use the median instead of the mean. From the examples so far, she thinks that it is very clear for the salary data. The median salary is definitely a more accurate representation of the middle of the salaries than the mean salary is. For the days of poor physical health, the median of zero days also seems more accurate since more than half of people reported zero days. However, for the two skewed distribution histogram examples in the figure, the median and mean are very close to each other and, since the mean seems like a more widely used and understood measure, might it be a better choice?
+In this case, the median is not too far from the mean. Leslie is curious about how different from normal a distribution has to be before people use the median instead of the mean. From the examples so far, she thinks that median salary is definitely a more accurate representation of the middle of the `salaries` vector than the mean of `salaries`. However, for the two skewed distribution histogram examples in the figure, the median and mean are very close to each other and, since the mean seems like a more widely used and understood measure, might it be a better choice?
 
 She looks through her statistics materials and find that one way some people make this decision is to calculate a measure of **skewness**. **Skewness** is a measure of the extent to which a distribution is skewed. There are a few variations on the formula, but she finds one that is commonly used [@vonHippel2005]. She asks if Nancy could code the formula in R and Nancy takes on the challenge: 
 
 $$
 \begin{equation}
-skewness_x=\frac{1}{n}\frac{\sum_{i=1}^n{({x_i-m}})^3}{s}
+skewness_x=\frac{1}{n}\sum\limits_{i=1}^n\Bigg(\frac{{({x_i-\bar{x}}})}{s}\Bigg)^3
  (\#eq:skew)
 \end{equation}
 $$
-This equation finds the **skewness** of variable x by summing the cubed differences between each observed value of x (i.e., $x_i$) and the mean value of $\bar{x}$, dividing by the standard deviation (i.e., $s$) and multiplying by one over the sample size (i.e., $\frac{1}{n}$). The resulting value is usually *negative* when the skew is to the left and usually *positive* when the skew is toward the right. Because skewness is strongly impacted by the sample size, the value of skew considered to indicate a serious departure from normality differs as sample size differs. 
+In this equation, $n$ is the sample size, $x_{i}$ is each observation of $x$, $\bar{x}$ is the mean of $x$, and $s$ is the sample standard deviation. Let's break this down. The first thing to note is that the mean of $x$ ($\bar{x}$) is subtracted from each observation of $x$ ($x_{i}$). These are called **deviation scores**. Next, each deviation score is divided by the standard deviation, $s$, and the result is cubed. Finally, we take the average of these cubed values to get the skewness of $x$. The resulting value is usually *negative* when the skew is to the left and usually *positive* when the skew is toward the right. Because skewness is strongly impacted by the sample size, the value of skew considered to indicate a serious departure from normality differs as sample size differs. 
 
 Leslie finds this helpful, and asks if there is a way to compute skewness in R. Nancy says the <span style="font-family:Lucida Console, monospace;font-weight:bold">semTools</span> package has `skew()` to compute this value and a few related values. Leslie is about to install the package and try it, but Nancy slides the laptop away, installs the package, and tries `skew()` for the salary variable (with Bill Gates) and the two variables used to create the skewed histograms above: 
 
@@ -503,7 +503,7 @@ semTools::skew(object = left.skewed)
 semTools::skew(object = right.skewed)
 ```
 
-Leslie was expecting a single statistic, but instead each row contains four values. She looks in the help documentation and finds that the first value is the **skewness** and the second value is $se$, or the **standard error** of the skew. Leslie remembers that the standard error is often used to quantify how much variation there is in data, but she decides to leave that for later. The third number, $z$, is the value of the $skew$ divided by its $se$. She determines from some of the readings she has in her statistics materials that is the number that is useful for determining if the level of skew is too much for the variable to be treated as normally distributed [@kim2013statistical]. If the sample size is small (n < 50), $z$ values outside the -2 to 2 range are a problem. It the sample size is medium, between 50 and 300, $z$ values outside the -3.29 to 3.29 range are a problem. For large samples (n > 300), using a visual is recommended over the statistics, but generally $z$ values outside the range of -7 to 7 can be considered problematic.
+Leslie was expecting a single statistic, but instead each row contains four values. She looks in the help documentation and finds that the first value is the **skewness** and the second value is $se$, or the **standard error** of the skew. Leslie remembers that the standard error is often used to quantify how much variation there is in data, but she decides to leave that for later. The third number, $z$, is the value of the $skew$ divided by its $se$. She determines from some of the readings she has in her statistics materials that $z$ is the number that is useful for determining if the level of skew is too much for the variable to be treated as normally distributed [@kim2013statistical]. If the sample size is small (n < 50), $z$ values outside the -2 to 2 range are a problem. It the sample size is medium, between 50 and 300, $z$ values outside the -3.29 to 3.29 range are a problem. For large samples (n > 300), using a visual is recommended over the statistics, but generally $z$ values outside the range of -7 to 7 can be considered problematic.
 
 Leslie looks back at the $se$, $z$, and $p$ statistics in the output and decides that these statistics are a little too much for what they are doing today and she will focus gaining a little more foundation in descriptive statistics and sampling before working on these stats. For now, she decides to just rely on graphs and the general rules.
 
@@ -511,14 +511,14 @@ Leslie looks back at the $se$, $z$, and $p$ statistics in the output and decides
 
 Finally, the **mode** is the most common value in a data set. Leslie suggests that the mode is not widely used in the research she has read, but it is still good to know that it exists as an option. She does remember that, for numeric variables, the mode can be used along with the mean and median as an additional indicator of a normal distribution. In a perfect normal distribution, the mean, median, and mode are all exactly the same.
 
-Nancy explains that, unfortunately, consistent with it begin scarcely used, there is no **mode** command. Instead, she shows Leslie how to use `sort()` with `table()` to sort a table from highest to lowest (decreasing order) or lowest to highest (increasing order). Nancy walks Leslie through computing the mode in R. Start with a table, `table(salaries)`, which will show the frequencies of each value in the data:  
+Nancy explains that, unfortunately, consistent with it begin scarcely used, there is no mode command. Instead, she shows Leslie how to use `sort()` with `table()` to sort a table from highest to lowest (decreasing order) or lowest to highest (increasing order). Nancy walks Leslie through computing the mode in R. Start with a table, `table(salaries)`, which will show the frequencies of each value in the data:  
 
 ```{r c2main23}
 # table showing salaries frequencies
 table(salaries)
 ```
 
-There is one salary of 25000, 2 salaries of 41000, and so on. With data this simple, we could stop here. However, most data sets will be much larger and it will be more efficient to have a set of R commands to use. Next, put the table in order from largest frequency to smallest frequency using `sort()` with `decreasing = TRUE`, which puts the salaries in order from lowest to highest:
+There is one salary of \$25,000, 2 salaries of \$41,000, and so on. With data this simple, we could stop here. However, most data sets will be much larger and it will be more efficient to have a set of R commands to use. Nancy therefore puts the table in order from largest frequency to smallest frequency using `sort()` with `decreasing = TRUE`, which puts the salaries in order from lowest to highest:
 
 ```{r c2main24}
 # table showing salaries frequencies
@@ -532,7 +532,7 @@ This shows the table starting with the salary with the highest frequency, or, th
 names(x = sort(x = table(salaries), decreasing = TRUE))
 ```
 
-Finally, to just print the first category name, use the square brackets, `[ ]`, which are used to get a **subset** or some part of the data. Here it is the first value only, so `[1]` will work:
+Finally, to just print the first category name, use the square brackets, **`[ ]`**. In R, the squared brackets are used to grab a particular location (sometimes called an "index"). For example, the `salaries` vector has 5 observations `r salaries`. To get the 4th observation of `salaries`, you can type `salaries[4]`, which is `r salaries[4]`. Here, to get the first category name, we can use the same bit of code, and then add a `[1]` to the end: 
 
 ```{r c2main26}
 # no mode command so find the mode using a table
@@ -551,15 +551,17 @@ median(x = salaries)
 names(x = sort(x = table(salaries), decreasing = TRUE))[1]
 ```
 
-The mean is 51,200, the median and mode are both 41,000. So the mean, median, and mode in this case are not exactly the same, and Leslie concludes that the data are not *perfectly* normally distributed. 
+The mean is \$51,200, the median and mode are both \$41,000. So the mean, median, and mode in this case are not exactly the same, and Leslie concludes that the data are not *perfectly* normally distributed. 
 
-The mode is sometimes used is to identify the most common (or typical) category of a **factor** variable. For example, she says, in the tables above, the mode of the transgender variable is *Not transgender* with over 150 thousand observations in that category. 
+The mode is sometimes used is to identify the most common (or typical) category of a factor variable. For example, she says, in the tables above, the mode of the transgender variable is *Not transgender* with over 150 thousand observations in that category. 
 
 ### Messy data and computing measures of central tendency {#messy}
 
-Using these commands with variables from a data frame is similar. Nancy wants to show Leslie how to create a histogram and compute the mean, median, and mode for the PHYSHLTH variable from the BRFSS data set. PHYSHLTH is the number of physically unhealthy days a survey participant has had in the last 30 days. Looking at page 11 of the BRFSS codebook it appears that the values of 77 and 99 should be coded as missing before examining the variable. It also looks like 88 should be coded as zero. Leslie copies and pastes her data management code from much earlier in the day. Nancy is eager to keep coding and slides the laptop over to type in the new code for changing 77 and 99 to NA. She also recodes PHYSHLTH to be 0, which is a little complicated:
+Using these commands with variables from a data frame is similar. Nancy wants to show Leslie how to create a histogram and compute the mean, median, and mode for the `PHYSHLTH` variable from the 2014 BRFSS data set. `PHYSHLTH` is the number of physically unhealthy days a survey participant has had in the last 30 days. Looking at page 11 of the BRFSS codebook, it appears that the values of `77` and `99` should be coded as missing before examining the variable. It also looks like `88` should be coded as zero. Leslie copies and pastes her data management code from much earlier in the day. Nancy is eager to keep coding and slides the laptop over to type in the new code for changing `77` and `99` to `NA`. She also recodes `PHYSHLTH` to be `0`, which is a little complicated:
 
 ```{r c2main28, fig.cap = "Distribution of the PHYSHLTH variable."}
+# pipe in the original data frame
+# recode the TRNSGNDR factor so it's easy to read
 # recode 77, 88, 99 on PHYSHLTH
 brfss.2014.cleaned <- brfss.trans.2014 %>% 
   mutate(TRNSGNDR, TRNSGNDR = recode_factor(TRNSGNDR, 
@@ -581,10 +583,9 @@ Once Nancy has completed the code, she checks the recoding of PHYSHLTH:
 summary(object = brfss.2014.cleaned$PHYSHLTH)
 ```
 
-Everything looks good, so she shows Leslie how to make a histogram from the cleaned data. The code is similar to what they used at the end of the data preparation day, but the `geom_` layer this time is `geom_histogram()` to make a histogram:
+Everything looks good, so she shows Leslie how to make a histogram from the cleaned data. The code is similar to what they used at the end of the data preparation day, but the `geom_` layer this time is `geom_histogram()` to make a histogram (you can remember that the `geom_` is like the plot's "geometry", or what shape you want to use in your plot):
 
-```{r}
-
+```{r, warning=FALSE, message=FALSE}
 # make a histogram 
 brfss.2014.cleaned %>% 
   ggplot(aes(x = PHYSHLTH)) + 
@@ -592,7 +593,7 @@ brfss.2014.cleaned %>%
 
 ```
 
-The histogram shows most people have between 0 and 10 unhealthy days per 30 days. Leslie is tired of Nancy doing all the coding and she pulls the laptop back and writes the code for the measures of central tendency for the PHYSHLTH variable: 
+The histogram shows most people have between 0 and 10 unhealthy days per 30 days. Leslie is tired of Nancy doing all the coding and she pulls the laptop back and writes the code for the measures of central tendency for the `PHYSHLTH` variable: 
 
 ```{r c2main29}
 # get mean, median, mode
@@ -601,7 +602,7 @@ median(x = brfss.2014.cleaned$PHYSHLTH)
 names(x = sort(x = table(brfss.2014.cleaned$PHYSHLTH), decreasing = TRUE))[1]
 ```
 
-Well that didn't work very well! The mode looks like 0 unhealthy days. The mean and the median show *NA*, though. Nancy explains that the `mean()` and `median()` commands require removal of NA values. She adds the option `na.rm = TRUE`, where na stands for NA and rm stands for remove:
+Well that didn't work very well! The mode looks like 0 unhealthy days. The mean and the median show `NA`, though. Nancy explains that the `mean()` and `median()` commands require removal of `NA` values. To fix this, she needs to include a second argument that tells the `mean()` command how to treat missing data. She adds the option `na.rm = TRUE`, where "na" stands for `NA` and "rm" stands for "remove":
 
 ```{r c2main30}
 # get mean, median, mode
@@ -610,7 +611,11 @@ median(x = brfss.2014.cleaned$PHYSHLTH, na.rm = TRUE)
 names(x = sort(table(brfss.2014.cleaned$PHYSHLTH), decreasing = TRUE))[1]
 ```
 
-Kiara suggests that <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> code might be clearer here since the name of the data frame would not have to be included in all three commands. To pipe the data frame into the central tendency commands, use `summarise()`.
+Leslie admits that she is concerned that she'll never be able to remember all the arguments for the different commands. Kiara reassures her that she does *not* need to memorize them! First, Kiara explains, Leslie can always check the Help tab in the lower right corner to look up any function. The help documentation will always list what the function does, the arguments it can take, what the output of the function means, and there are even examples at the very bottom for how to use the particular function!
+
+Additionally, Kiara shows Leslie how to use tab completion to make her life easier. Kiara tells Leslie to start type the letters "me" in the Console and then hit her laptop's *tab* key. Leslie notices that a lot of different commands starting with "me" appear, and that `mean()` is first! Since `mean()` is first and highlighted, Kiara tells Leslie to now hit the *enter* or *return* key. Leslie is amazed that she didn't need to type out the rest of the word "mean" *and* that the parentheses autmoatically appeared! Neat! Now, Kiara tells Leslie to hit *tab* once again. The first argument `x` appears, and a brief description of that argument. Here, `x` is the variable that you want to get the mean of. Leslie hits *enter* and now the `x = ` argument appears in her code and is ready to be filled in with `brfss.2014.cleaned$PHYSHLTH`. Leslie gets the inkling to start typing the letters "brf" and hits *tab*. Sure enough, she sees the correct data frame, highlights it via up/down arrow keys, hits *enter*, then adds the `$` and again tab-completes until the full variable name is printed. Kiara explains that arguments within a function are separated by commas. She asks Leslie to put a comma after the variable name, and press *tab*. Leslie now sees a `na.rm` argument appear! Leslie finishes the line of code via tab-complete, and is thrilled that she can reduce her number of keystrokes!
+
+Nancy gets them back on track with descriptives. Kiara suggests that <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> code might be clearer here since the name of the data frame would not have to be included in all three commands. To pipe the data frame into the central tendency commands, use `summarise()`. *(Fun Fact: You will see 'tidyverse` code use British spellings, however the American spellings work, too! Ex: `summarize()` is the same as `summarise()`.)*
 
 ```{r c2main31}
 # get mean, median, mode
@@ -627,14 +632,12 @@ So the mean number of unhealthy days per month is 4.22 and the median is 0. This
 
 Leslie wants to calculate the skewness to see what it is for a variable that looks this skewed. Based on what she learned above, she is expecting it to be a positive number and greater than seven. She writes the code:
 
-```{r c2main32}
+```{r c2main32, warning=FALSE}
 # skewness for PHYSHLTH
 semTools::skew(object = brfss.2014.cleaned$PHYSHLTH)
 ```
 
-What? The skew value is negative! Kiara explains that the has seen this happen in some rare occasions during her years of data managment. In this case, the variable has a lot of zero values. In looking at the numerator of the skewness formula, these zeros would be entered in as $x_i$ and then the mean of 4.22 would be subtracted from each zero. Because there are so many zeros, this overwhelms the contribution of the large positive values to the skewness. Leslie looks back at the skewness formula that Nancy typed in and she sees what Kiara means.  
-
-Regardless of the skewness value being unexpected, the $z$ is very high and the graph shows a clear right skew, so there is plenty of evidence that this variable is not normally distributed. Kiara suggests that this is a good thing to remember, often a single statistic will not tell the whole story and examining a graph can add value to the interpretation and decision-making process. In fact, she says, this is another great lesson for reproducibility. Had they taken the skewness value alone and not graphed the variable they might have assumed that it was left skewed and written results that were incorrect and therefore not reproducible. Leslie thinks this makes sense and vows to visualize her data even when she thinks she knows what it looks like.
+`PHYSHLTH` has a skew of `2.209078`, and the $z$ is very high and the graph shows a clear right skew, so there is plenty of evidence that this variable is not normally distributed. Kiara suggests that this is a good thing to remember: often a single statistic will not tell the whole story and examining a graph can add value to the interpretation and decision-making process. In fact, she says, this is another great lesson for reproducibility. Had they taken the skewness value alone and not graphed the variable they might have assumed that it was left skewed and written results that were incorrect and therefore not reproducible. Leslie thinks this makes sense and vows to visualize her data even when she thinks she knows what it looks like.
 
 ### Defining and calculating spread
 
@@ -646,16 +649,16 @@ In addition to using central tendency to characterize a variable, Leslie remembe
 
 #### Spread to report with the mean {#mean.spread}
 
-The variance is the average of the squared differences between each value of a variable and the mean of the variable. Leslie shows Nancy the formula from an old statistics textbook and Nancy writes the R code so Leslie can review how it works:
+The **variance** is the average of the squared differences between each value of a variable and the mean of the variable. Leslie shows Nancy the formula from an old statistics textbook and Nancy writes the R code so Leslie can review how it works:
 
 $$
 \begin{equation}
-s^2=\frac{{\sum_{i=1}^n}({x_i-\bar{x}})^2}{n-1}
+s^2=\frac{{\sum\limits_{i=1}^n}({x_i-\bar{x}})^2}{n-1}
  (\#eq:variance)
 \end{equation}
 $$
 
-Leslie sees that the $s^2$ is the variance, the $\sum$ symbol is sum, the $x_i$ is each individual value of $x$, the $\bar{x}$ is the mean of $x$, and $n$ is the sample size. So, the variance is the sum of the squared differences between each value of $x$ and the mean of $x$, divided by the sample size minus one.
+Leslie sees that the $s^2$ is the variance, the $\sum$ symbol is sum, the $x_i$ is each individual value of $x$, the $\bar{x}$ is the mean of $x$, and $n$ is the sample size. So, the variance is the sum of the squared differences between each value of $x$ and the mean of $x$ (or the sum of squared deviation scores) divided by the sample size minus one.
 
 Nancy shows her that, in R, the `var()` command finds the variance, which she finds a lot more fun than looking at formulas:
 
@@ -668,7 +671,7 @@ After looking it up in her statistics textbook and online, Leslie determines the
 
 $$
 \begin{equation}
-s=\sqrt{\frac{{\sum_{i=1}^n}({x_i-\bar{x}})^2}{n-1}}
+s=\sqrt{\frac{{\sum\limits_{i=1}^n}({x_i-\bar{x}})^2}{n-1}}
  (\#eq:stddev)
 \end{equation}
 $$
@@ -682,7 +685,8 @@ brfss.2014.cleaned %>%
             sd.days = sd(x = PHYSHLTH, na.rm = TRUE),
             var.days = var(x = PHYSHLTH, na.rm = TRUE),
             med.days = median(x = PHYSHLTH, na.rm = TRUE),
-            mode.days = names(x = sort(x = -table(PHYSHLTH)))[1])
+            mode.days = names(x = sort(x = table(PHYSHLTH),
+                                       decreasing = TRUE))[1])
 ```
                       
 Leslie remembers that the standard deviation is sometimes interpreted as the average amount an observation differs from the mean. After walking through the formula one more time, Leslie concludes that this is conceptually close and a good way to think about it, but is not 100% accurate. Regardless, she finds that the standard deviation is the best measure of spread to report with means. Nancy thinks a visual representation might help and adds lines to the normal distribution graph showing how far away one standard deviation is from the mean of in this histogram. She has the mean in green and the standard deviation lines in purple:
@@ -705,9 +709,9 @@ The team notices that most of the observations of the variable are between the t
 knitr::include_graphics("graphics/deviation.JPG")
 ```
 
-Nancy and Leslie love the picture. 
+Nancy and Leslie love the picture! 
 
-Leslie has this feeling that there is something else they need to look at before they are done discussing normal distributions. Kiara suggest that maybe she is remembering **kurtosis**. Kiara explains that kurtosis is about how many observations are in the tails of a distribution. She says that some distributions look bell shaped, but have a lot of observations in the tails (platykurtic) or very few observations in the tails (leptokurtic) [@westfall2014]. Leslie asks Kiara whether she is remembering correctly that **platykurtic** distributions are more *flat* and **leptokurtic** distributions are more *pointy*. Kiara says this is a common way of describing the shapes of these distributions, but that, technically, kurtosis measures whether there are many or few observations in the tails of the distribution [@westfall2014].
+Leslie has this feeling that there is something else they need to look at before they are done discussing normal distributions. Kiara suggest that maybe she is remembering **kurtosis**. Kiara explains that kurtosis is about how many observations are in the tails of a distribution. She says that some distributions look bell shaped, but have a lot of observations in the tails (platykurtic) or very few observations in the tails (leptokurtic) [@westfall2014]. Leslie asks Kiara whether she is remembering correctly that **platykurtic** distributions are more *flat* (as in a *platy*pus has a flat beak) and **leptokurtic** distributions are more *pointy*. Kiara says this is a common way of describing the shapes of these distributions, but that, technically, kurtosis measures whether there are many or few observations in the tails of the distribution [@westfall2014].
 
 Nancy sees an opening for more coding and makes a couple of histograms that have problems with kurtosis so the team can get an idea of what they are looking for:
 
@@ -722,20 +726,20 @@ hist(lepto.plot, main="Leptokurtic distribution (m = 55)", xlab="Values of varia
 abline(v=55, col="#78A678", lwd=3)
 ```
 
-From her data management work, Kiara has learned that **platykurtic** and **leptokurtic** deviations from normality do not necessarily influence the mean, since it will still be a good representation of the middle of the data *if the distribution is symmetrical and not skewed*. However, platykurtic and leptokurtic distributions will have smaller and larger values of variance and standard deviation, respectively, than a normal distribution. The variance and standard deviation are used not only to quantify spread, but are also used in many of the common statistical tests.
+From her data management work, Kiara has learned that platykurtic and leptokurtic deviations from normality do not necessarily influence the mean, since it will still be a good representation of the middle of the data *if the distribution is symmetrical and not skewed*. However, platykurtic and leptokurtic distributions will have smaller and larger values of variance and standard deviation, respectively, than a normal distribution. The variance and standard deviation are used not only to quantify spread, but are also used in many of the common statistical tests.
 
 Leslie finds the formula for kurtosis and shows Nancy, who codes it in R so they can all review:
 
 $$
 \begin{equation}
-kurtosis=\frac{1}{n}\sum_{i=1}^{n}{\bigg(\frac{x_i-m}{s}\bigg)^4}
+kurtosis=\frac{1}{n}\sum_{i=1}^{n}{\bigg(\frac{x_i-m_x}{s}\bigg)^4}
  (\#eq:kurtosis)
 \end{equation}
 $$
 
-Leslie reads that, in this equation [@westfall2014], $n$ is the sample size, $s$ is the standard deviation of $x$, $x_i$ is each value of $x$, and $m$ is the mean of $x$. The $\sum_{i=1}^{n}$ symbol indicates the values from the first value of $x$ ($i = 1$) to the last value of $x$ $i = n$ should be summed.  A normal distribution will have an $kurtosis = 3$; distributions with $kurtosis = 3$ are described as **mesokurtic**. If $kurtosis$ is above or below 3, there is **excess kurtosis**. Values of kurtosis above 3 indicate the distribution is **leptokurtic**, with fewer observations in the tails than a normal distribution would have given the mean, standard deviation, and sample size. Values of kurtosis below 3 indicate the distribution is **platykurtic**, with more observations in the tails than a normal distribution would have given the mean, standard deviation, and sample size. 
+Leslie reads that, in this equation [@westfall2014], $n$ is the sample size, $s$ is the standard deviation of $x$, $x_i$ is each value of $x$, and $m_x$ is the mean of $x$. The $\sum\limits_{i=1}^{n}$ symbol indicates the values from the first value of $x$ ($i = 1$) to the last value of $x$ $i = n$ should be summed. A normal distribution will have an $kurtosis = 3$; distributions with $kurtosis = 3$ are described as **mesokurtic**. If $kurtosis$ is above or below $3$, there is excess kurtosis. Values of kurtosis above 3 indicate the distribution is *leptokurtic*, with fewer observations in the tails than a normal distribution would have given the mean, standard deviation, and sample size (the fewer observations in the tails gives it the pointy "look"). Values of kurtosis below 3 indicate the distribution is *platykurtic*, with more observations in the tails than a normal distribution would have given the mean, standard deviation, and sample size. 
 
-Leslie looks at the <span style="font-family:Lucida Console, monospace;font-weight:bold">semTools</span> package documentation and finds `kurtosis()` to compute the kurtosis and a few related values. The `kurtosis()` command subtracts 3 from the kurtosis, so positive values will indicate a **leptokurtic** distribution and negative will indicate a **platykurtic** distribution. The same cutoff values apply for the $z$ for small, medium, and large sample sizes. Leslie installs the package and tries it for the two variables used in the leptokurtic and platykurtic graph above: 
+Leslie looks at the <span style="font-family:Lucida Console, monospace;font-weight:bold">semTools</span> package documentation and finds `kurtosis()` to compute the kurtosis and a few related values. The `kurtosis()` command subtracts 3 from the kurtosis, so positive values will indicate a leptokurtic distribution and negative will indicate a platykurtic distribution. The same cutoff values from skew also apply for the $z$ for small, medium, and large sample sizes in kurtosis. Leslie loads package and tries it for the two variables used in the leptokurtic and platykurtic graph above: 
 
 ```{r c2main37}
 # kurtosis of leptokurtic distribution variable 
@@ -768,14 +772,14 @@ abline(v=min(x2), col="#7463AC", lwd=4)
 abline(v=max(x2), col="#7463AC", lwd=4)
 ```
 
-The range does not seem too informative, Leslie notes, because it gives the very highest and very lowest values for a variable but no indication of how the observations are spread out between these values. Nancy jumps in and writes the code to compute the range for the PHYSHLTH variable:
+The range does not seem too informative on these graphs, Leslie notes, because it marks the very highest and very lowest values for a variable but no indication of how the observations are spread out between these values. In order to get the exact values, Nancy jumps in and writes the code to compute the range for the `PHYSHLTH` variable:
 
 ```{r c2main39}
 # range of days of physical health
 range(brfss.2014.cleaned$PHYSHLTH, na.rm = TRUE) 
 ```
 
-Leslie notices that they finally have values that are easy to interpret: the range of unhealthy days in a month is 0 to 30. For the PHYSHLTH variable, the ends of the range are the highest and lowest possible values of the variable. The range does not provide any indication of how the data are distributed across the possible values. For example, maybe there is one person who has 30 days of poor physical health and everyone else is between 0 and 10. Or, maybe half the people have 0 and half the people have 30 and no people have anything in between. Leslie thinks another option might be better.
+Leslie notices that they finally have values that are easy to interpret: the range of unhealthy days in a month is 0 to 30. For the `PHYSHLTH` variable, the ends of the range are the highest and lowest possible values of the variable. The range does not provide any indication of how the data are distributed across the possible values. For example, maybe there is one person who has 30 days of poor physical health and everyone else is between 0 and 10. Or, maybe half the people have 0 and half the people have 30 and no people have anything in between. Leslie thinks another option might be better.
 
 Leslie looks up the **interquartile range** or **IQR** and finds that it might be more appropriate for this sort of data, or for data that are highly skewed. The IQR is the difference between the first and third quartiles. A quartile is one-quarter of the data, so the difference betwee the first and third quartiles would be the boundaries around the middle 50% of the data. Nancy plots the IQR on the skewed distributions:
 
@@ -794,7 +798,7 @@ abline(v=median(x2)+IQR(x2), col="#7463AC", lwd=4)
 abline(v=median(x2)-IQR(x2), col="#7463AC", lwd=4)
 ```
 
-This seems more useful to Leslie. To find the IQR of PHYSHLTH, Nancy uses `IQR()` and adds it to the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> descriptive statistics list:
+This seems more useful to Leslie. To find the IQR of `PHYSHLTH`, Nancy uses `IQR()` and adds it to the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> descriptive statistics list:
 
 ```{r c2main41}
 # get mean, median, mode and spread
@@ -804,10 +808,11 @@ brfss.2014.cleaned %>%
             var.days = var(x = PHYSHLTH, na.rm = TRUE),
             med.days = median(x = PHYSHLTH, na.rm = TRUE),
             iqr.days = IQR(x = PHYSHLTH, na.rm = TRUE),
-            mode.days = names(x = sort(x = -table(PHYSHLTH)))[1])
+            mode.days = names(x = sort(x = table(PHYSHLTH),
+                                       decreasing = TRUE))[1])
 ```
 
-Leslie notices that they have typed `na.rm = TRUE` for all but one of the statistics in the `summarise()` code. She asks Nancy if there is some code they might use to remove the NA that is not so repetitive. Nancy is delighted that Leslie is starting to think about the format of her code. She says that there is a way to omit the NA using `na.omit()` with the name of the variable of interest, like this:
+Leslie notices that they have typed `na.rm = TRUE` for all but one of the statistics in the `summarise()` code. She asks Nancy if there is some way to remove `NA`s, and make the code less repetitive. Nancy is delighted that Leslie is starting to think about the format of her code. She says that there is a way to omit `NA` values using `na.omit()` with the name of the variable of interest, like this:
 
 ```{r c2main42}
 # get descriptive statistics
@@ -818,10 +823,11 @@ brfss.2014.cleaned %>%
             var.days = var(x = PHYSHLTH),
             med.days = median(x = PHYSHLTH),
             iqr.days = IQR(x = PHYSHLTH),
-            mode.days = names(x = sort(x = -table(PHYSHLTH)))[1])
+            mode.days = names(x = sort(x = table(PHYSHLTH),
+                                       describe = TRUE))[1])
 ```
 
-Leslie examines the statistics so far. She notes that the IQR value is logical; there is a 3 day difference between the first and third quartiles for unhealthy days. She remembers she has usually seen the IQR reported without much interpretation, like this: IQR = 3. 
+Leslie examines the statistics so far. She notes that the IQR value makes sense; there is a 3 day difference between the first and third quartiles for unhealthy days. She remembers she has usually seen the IQR reported without much interpretation, like this: IQR = 3. 
 
 Leslie would rather see the upper and lower bounds of the IQR. Nancy says there is no way to do this in the `IQR()` command, but the `quantile()` command can be used to find the bounds around the middle 50%:  
 
@@ -831,14 +837,15 @@ quantile(x = brfss.2014.cleaned$PHYSHLTH, na.rm = TRUE)
 
 ```
 
-Leslie can now report the the bounds around the middle 50% of unhealthy days, 0 to 3. So, 50% of observations (people) in this data set have between 0 and 3 physically unhealthy days per month. Nancy adds the median and IQR boundaries to the PHYSHLTH plot with new layers and does a little formatting so they are easier to see:
+Leslie can now report the the bounds around the middle 50% of unhealthy days, 0 to 3. So, 50% of observations (people) in this data set have between 0 and 3 physically unhealthy days per month. Nancy adds the median and IQR boundaries to the `PHYSHLTH` plot with new layers and does a little formatting so they are easier to see:
 
 ```{r c2main44, echo = FALSE, fig.cap = "Distribution of days of poor physical health showing median in green and IQR boundaries in purple."}
 # make a histogram 
 options(scipen = 999)
-brfss.2014.cleaned %>% 
+brfss.2014.cleaned %>%
+  na.omit(PHYSHLTH) %>%
   ggplot(aes(x = PHYSHLTH)) + 
-  geom_histogram(color="gray60", fill="white") + 
+  geom_histogram(color="gray60", fill="white", binwidth = 1) + 
   geom_vline(xintercept = -.15, col="#7463AC", lwd=2) +
   geom_vline(xintercept = .15, col="#78A678", lwd=2) +
   geom_vline(xintercept = 3, col="#7463AC", lwd=2) +
@@ -854,11 +861,11 @@ Leslie notices that the lower boundary of the IQR is the same as the median in t
 
 Leslie remembers that spread is not often reported for categorical variables. Leslie and Kiara discuss what the idea of spread or variability even means for a categorical variable. They find some answers in textbooks that describe how observations are spread across categories, sometimes described as *diversity*.
 
-Kiara and Leslie find several options for measuring how observations are spread across categories. These **indices of qualitative variation** quantify how much the observations are spread across categories of a categorical variable. While these indices are computed in different ways, they all have a range of 0 to 1. The resulting values are *high* when values are spread out among categories and *low* when they are not. For example, if a data set included 3 people in each marital status category, the data would be considered perfectly spread across groups and the index value would be 1. Likewise if everyone in the data set was in one category (e.g., unmarried), the index value would be 0 for no spread at all.
+Kiara and Leslie find several options for **indices of qualitative variation**, which quantify how much the observations are spread across categories of a categorical variable. While these indices are computed in different ways, they all have a range of 0 to 1. The resulting values are *high* when values are spread out among categories and *low* when they are not. For example, if a data set included 3 people in each marital status category, the data would be considered perfectly spread across groups and the index value would be 1. Likewise if everyone in the data set was in one category (e.g., unmarried), the index value would be 0 for no spread at all.
 
 After reading through the R help documentation for the <span style="font-family:Lucida Console, monospace;font-weight:bold">qualvar<span> package, which includes several options, Kiara and Leslie find the **B index** to be their favorite.
 
-They share their find with Nancy, who is playing on her phone because she has run out of things to code for the moment. Nancy has not used the **B index**, but finds `B()` in the <span style="font-family:Lucida Console, monospace;font-weight:bold">qualvar<span> package. The `B()` command takes a numeric variable, so Nancy checks the TRNSGNDR variable type using the `class()` command and finds that it is a factor. Fortunately, she can use the `as.numeric()` command to change the factor to numeric for the `B()` command.
+They share their finding with Nancy, who is playing on her phone because she has run out of things to code for the moment. Nancy has not used the **B index**, but finds `B()` in the <span style="font-family:Lucida Console, monospace;font-weight:bold">qualvar<span> package. She first looks up the help documentation for the `B()` command, and sees that the first argument is `x`, which is described as "a vector of frequencies". Frequencies are numbers, so the `x` argument of the `B()` command needs to be a numeric variable. Nancy checks the `TRNSGNDR` variable type using the `class()` command and finds that it is a factor. Fortunately, she can use the `as.numeric()` command to change the factor to numeric for the `B()` command.
 
 ```{r c2main45}
 # check data type for transgender
@@ -872,9 +879,9 @@ qualvar::B(x = as.numeric(x = brfss.2014.cleaned$TRNSGNDR))
 
 The resulting value of `r round(qualvar::B(as.numeric(brfss.2014.cleaned$TRNSGNDR)), 2)` indicates that observations in this data set are well spread out among the six categories. While it is true that there are people in all categories, the *Not transgender* category contains a much larger group than any of the other categories. Leslie tries a few of the other indices and starts to think that the indices of qualitative variation tend to have higher values than she would have expected. She and Kiara agree that it is important to include other information for context when using one of these indices.
 
-### Achievement 3: Check your understanding
+### Unlock achievement 3: Check your understanding
 
-Find central tendency and spread for the number of unhealthy mental health days (MENTHLTH). Review the possible values for the variable in the BRFSS codebook first and clean the data so 77, 88, and 99 are handled appropriately.
+Find central tendency and spread for the number of unhealthy mental health days (`MENTHLTH`). Review the possible values for the variable in the BRFSS codebook first and clean the data so 77, 88, and 99 are handled appropriately.
 
 ## Achievement 4: Developing clear tables for reporting descriptive statistics
 
@@ -882,8 +889,8 @@ Finally, although Leslie feels like she now has a great grasp of descriptive sta
 
 * A title that explains what is in the table
     * The number of observations if possible
-    * The year the data were collected if possible 
-    * The units of measurement (people, organizations, etc)
+    * key pieces of information that describe the sample (here, the year of data collection) 
+    * The units of measurement (people, organizations, etc.)
 * Consistent use of the same number of decimal places throughout the table 
 * Numbers aligned to the right so that the decimal points line up  
 * Words aligned to the left 
@@ -899,15 +906,18 @@ If the table contains only factor type variables, Kiara explains, it may look li
 
 Looking back at the table, Leslie and Kiara determine that it contains only those who answered the transgender status question, were in the 40-74 year old age groups, and were asked the mammogram question. They find the three variables in the codebook:
 
-* TRNSGNDR: page 83  
-* _AGEG5YR: page 108  
-* HADMAM: page 37 
+* `TRNSGNDR`: page 83  
+* `_AGEG5YR`: page 108  
+* `HADMAM`: page 37 
 
-Kiara shares one of her favorite data management tips with Leslie, which is to create a smaller data set to work with by limiting the data to the observations that will be analyzed. Leslie re-reads the subsetting section of Chapter 1 and looks over the data frame before she works with Nancy to write some subsetting code. She notices that the _AGEG5YR variable was imported with an X at the beginning of the variable name, so she incorporates this into the code:
+Kiara shares one of her favorite data management tips with Leslie: create a smaller data set to work with by limiting the data to the observations that will be analyzed. There are several ways to subset a data set to only include particular observations. One method is to use the `subset()` function. Another is to simply grab the observations wanted using the square brackets `[ ]`. However, since the R-Team has been using <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span>, they decide to subset via the `filter()` command. Leslie notices that the `_AGEG5YR` variable was imported with an `X` at the beginning of the variable name, so she incorporates this into the code:
 
 ```{r c2main46}
+# BONUS: check the column names of a data frame
+# colnames(brfss.2014.cleaned)
+
 # subset the data set to keep 
-# transgender status of MtF, FtM, Gender non-conforming
+# transgender status of MtF, FtM, or Gender non-conforming
 # age group higher than group 4 and lower than group 12
 # was asked mammogram question
 brfss.2014.small <- brfss.2014.cleaned %>%
@@ -921,19 +931,19 @@ brfss.2014.small <- brfss.2014.cleaned %>%
 summary(object = brfss.2014.small)
 ```
 
-The resulting smaller data frame now includes 222 individuals. Leslie notices that the breast cancer screening article shows 220 people who fit the criteria and wonders why she and Nancy have 2 additional people in their data frame. She decides she will review the percentages closely in creating the table to see where these 2 people fit in or should be excluded. 
+The resulting smaller data frame now includes 222 individuals. Leslie notices that the breast cancer screening article shows 220 people who fit the criteria and wonders why she and Nancy have 2 additional people in their data frame. She decides she will review the percentages closely in creating the table to see where these 2 people fit in, and determine if they should be excluded. 
 
 Kiara tells Leslie that small mistakes seem to be common in published research, often due to errors in transferring numbers from statistical software into a word processing program. She suggests creating fully formatted tables directly in R or another software program could reduce errors and increase the reproducibility of published research.
 
-Now that the data set contains the **observations** used to create the table, Kiara suggests that it may be useful to reduce the data set to contain only the **variables** used to create the table. In addition to transgender status, age categories, and mammogram information, the table contains percentages for race/ethnicity, income category, education category, and health insurance status. Altogether, the variables are:
+Now that the data set contains the observations used to create the table, Kiara suggests that it may be useful to reduce the data set to contain only the variables used to create the table. In addition to transgender status, age categories, and mammogram information, the table contains percentages for race/ethnicity, income category, education category, and health insurance status. Altogether, the variables are:
 
-* TRNSGNDR
-* X_AGE5YR
-* X_RACE 
-* X_INCOMG 
-* X_EDUCAG 
-* HLTHPLN1 
-* HADMAM 
+* `TRNSGNDR`
+* `X_AGE5YR`
+* `X_RACE` 
+* `X_INCOMG` 
+* `X_EDUCAG` 
+* `HLTHPLN1` 
+* `HADMAM` 
 
 Nancy helps Leslie write some variable selection code to add to the observation selection code they just wrote: 
 
@@ -959,7 +969,7 @@ Leslie notices that some of the variables are the wrong data type since R has co
 
 #### Fixing data types 
 
-Luckily, Nancy knows a command in the `apply()` family of commands (see Box \@ref(ch2nancy1)) for more on `apply()` commands) that can be used to change all the variables in this small data set to *factor* types:
+**SHELLY GOT RID OF LAPPLY IN THE CODE BELOW, SO NOT SURE WHAT TO DO WITH THIS SENTENCE (AND BOX REFERENCE**Luckily, Nancy knows a command in the `apply()` family of commands (see Box \@ref(ch2nancy1)) for more on `apply()` commands) that can be used to change all the variables in this small data set to factor types:
 
 ```{r c2main49}
 # change variables to factor data types
@@ -970,10 +980,10 @@ brfss.2014.small <- brfss.2014.cleaned %>%
   filter(X_AGEG5YR > 4 & X_AGEG5YR < 12) %>% 
   filter(!is.na(HADMAM)) %>%
   select(TRNSGNDR, X_AGEG5YR, X_RACE,X_INCOMG, X_EDUCAG, HLTHPLN1, HADMAM) %>%
-  lapply(X = ., FUN = factor)
+  mutate_all(as.factor)
 ```
 
-She explains to Leslie that the command `lapply()` is used to apply some function to every item in a list (list + apply = lapply). Since a data frame is a type of list made up of variables, `lapply()` can be used to change each item (each variable in this case) to a factor. When using `lapply()` with the `%>%`, the data frame name is already passed through the `%>%`, but `lapply()` still needs a placeholder, so `.` is used as a dummy name.  
+**EXPLAIN MUTATE_ALL HERE INSTEAD OF LAPPLY**She explains to Leslie that the command `lapply()` is used to apply some function to every item in a list (list + apply = lapply). Since a data frame is a type of list made up of variables, `lapply()` can be used to change each item (each variable in this case) to a factor. When using `lapply()` with the `%>%`, the data frame name is already passed through the `%>%`, but `lapply()` still needs a placeholder, so `.` is used as a dummy name.  
 
 #### Adding labels to variables 
 
@@ -1019,7 +1029,7 @@ brfss.2014.small <- brfss.2014.cleaned %>%
 summary(object = brfss.2014.small)
 ```
 
-Everything looks good so far, with X_RACE and HADMAM still needing to be recoded. Leslie notes that, based on the percentages reported in the table, *Pacific Islanders* were included in the *Other race* category and not in the *Asian/Pacific Islander category*. To reproduce the exact percentages in the table, she will have to include *Pacific Islanders* as *Other*. Reviewing the BRFSS codebook page 106 she finds:
+Everything looks good so far, with `X_RACE` and `HADMAM` still needing to be recoded. Leslie notes that, based on the percentages reported in the table, *Pacific Islanders* were included in the *Other race* category and not in the *Asian/Pacific Islander category*. To reproduce the exact percentages in the table, she will have to include *Pacific Islanders* as *Other*. Reviewing the BRFSS codebook page 106 she finds:
 
 #. White only, non-Hispanic
 #. Black only, non-Hispanic  
@@ -1047,7 +1057,7 @@ Leslie maps the categories in the codebook into the categories in the table. She
 * Category 4 from BRFSS was *Asian/Pacific Islander* 
 * Due to the mistake in labeling in the paper, categories 5, 6, 7, and 8 from BRFSS were *Other* in the table 
 
-With Nancy looking over her shoulder, Leslie changes the recoding for the levels of X_RACE for the purposes of reproducing the table:
+With Nancy looking over her shoulder, Leslie changes the recoding for the levels of `X_RACE` for the purposes of reproducing the table:
 
 ```{r c2main51}
 # add labels to factor variables
@@ -1105,11 +1115,9 @@ brfss.2014.small <- brfss.2014.cleaned %>%
 summary(object = brfss.2014.small)
 ```
 
-Nancy thinks this looks good, but to make sure the race variable is coded consistently with the manuscript, she tries changing some of the labels and seeing what happens. After a few tests, she agrees that Leslie has the proper recoding.
-
 #### Checking work and recoding problematic values
 
-Leslie is now finally ready for computing percentages in each category for each variable. Nancy suggests using a function since they are doing the same thing several times. One general rule is that anything you want to do three times or more should be done with a function. A function works by applying a command or set of commands to an object. In this case, Nancy and Leslie want to get percentages for each of the seven variables in the **brfss.2014.small** data set.
+Leslie is now finally ready for computing percentages in each category for each variable. Nancy suggests using a function since they are doing the same thing several times. One general rule is that anything you want to do three times or more should be done with a function. A function works by applying a command or set of commands to an object. In this case, Nancy and Leslie want to get percentages for each of the seven variables in the `brfss.2014.small` data set.
 
 Leslie remembers that percentages are produced with the `prop.table()` command, which needs a `table()` command result as input. To get a table of transgender status percentages, she uses:
 
@@ -1118,11 +1126,15 @@ Leslie remembers that percentages are produced with the `prop.table()` command, 
 prop.table(x = table(brfss.2014.small$TRNSGNDR))
 ```
 
-These values are slightly different from those in the original table. Could this be due to the 2 extra people? After a little bit of exploring, Kiara finds this difference is because two observations where the HADMAM variable was coded as *9* (representing Refused) were dropped before computing percents of the transgender variable but were kept for computing the percents of all the other variables. 
+These values are slightly different from those in the original table. Could this be due to the 2 extra people? After a little bit of exploring, Kiara finds this difference is because two observations where the `HADMAM` variable was coded as *9* (representing Refused) were dropped before computing percents of the transgender variable but were kept for computing the percents of all the other variables. 
 
-This is a really tricky data management problem! Leslie asks if they can change TRNSGNDR to NA for when the HADMAM variable is category 9, which is the code for "Refused." This seems to Kiara like it might work, but it will require a new command. The first one that comes to Kiara from her data management work is `if_else()`. The `if_else()` code takes three arguments. The first argument is a statement that can be true or false. The second argument is what happens when the statement is true. The third argument is what happens with the statement is false. The second and third arguments have to be the same data type. 
+This is a really tricky data management problem! Leslie asks if they can change `TRNSGNDR` to `NA` for when the `HADMAM` variable is category 9, which is the code for "Refused." This seems to Kiara like it might work, but it will require a new command. The first one that comes to Kiara from her data management work is `if_else()`. The `if_else()` code takes three arguments. The first argument is a statement that must evalue to either `TRUE` or `FALSE`; that is, the expression must be logical. In order to find out if something is equal to something else, you use two equals signs `==`. The code `3 == 9` should evaluate to `FALSE` because 3 does not equal 9. In programming, usually `!` can be read as *not*, so `!=` tests whether two things are *not* equal to each other. The code `3 != 9` should evaluate to `TRUE` because 3 and 9 are not the same number. 
 
-This seems good, so they add a line to the data management before `select()` and test it: 
+The second argument of `if_else()`, is `true = `. This is where you tell R what to do if the statement from the first agrument evaluates as `TRUE`. The third argument, `false = ` is what you want to happen if the result of the statement is `FALSE`. The second and third arguments have to be the same data type. Before coding, Kiara first has Leslie say outloud what she wants the `if_else()` command to do, so that it's easier for Leslie to code. She responds with:
+
+>"For each person in the data set, if that person's value in `HADMAM` is *not* equal to category 9, then leave their `TRNSGNDR` value as is (do nothing). For everyone else that *does* have a value of 9 in `HADMAM`, change their corresonding `TRNSGNDR` value to be `NA`".
+
+Kiara and Nancy look at each other and are quite impressed with Leslie! So they add a line to the data management before `select()` and test it: 
 
 ```{r c2main53}
 # complete data management code
@@ -1206,7 +1218,7 @@ CreateTableOne(data = brfss.2014.small)
 After all the complicated data management, that was surprisingly easy! Leslie compares the table to the one in the article and notices a few things to work on to reproduce the table more closely to how it looks in the manuscript:
 
 * The one in the article only has percents and not frequencies 
-* The HLTHPLN1 variable shows the "Yes" group in the article
+* The `HLTHPLN1` variable shows the "Yes" group in the article
 * The headings for different sections are not variable names 
 * The percent signs can be removed from the section headers
 
@@ -1219,7 +1231,7 @@ To check and see if the variables have labels, Nancy uses `str(brfss.2014.small)
 str(object = brfss.2014.small)
 ```
 
-The **brfss.2014.small** data frame does not seem to have any labels. Nancy notices that the <span style="font-family:Lucida Console, monospace;font-weight:bold">tableone</span> package uses labels created in the <span style="font-family:Lucida Console, monospace;font-weight:bold">labelled</span> package. She reads the documentation for the <span style="font-family:Lucida Console, monospace;font-weight:bold">labelled</span> package and writes some code to add labels to the **brfss.2014.small** data frame using `var_label()` and listing the labels for the table in a vector:  
+The `brfss.2014.small` data frame does not seem to have any labels. Nancy notices that the <span style="font-family:Lucida Console, monospace;font-weight:bold">tableone</span> package uses labels created in the <span style="font-family:Lucida Console, monospace;font-weight:bold">labelled</span> package. She reads the documentation for the <span style="font-family:Lucida Console, monospace;font-weight:bold">labelled</span> package and writes some code to add labels to the `brfss.2014.small` data frame using `var_label()` and listing the labels for the table in a vector:  
 
 ```{r c2main57}
 # add variable labels to print in table
@@ -1261,10 +1273,11 @@ Nancy and Leslie review the table and find that it looks ready to use in a repor
 
 #.  Transcribing the numbers can (and does) result in errors 
 #.  Small changes to table contents can be made more easily 
-#.  Code can be reused, so developing new tables will take less time after the first one is complete  
+#.  Code can be reused, so developing new tables will take less time after the first one is complete
+
 Leslie begrudgingly agrees and asks Nancy if they can try creating a table that also includes means and standard deviations as well. She explains that many of the articles she reads have long tables with both categorical and continuous variables displayed together.
 
-Nancy thinks this is a great idea, especially since it will allow her to write some more code. In order to create this table, they will need the data frame to include continuous variables. Leslie goes back to the data management code they created and adds the PHYSHLTH variable to the `select()` list. PHYSHLTH shows the number of days of poor physical health in the last 30 days, so it is not categorical.
+Nancy thinks this is a great idea, especially since it will allow her to write some more code. In order to create this table, they will need the data frame to include continuous variables. Leslie goes back to the data management code they created and adds the `PHYSHLTH` variable to the `select()` list. `PHYSHLTH` shows the number of days of poor physical health in the last 30 days, so it is not categorical.
 
 ```{r c2main60}
 # complete data management code
@@ -1319,7 +1332,7 @@ brfss.2014.small <- brfss.2014.cleaned %>%
 prop.table(x = table(brfss.2014.small$TRNSGNDR))
 ```
 
-To include PHYSHLTH in the table, they will need a variable label for it as well. Leslie adds the variable label to the labelling code:
+To include `PHYSHLTH` in the table, they will need a variable label for it as well. Leslie adds the variable label to the labelling code:
 
 ```{r c2main61}
 # add variable labels to print in table
@@ -1346,16 +1359,16 @@ print(x = trans.hc.table, varLabels = TRUE)
 
 ```
 
-Great! The mean and standard deviation are added to the table! Kiara reminds Leslie that the mean and standard deviation are only good measures for the more continuous variables when the variables are **normally distributed.** Leslie remembers that they looked at the distribution of PHYSHLTH with a histogram. She copies the code to take another look:
+Great! The mean and standard deviation are added to the table! Kiara reminds Leslie that the mean and standard deviation are only good measures for the continuous variables when the variables are **normally distributed.** Leslie remembers that they looked at the distribution of `PHYSHLTH` with a histogram. She copies the code to take another look:
 
-```{r c2main63, fig.cap="Distribution of PHYSHLTH variable."}
+```{r c2main63, message = FALSE, warning = FALSE, fig.cap="Distribution of PHYSHLTH variable."}
 # make a histogram 
 brfss.2014.small %>% 
   ggplot(aes(x = PHYSHLTH)) + 
   geom_histogram() 
 ```
 
-The histogram confirms that the variable is not normally distributed. Leslie remembers that median and IQR are good options for descriptive statistics when a variable that is numeric data type but not normally distributed. She looks in the documentation for the `print()` options for her table to see if there is any way to include the median and IQR instead of the mean and standard deviation. She finds an option for `nonnormal = ` for adding the names of any numeric variables that are not normally distributed. Adding this to the print options, she gets:
+The histogram confirms that the variable is not normally distributed. Leslie remembers that median and IQR are good options for descriptive statistics when a variable that is numeric data type but not normally distributed. She looks in the documentation for the `print()` options for her table to see if there is any way to include the median and IQR instead of the mean and standard deviation. She finds an argument for `nonnormal = ` for adding the names of any numeric variables that are not normally distributed. Adding this to the print options, she gets:
 
 ```{r c2main64}
 # use print to show table
@@ -1364,7 +1377,7 @@ print(x = trans.hc.table,
       nonnormal = 'PHYSHLTH')
 ```
 
-The R team is happy with the final product. Nancy explains that there is an R package called <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span> that is more difficult to use but also more flexible to format. Nancy wants to show Leslie the alternate way using <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span>, but it seems like it might be overwhelming. Leslie says she is up for it after a quick coffee break. Kiara says that sounds perfect and they caffeinate and regroup to figure out a <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span> table.
+The R-Team is happy with the final product. Nancy explains that there is an R package called <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span> that is more difficult to use but also more flexible to format. Nancy wants to show Leslie the alternate way using <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span>, but it seems like it might be overwhelming. Leslie says she is up for it after a quick coffee break `r emo::ji("coffee")`. Kiara says that sounds perfect and they caffeinate and regroup to figure out a <span style="font-family:Lucida Console, monospace;font-weight:bold">kable</span> table.
 
 #### Creating a table from the clean data (another way)
 
@@ -1372,7 +1385,7 @@ Nancy starts by explaining that the <span style="font-family:Lucida Console, mon
 
 ##### Creating a new data frame with summary statistics
 
-Instead of continuing to work with the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> formatting, Nancy suggests working in base R to get the summary statistics. She finds this to be more straightforward for categorical variables and valuable to know in general. Nancy explains that what they need is a data frame with all the descriptive statistics they want listed in the table. Leslie starts by creating a table of the percents for the TRNSGNDR variable:
+Instead of continuing to work with the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> formatting, Nancy suggests working in base R to get the summary statistics. She finds this to be more straightforward for categorical variables and valuable to know in general. Nancy explains that what they need is a data frame with all the descriptive statistics they want listed in the table. Leslie starts by creating a table of the percents for the `TRNSGNDR` variable:
 
 ```{r c2main65}
 # get percents for TRNSGNDR
@@ -1386,7 +1399,7 @@ These percents need some work. Leslie tries multiplying them by 100 and then rou
 ( trans.perc <- round(x = 100*prop.table(x = table(brfss.2014.small$TRNSGNDR)), 1) )
 ```
 
-Perfect! However, there are six more variables in the table. Nancy explains they can easily merge the percentages from all the variables in the **brfss.2014.small** data frame by converting each table of percents into a data frame, giving the data frame a name, and using `rbind()` to merge the data frames, like this:
+Perfect! However, there are six more variables in the table. Nancy explains they can easily merge the percentages from all the variables in the `brfss.2014.small` data frame by converting each table of percents into a data frame, giving the data frame a name, and using `rbind()` (which stands for "row bind" -- it's opposite is `cbind()` or "column bind") to merge the data frames, like this:
 
 ```{r c2main67}
 # get percentages and assign a name for trans and race
@@ -1408,22 +1421,22 @@ Nancy shows Leslie that she can put the commands used to get the percents into a
 ```{r c2main68}
 # finding percents and rounding to one decimal place
 # putting all percents in one column with cbind
-TableFun <- function(x){
+tableFun <- function(x){
     data.frame(round(x = prop.table(x = table(x))*100, 1))
 }
 
 ```
 
-This creates a function called **TableFun** to apply the commands from above to more than one variable at a time. The commands to be applied are inside the curly brackets *{}*. To use the function on a single variable, Nancy shows Leslie she can just type the function name with the name of the variable in parentheses, like this:
+This creates a function called **tableFun** to apply the commands from above to more than one variable at a time. The commands to be applied are inside the curly brackets **`{ }`**. To use the function on a single variable, Nancy shows Leslie she can just type the function name with the name of the variable in parentheses, like this:
 
 ```{r c2main69}
-# using the TableFun function for the transgender variable
-TableFun(x = brfss.2014.small$TRNSGNDR)
+# using the tableFun function for the transgender variable
+tableFun(x = brfss.2014.small$TRNSGNDR)
 ```
 
 #### Using the apply family 
 
-However, says Nancy, it is a little more complicated to use the function on all the variables in the **brfss.2014.small** data set at one time. First, use the `lapply()` command. The `lapply()` command is used to apply a function to each item in a list. In this case, use `lapply()` to apply the TableFun function to each variable in the **brfss.2014.small** data frame. Nancy reminds Leslie that data frames are a special type of list where each variable is an element of the list.
+However, says Nancy, it is a little more complicated to use the function on all the variables in the `brfss.2014.small` data set at one time. First, use the `lapply()` command. The `lapply()` command is used to apply a function to each item in a list. In this case, use `lapply()` to apply the TableFun function to each variable in the **brfss.2014.small** data frame. Nancy reminds Leslie that data frames are a special type of list where each variable is an element of the list.
 
 Nancy goes on to explain that using `lapply()` to apply the TableFun function to the brfss.2014.small data frame will result in a list of tables of percentages, one table for each variable in the data frame. Once this list of tables is ready, she says, combine the tables using `rbind()` to merge objects by rows. Because there are seven tables to merge together, use the `do.call()` command to apply the rbind function to each item in the list. The `do.call()` command acts like a loop, conducting the specified analyses for each element in the object, then starting over on the next element. So, Nancy summarizes, the TableFun function is applied to each item in the brfss.2014.small list and then the `do.call()` command puts the resulting tables together using `rbind()` by going through and adding each table to the others one at a time.
 
@@ -1434,12 +1447,12 @@ Nancy explains that this results in a new data frame containing each of the cate
 # all the variables in the data frame
 # use the do.call command to call the rbind function
 # to combine the list items into rows
-( table.data <- do.call(rbind, (lapply(X = brfss.2014.small[ , -7], FUN = TableFun))) )
+( table.data <- do.call(rbind, (lapply(X = brfss.2014.small[ , -7], FUN = tableFun))) )
 ```
 
-Once the table.data data frame is created, Leslie sees that it has more categories listed than what appeared in the published version. She uses subsetting to remove the *No* category from the healthcare variable since it was not in the table. 
+Once the `table.data` data frame is created, Leslie sees that it has more categories listed than what appeared in the published version. She uses subsetting to remove the *No* category from the healthcare variable since it was not in the table. 
 
-After looking at the table.data object, Leslie notes that there are 27 observations (or rows) of 2 variables. The last row is the the *No* category for healthcare. She removes the last row by subsetting the data frame so it includes just rows 1 through 26.
+After looking at the `table.data` object, Leslie notes that there are 27 observations (or rows) of 2 variables. The last row is the the *No* category for healthcare. She removes the last row by subsetting the data frame so it includes just rows 1 through 26.
 
 Finally, Leslie labels the columns of the data frame to be consistent with the table columns.
 

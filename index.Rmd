@@ -55,8 +55,6 @@ Kiara's outline for Leslie includes the foundational skills she will need to get
 * Achievement 4: Entering or loading data into R
 * Achievement 5: Identifying and treating missing values 
 * Achievement 6: Building a basic bar graph
-* Achievement 7: Subsetting a data set 
-* Achievement 8: Recoding and other data wrangling
 * Chapter summary
 
 Follow the R-Team through the examples and exercises to write your first R code.
