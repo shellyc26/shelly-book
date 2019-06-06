@@ -1452,20 +1452,20 @@ tableFun <- function(x){
 
 ```
 
-This creates a function called **tableFun** to apply the commands from above to more than one variable at a time. The commands to be applied are inside the curly brackets **`{ }`**. To use the function on a single variable, Nancy shows Leslie she can just type the function name with the name of the variable in parentheses, like this:
+This creates a function called `tableFun` to apply the commands from above to more than one variable at a time. The commands to be applied are inside the curly brackets **`{ }`**. To use the function on a single variable, Nancy shows Leslie she can just type the function name with the name of the variable in parentheses, like this:
 
 ```{r c2main69}
 # using the tableFun function for the transgender variable
 tableFun(x = brfss.2014.small$TRNSGNDR)
 ```
 
-#### Using the apply family 
+#### Using the `apply` family 
 
-However, says Nancy, it is a little more complicated to use the function on all the variables in the `brfss.2014.small` data set at one time. First, use the `lapply()` command. The `lapply()` command is used to apply a function to each item in a list. In this case, use `lapply()` to apply the TableFun function to each variable in the **brfss.2014.small** data frame. Nancy reminds Leslie that data frames are a special type of list where each variable is an element of the list.
+However, says Nancy, it is a little more complicated to use the function on all the variables in the `brfss.2014.small` data set at one time. First, use the `lapply()` command. The `lapply()` command is used to apply a function to each item in a list. In this case, use `lapply()` to apply the TableFun function to each variable in the `brfss.2014.small` data frame. Nancy reminds Leslie that data frames are a special type of list where each variable is an element of the list.
 
-Nancy goes on to explain that using `lapply()` to apply the TableFun function to the brfss.2014.small data frame will result in a list of tables of percentages, one table for each variable in the data frame. Once this list of tables is ready, she says, combine the tables using `rbind()` to merge objects by rows. Because there are seven tables to merge together, use the `do.call()` command to apply the rbind function to each item in the list. The `do.call()` command acts like a loop, conducting the specified analyses for each element in the object, then starting over on the next element. So, Nancy summarizes, the TableFun function is applied to each item in the brfss.2014.small list and then the `do.call()` command puts the resulting tables together using `rbind()` by going through and adding each table to the others one at a time.
+Nancy goes on to explain that using `lapply()` to apply the `tableFun` function to the `brfss.2014.small` data frame will result in a list of tables of percentages, one table for each variable in the data frame. Once this list of tables is ready, she says, combine the tables using `rbind()` to merge objects by rows. Because there are seven tables to merge together, use the `do.call()` command to apply the `rbind()` function to each item in the list. The `do.call()` command acts like a loop, conducting the specified analyses for each element in the object, then starting over on the next element. So, Nancy summarizes, the `tableFun` function is applied to each item in the `brfss.2014.small` list and then the `do.call()` command puts the resulting tables together using `rbind()` by going through and adding each table to the others one at a time.
 
-Nancy explains that this results in a new data frame containing each of the categories for each variable and the percent of survey participants in the category. Leslie remembers that the **brfss.2014.small** data frame includes the PHYSHLTH variable, which is not in the table. To exclude the PHYSHLTH variable from the calculations, take a subset of the variables by using the square brackets and subtracting the column where the variable is stored from the data frame. Leslie opens the data frame by clicking on it once in the Environment and counts to see that the PHYSHLTH variable is in column 7. They add -7 to the code to remove this column.
+Nancy explains that this results in a new data frame containing each of the categories for each variable and the percent of survey participants in the category. Leslie remembers that the `brfss.2014.small` data frame includes the `PHYSHLTH` variable, which is not in the table. To exclude the `PHYSHLTH` variable from the calculations, take a subset of the variables by using the square brackets and subtracting the column where the variable is stored from the data frame. Leslie opens the data frame by clicking on it once in the Environment and counts to see that the `PHYSHLTH` variable is in column 7. They add -7 to the code to remove this column.
 
 ```{r c2main70}
 # use lapply to apply the tableFun function to 
