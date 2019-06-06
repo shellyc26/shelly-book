@@ -532,7 +532,7 @@ This shows the table starting with the salary with the highest frequency, or, th
 names(x = sort(x = table(salaries), decreasing = TRUE))
 ```
 
-Finally, to just print the first category name, use the square brackets, **`[ ]`**. In R, the squared brackets are used to grab a particular location (sometimes called an "index"). For example, the `salaries` vector has 5 observations `r salaries`. To get the 4th observation of `salaries`, you can type `salaries[4]`, which is `r salaries[4]`. Here, to get the first category name, we can use the same bit of code, and then add a `[1]` to the end: 
+Finally, to just print the first category name, use the square brackets, **`[ ]`**. In R, the squared brackets are used to grab a particular location (sometimes called an "index"). For example, the `salaries` vector has 5 observations: `r salaries`. To get the 4th observation of `salaries`, you can type `salaries[4]`, which is `r salaries[4]`. Here, to get the first category name, we can use the same bit of code, and then add a `[1]` to the end: 
 
 ```{r c2main26}
 # no mode command so find the mode using a table
@@ -910,14 +910,41 @@ Looking back at the table, Leslie and Kiara determine that it contains only thos
 * `_AGEG5YR`: page 108  
 * `HADMAM`: page 37 
 
-Kiara shares one of her favorite data management tips with Leslie: create a smaller data set to work with by limiting the data to the observations that will be analyzed. There are several ways to subset a data set to only include particular observations. One method is to use the `subset()` function. Another is to simply grab the observations wanted using the square brackets `[ ]`. However, since the R-Team has been using <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span>, they decide to subset via the `filter()` command. Leslie notices that the `_AGEG5YR` variable was imported with an `X` at the beginning of the variable name, so she incorporates this into the code:
+Kiara shares one of her favorite data management tips with Leslie: create a smaller data set to work with by limiting the data to the observations that will be analyzed. There are several ways to subset a data set to only include particular observations. One method is to simply grab the observations wanted using the square brackets `[ ]`. Kiara reminds Leslie that she already used `[ ]` to get the 4th element of the `salaries` vector using `salaries[4]`. Vectors are one-dimensional, and therefore you only need one number inside the brackets. Data frames are two-dimensional, Kiara explains, since there are both rows and columns. So to index a data frame, the square brackets requires two numbers, separated by a comma, and the order will always be `[rows,columns]`. Some quick examples:
+
+- Get the value of the 3rd row and 2nd column: `data.frame[3,2]`
+- Get all of the values in the 5th column: `data.fame[,5]` *nothing in the rows part means "all", but it still needs to be separated by a comma*
+- Get the values for rows 2 though 6 and columns 4 through 10: `data.frame[2:6,4:10]` *the colon `:` can be read as "through"*
+- Get the values for rows 1, 7, 18 and columns 4 through 10: `data.frame[c(1,7,18), 4:10]`
+
+Another method of subsetting is the `subset()` function. However, since the R-Team has been using <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span>, they decide to subset via the `filter()` command, and Nancy suggests that Leslie look up the help documentation for the `subset()` function on her own. According to the "Description" in the `filter()` help page, this function "choose[s] rows/cases where conditions are true". Put differently, the coder writes a statement that must evaluate to either `TRUE` or `FALSE` -- the result of the statment must be logical. Nancy knows the importance of understanding logical statements, so she gives Leslie several examples (you can go ahead and try these out in the Console!):
+
+- Is the object on the left the equal to the object on the right? Use `==`
+    - `3 == 9` evaluates to `FALSE` because 3 does not equal 9
+    - if `a = 10` and `b = 10`, then `a == b` evaluates to `TRUE`
+    
+- Is the object on the left *not* equal to the object on the right? Use `!=`
+    - `3 != 9` evaluates to `TRUE` because 3 does not equal 9
+    - if `a = 10` and `b = 10`, then `a != b` evaluates to `FALSE`
+    
+- Is the object on the left greater than or less than the object on the right? Use `>` or `<`
+    - `3 > 9` evaluates to `FALSE`
+    - `3 < 9` evaluates to `TRUE`
+    - `3 < 3` evaluates to `FALSE`
+    - `3 <= 3` evaluates to `TRUE`
+
+Nancy then tells Leslie that she can combine these logical statements! Take the same `3 < 9` and if `a = 10` and `b = 10`, then `a == b` as above. To find out if *both* conditions are true, use the `&` for "and". `3 < 9 & a == b` evaluates to `TRUE`. This is because *both* statements are true. It reads "3 is less than 9 *and* a is equal to b". However, `3 > 9 & a == b` evaluates to `FALSE`. This is because the first statement `3 > 9` is `FALSE`, therefore it doesn't matter that the second part of the statement (`a == b`) is still OK -- the whole combined statement evaluates as `FALSE`. 
+
+Nancy wraps up by saying that if you want to know if one *or* the other is true, Leslie can use the `|` symbol. `3 > 9 & a == b` now evaluates to `TRUE` because one of these is `TRUE` (`a == b`). 
+
+Now that Leslie has a better grasp of logical conditions, the R-Team gets back to the task at hand using `filter()`. Leslie also notices that the `_AGEG5YR` variable was imported with an `X` at the beginning of the variable name, so she incorporates this into the code:
 
 ```{r c2main46}
 # BONUS: check the column names of a data frame
 # colnames(brfss.2014.cleaned)
 
 # subset the data set to keep 
-# transgender status of MtF, FtM, or Gender non-conforming
+# transgender status of MtF OR FtM OR Gender non-conforming
 # age group higher than group 4 and lower than group 12
 # was asked mammogram question
 brfss.2014.small <- brfss.2014.cleaned %>%
@@ -1128,9 +1155,7 @@ prop.table(x = table(brfss.2014.small$TRNSGNDR))
 
 These values are slightly different from those in the original table. Could this be due to the 2 extra people? After a little bit of exploring, Kiara finds this difference is because two observations where the `HADMAM` variable was coded as *9* (representing Refused) were dropped before computing percents of the transgender variable but were kept for computing the percents of all the other variables. 
 
-This is a really tricky data management problem! Leslie asks if they can change `TRNSGNDR` to `NA` for when the `HADMAM` variable is category 9, which is the code for "Refused." This seems to Kiara like it might work, but it will require a new command. The first one that comes to Kiara from her data management work is `if_else()`. The `if_else()` code takes three arguments. The first argument is a statement that must evalue to either `TRUE` or `FALSE`; that is, the expression must be logical. In order to find out if something is equal to something else, you use two equals signs `==`. The code `3 == 9` should evaluate to `FALSE` because 3 does not equal 9. In programming, usually `!` can be read as *not*, so `!=` tests whether two things are *not* equal to each other. The code `3 != 9` should evaluate to `TRUE` because 3 and 9 are not the same number. 
-
-The second argument of `if_else()`, is `true = `. This is where you tell R what to do if the statement from the first agrument evaluates as `TRUE`. The third argument, `false = ` is what you want to happen if the result of the statement is `FALSE`. The second and third arguments have to be the same data type. Before coding, Kiara first has Leslie say outloud what she wants the `if_else()` command to do, so that it's easier for Leslie to code. She responds with:
+This is a really tricky data management problem! Leslie asks if they can change `TRNSGNDR` to `NA` for when the `HADMAM` variable is category 9, which is the code for "Refused." This seems to Kiara like it might work, but it will require a new command. The first one that comes to Kiara from her data management work is `if_else()`**FOOTNOTE?-SEE SHELLY'S COMMENTS**. The `if_else()` code takes three arguments. The first argument is a logical statement (or condition) that must evalue to either `TRUE` or `FALSE` -- just like the `filter()` function from above! The second argument of `if_else()`, is `true = `. This is where you tell R what to do if the statement from the first agrument evaluates as `TRUE`. The third argument, `false = ` is what you want to happen if the statement evaluates as `FALSE`. The second and third arguments have to be the same data type. Before coding, Kiara first has Leslie say outloud what she wants the `if_else()` command to do, so that it's easier for Leslie to code. She responds with:
 
 >"For each person in the data set, if that person's value in `HADMAM` is *not* equal to category 9, then leave their `TRNSGNDR` value as is (do nothing). For everyone else that *does* have a value of 9 in `HADMAM`, change their corresonding `TRNSGNDR` value to be `NA`".
 
@@ -1533,7 +1558,7 @@ table.data %>%
              start_row = 26, end_row = 26) 
 ```
 
-Now that she has the manuscript table reproduced, Leslie is interested in making the bigger table with frequencies, and the median and IQR of PHYSHLTH. The first step, says Nancy, is to create a function (or expand TableFun) to compute both frequencies and percentages. The `table()` command computes frequencies, so add the table command to TableFun and rename it something logical like *TableFreqPerc*:
+Now that she has the manuscript table reproduced, Leslie is interested in making the bigger table with frequencies, and the median and IQR of `PHYSHLTH.` The first step, says Nancy, is to create a function (or expand TableFun) to compute both frequencies and percentages. The `table()` command computes frequencies, so add the table command to TableFun and rename it something logical like *TableFreqPerc*:
 
 ```{r c2main77}
 # revise the TableFun function to compute both
