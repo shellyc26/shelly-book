@@ -1283,8 +1283,8 @@ d. console
 Use the National Health and Nutrition Examination Survey (NHANES) data to examine marijuana use in the U.S. Spend a few minutes looking through the NHANES website [@NHANES] before you begin. Complete the following tasks to explore whether age is related marijuana use in the US. Visit edge.sagepub.com/harris1e to complete the multiple choice questions and download the materials for the assignment.
 
 1) (**A3**) Open the 2013-2014 NHANES data file saved as **nhanes_2013_ch1.csv** with the book materials at edge.sagepub.com/harris1e
-2) (**A2**) Examine the data types for DUQ200, RIDAGEYR, RIAGENDR and fix data types if needed based on the NHANES codebook
-3) (**A4**) Based on the NHANES codebook, code missing values appropriately for DUQ200, RIDAGEYR, RIAGENDR
+2) (**A2**) Examine the data types for `DUQ200`, `RIDAGEYR`, `RIAGENDR` and fix data types if needed based on the NHANES codebook
+3) (**A4**) Based on the NHANES codebook, code missing values appropriately for `DUQ200`, `RIDAGEYR`, `RIAGENDR`
 4) (**A5**) Create a bar graph showing the percentage of NHANES participants answering yes and no to marijuana use 
 5) (**A7**) Recode age into a new variable called age.cat with 5 categories: 18-29, 30-45, 46-59, 60-79, 80+
 6) (**A6**) Create a bar graph of marijuana use by age group

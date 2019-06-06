@@ -365,7 +365,7 @@ The most well-understood and widely used measure of central tendency is the mean
 
 $$
 \begin{equation}
-m_x=\frac{\sum\limits_{i=1}^n{x_{i}}{n}
+m_x=\frac{\sum\limits_{i=1}^n{x_{i}}}{n}
  (\#eq:mean)
 \end{equation}
 $$
@@ -484,11 +484,11 @@ She looks through her statistics materials and find that one way some people mak
 
 $$
 \begin{equation}
-skewness_x=\frac{1}{n}\sum\limits_{i=1}^n\Bigg(\frac{{({x_i-\bar{x}}})}{s}\Bigg)^3
+skewness_x=\frac{1}{n}\sum\limits_{i=1}^n\Bigg(\frac{{({x_i-m_{x}}})}{s}\Bigg)^3
  (\#eq:skew)
 \end{equation}
 $$
-In this equation, $n$ is the sample size, $x_{i}$ is each observation of $x$, $\bar{x}$ is the mean of $x$, and $s$ is the sample standard deviation. Let's break this down. The first thing to note is that the mean of $x$ ($\bar{x}$) is subtracted from each observation of $x$ ($x_{i}$). These are called **deviation scores**. Next, each deviation score is divided by the standard deviation, $s$, and the result is cubed. Finally, we take the average of these cubed values to get the skewness of $x$. The resulting value is usually *negative* when the skew is to the left and usually *positive* when the skew is toward the right. Because skewness is strongly impacted by the sample size, the value of skew considered to indicate a serious departure from normality differs as sample size differs. 
+In this equation, $n$ is the sample size, $x_{i}$ is each observation of $x$, $m_{x}$ is the mean of $x$, and $s$ is the sample standard deviation. Let's break this down. The first thing to note is that the mean of $x$ ($m_{x}$) is subtracted from each observation of $x$ ($x_{i}$). These are called **deviation scores**. Next, each deviation score is divided by the standard deviation, $s$, and the result is cubed. Finally, we take the average of these cubed values to get the skewness of $x$. The resulting value is usually *negative* when the skew is to the left and usually *positive* when the skew is toward the right. Because skewness is strongly impacted by the sample size, the value of skew considered to indicate a serious departure from normality differs as sample size differs. 
 
 Leslie finds this helpful, and asks if there is a way to compute skewness in R. Nancy says the <span style="font-family:Lucida Console, monospace;font-weight:bold">semTools</span> package has `skew()` to compute this value and a few related values. Leslie is about to install the package and try it, but Nancy slides the laptop away, installs the package, and tries `skew()` for the salary variable (with Bill Gates) and the two variables used to create the skewed histograms above: 
 
@@ -653,12 +653,12 @@ The **variance** is the average of the squared differences between each value of
 
 $$
 \begin{equation}
-s^2=\frac{{\sum\limits_{i=1}^n}({x_i-\bar{x}})^2}{n-1}
+s^2=\frac{{\sum\limits_{i=1}^n}({x_i-m_{x}})^2}{n-1}
  (\#eq:variance)
 \end{equation}
 $$
 
-Leslie sees that the $s^2$ is the variance, the $\sum$ symbol is sum, the $x_i$ is each individual value of $x$, the $\bar{x}$ is the mean of $x$, and $n$ is the sample size. So, the variance is the sum of the squared differences between each value of $x$ and the mean of $x$ (or the sum of squared deviation scores) divided by the sample size minus one.
+Leslie sees that the $s^2$ is the variance, the $\sum$ symbol is sum, the $x_i$ is each individual value of $x$, the $m_{x}$ is the mean of $x$, and $n$ is the sample size. So, the variance is the sum of the squared differences between each value of $x$ and the mean of $x$ (or the sum of squared deviation scores) divided by the sample size minus one.
 
 Nancy shows her that, in R, the `var()` command finds the variance, which she finds a lot more fun than looking at formulas:
 
@@ -671,7 +671,7 @@ After looking it up in her statistics textbook and online, Leslie determines the
 
 $$
 \begin{equation}
-s=\sqrt{\frac{{\sum\limits_{i=1}^n}({x_i-\bar{x}})^2}{n-1}}
+s=\sqrt{\frac{{\sum\limits_{i=1}^n}({x_i-m_{x}})^2}{n-1}}
  (\#eq:stddev)
 \end{equation}
 $$
@@ -1558,17 +1558,17 @@ table.data %>%
              start_row = 26, end_row = 26) 
 ```
 
-Now that she has the manuscript table reproduced, Leslie is interested in making the bigger table with frequencies, and the median and IQR of `PHYSHLTH.` The first step, says Nancy, is to create a function (or expand TableFun) to compute both frequencies and percentages. The `table()` command computes frequencies, so add the table command to TableFun and rename it something logical like *TableFreqPerc*:
+Now that she has the manuscript table reproduced, Leslie is interested in making the bigger table with frequencies, and the median and IQR of `PHYSHLTH.` The first step, says Nancy, is to create a function (or expand TableFun) to compute both frequencies and percentages. The `table()` command computes frequencies, so add the table command to TableFun and rename it something logical like *tableFreqPerc*:
 
 ```{r c2main77}
-# revise the TableFun function to compute both
+# revise the tableFun function to compute both
 # frequencies and percentages
-TableFreqPerc<- function(x){
+tableFreqPerc<- function(x){
     data.frame(table(x), round(x = prop.table(x = table(x))*100, 1))
 }
 
 # apply new function to brfss.2014.small data frame
-bigger.table <- do.call(rbind, (lapply(X = brfss.2014.small, FUN = TableFreqPerc)))
+bigger.table <- do.call(rbind, (lapply(X = brfss.2014.small, FUN = tableFreqPerc)))
 
 # click on the biggerTable object in the environment
 # pane to see the resulting table
@@ -1619,7 +1619,7 @@ bigger.table %>%
 
 Although the original table creation seemed tedious, Leslie found adding frequencies and re-running the table code was not nearly as time consuming.
 
-The last thing, says Nancy, is to try adding continuous variables to the table. Leslie decides to add measures of the central tendency and spread of PHYSHLTH since it is in the data frame. She remembers that this variable is not normally distributed, so the median and IQR are a better choice than the mean and standdard deviation. Leslie uses the commands learned earlier in this chapter to re-check the median and IQR:
+The last thing, says Nancy, is to try adding continuous variables to the table. Leslie decides to add measures of the central tendency and spread of `PHYSHLTH` since it is in the data frame. She remembers that this variable is not normally distributed, so the median and IQR are a better choice than the mean and standdard deviation. Leslie uses the commands learned earlier in this chapter to re-check the median and IQR:
 
 ```{r c2main80}
 # descriptive statistics for age
@@ -1630,10 +1630,10 @@ IQR(x = brfss.2014.small$PHYSHLTH, na.rm = TRUE)
 The median days of poor physical health per month in this group is 1 and the IQR shows that there is a 11 day spread that encompasses the middle half of the people in this group. Now that she knows what she is looking for in the table, Nancy tells her that adding this to the table requires will require a few steps. She writes the code and then walks Leslie through it:
 
 ```{r c2main81}
-# revise the TableFreqPerc function to compute
+# revise the tableFreqPerc function to compute
 # frequencies and percentages for factors
 # median and IQR for numeric data types
-TableFreqPerc<- function(x){
+tableFreqPerc<- function(x){
   if(is.factor(x))
     data.frame(table(x), round(x = prop.table(x = table(x))*100,1))
 }
