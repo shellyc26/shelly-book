@@ -1,8 +1,8 @@
-# The R team creates a lot of graphs
+# The R-Team creates a lot of graphs
 
 ## Achievements to unlock
 
-Now that Leslie is getting more familiar with R coding, Nancy thinks it is time to learn one of the biggest strengths of R, making graphs! As the team saw in the previous chapter, graphs are very important for adding context to the numbers. For example, the negative skewness value for the PHYSHLTH variable in the previous chapter could have led an analyst to believe the variable was left skewed rather than right since negative skewness *almost always* means left skewed. A quick histogram plot showed otherwise and allowed the team to interpret the skewness accurately and identify the appropriate descriptive statistics to use for the situation. In addition to clarifying statistical results, graphs are one of the best way to communicate about data with various audiences. 
+Now that Leslie is getting more familiar with R coding, Nancy thinks it is time to learn one of the biggest strengths of R, making graphs! As the team saw in the previous chapter, graphs are very important for adding context to the numbers. For example, the negative skewness value for the `PHYSHLTH` variable in the previous chapter could have led an analyst to believe the variable was left skewed rather than right since negative skewness *almost always* means left skewed. A quick histogram plot showed otherwise and allowed the team to interpret the skewness accurately and identify the appropriate descriptive statistics to use for the situation. In addition to clarifying statistical results, graphs are one of the best way to communicate about data with various audiences. 
 
 This chapter will primarily use the <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> package, which is part of the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> to create and format common graphs used to display data. The chapter will cover which graphs are appropriate for different data types, the important features of a well-formatted graph, ways to avoid creating a misleading graph, and how to interpret graphs. Nancy and Kiara made a list of tasks for Leslie: 
 
@@ -11,7 +11,7 @@ This chapter will primarily use the <span style="font-family:Lucida Console, mon
 * Achievement 3: Choosing and creating graphs for two variables at once 
 * Achievement 4: Ensuring graphs are well-formatted with appropriate and clear titles, labels, colors, and other features 
     
-Follow the R team through the examples and exercises to build some great graphics.
+Follow the R-Team through the examples and exercises to build some great graphics.
   
 ## The tricky trigger problem 
   
@@ -21,11 +21,11 @@ One of Leslie's best friends is very involved in an activist group called *Moms 
 
 The United States has a high rate of gun ownership and a similarly high rate of gun injury and death [@StatisticsonGunDeaths]. However, there has been relatively little research into gun injury and gun violence in recent decades after government funding was limited by the Dickey Amendment, a 1996 appropriations bill that cut \$2.6 million from the from the Centers for Disease Control and Prevention (CDC) budget [@kellermann2013silencing]. The Dickey Amendment, named after the Arkansas representative who introduced it, removed the funds in an effort by some members of the US Congress to eliminate the the National Center for Injury Prevention and Control [@kellermann2013silencing]. On page 245, the Dickey Amendment stated "None of the funds made available for injury prevention and control at the Centers for Disease Control and Prevention may be used to advocate or promote gun control." [@dickeyAmendment; @rubin2016tale] So, while the bill failed to eliminate the center, it was successful in eliminating funding for gun research. 
 
-A 2017 article published in the Journal of the American Medical Association (JAMA) [@RefWorks:2302] used publicly available data to compare the amount of money spent on research between 2004 and 2015 for the top 30 causes of death in the US, including gun violence. The authors also examined the number of publications describing research findings for the top 30 causes of death in the US over the same time period. With the exception of *falls*, research on *gun violence* as a cause of death has had the lowest research funding level of any of the top 30 causes of death. With the exception of *drowning* and *asphyxia*, *gun violence* was the topic of the fewest publications of any of the 30 top causes of death in the US. Nancy and Kiara request the data for the gun violence article from the author and reproduce some of the figures Leslie sends in order to get a closer look.
+A 2017 article published in the Journal of the American Medical Association (JAMA) [@RefWorks:2302] used publicly available data to compare the amount of money spent on research between 2004 and 2015 for the top 30 causes of death in the US, including gun violence. The authors also examined the number of publications describing research findings for the top 30 causes of death in the US over the same time period. With the exception of *falls*, research on *gun violence* as a cause of death has had the lowest research funding level of any of the top 30 causes of death. With the exception of *drowning* and *asphyxia*, *gun violence* was the topic of the fewest publications of any of the 30 top causes of death in the US. Nancy and Kiara request the data used in the gun violence article from the author and reproduce some of the figures.
 
 The figures in the article are **scatterplots** which show one dot for each observation in the data set. In this case, each dot represents one of the top 30 causes of death in the US. There is a label on each dot showing which cause of death it represents. The x-axis (horizontal) is the *mortality rate* or number of deaths per 100,000 people per year in the US. The y-axis (vertical) shows the amount of funding spent on research. So, the relative position of each dot on the graph shows how many people it kills and how many dollars of funding are available for research. Causes with dots in the lower left have lower levels of mortality and lower levels of funding. Causes with dots in the upper right have higher mortality and higher research funding. Overall, as the mortality rate rises, the amount of research funding also rises. There are two exceptions: falls and gun violence, which are toward the middle of the group for rate of mortality but at the bottom for research funding levels. Overall, gun violence has the second lowest funding for research of the top 30 mortality causes.
 
-```{r c3intro1, echo=FALSE, fig.cap = "Reproduced figure showing Mortality Rate vs Funding from 2004 to 2015 for 30 Leading Causes of Death in the United States."}
+```{r c3intro1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap = "Reproduced figure showing Mortality Rate vs Funding from 2004 to 2015 for 30 Leading Causes of Death in the United States."}
 
 #bring in the data
 #use readxl package
@@ -55,7 +55,7 @@ fig1 <- ggplot(gunResearch, aes(x=Mortality, y=Funding/1000000000))+
         panel.grid.major.x = element_blank(), 
         panel.grid.minor.x = element_blank()) +
   labs(y = "Funding, $US Billion") + 
-  labs(x = "Mortality Rate, per 100 000 population")
+  labs(x = "Mortality Rate, per 100,000 population")
 fig1
 ```
 
@@ -144,47 +144,6 @@ ggplot(subset(fbiGunTypeLong, fbiGunTypeLong$year=='2016'),
 
 Leslie remembers another article she read recently from her friend in Moms Demand Action. It was about the role that gun manufacturers could potentially play in reducing gun violence [@RefWorks:2297]. The authors of this article argued that there is little information about how gun manufacturing is related to gun ownership or gun violence. They suggested that a better understanding of manufacturing could identify changes in manufacturing practices to increase safety and reduce injury and death. The authors used publicly available data from the Bureau of Alcohol, Tobacco, Firearms, and Explosives to examine how many guns were manufactured in the United States over a 25-year period from 1990 to 2015. The authors also examined the types of guns manufactured during this time period and the types of guns confiscated after use in crime. Kiara and Nancy work together to reproduce the graph from the article. This time it is a line graph, which is the type of graph often used to show change over time. In this case, time is on the x-axis and the number of firearms manufactured is on the y-axis. Different types of lines show different types of guns being produced over time. Although the article used the line types to differentiate, Nancy and Kiara find it difficult to tell some of the line types apart, so they add color to the graph instead of line types for easier reading. The resulting graph shows a sharp increase in gun manufacturing after 2010, with the increase mostly being in the production of pistols and rifles.
 
-```{r c3intro6, echo=FALSE, fig.cap = "Firearm types manufactured in the US from 1990 to 2015."}
-library(data.table)
-
-#bring in the data copied from Table 1 and saved as csv
-gunsManu <- fread("data/total_firearms_manufactured_US_1990to2015.csv")
-
-#recode Year to be a character variable
-gunsManu$Year <- as.character(gunsManu$Year)
-
-#make the data long instead of wide
-gunsManuLong <- melt(gunsManu, id.vars = "Year",
-                     measure.vars = c("Pistols","Revolvers","Rifles","Shotguns","Total firearms"))
-
-#rename the vars
-names(gunsManuLong) <- c("Year","gunType","numGunsManu")
-
-#plot it
-ggplot(gunsManuLong, aes(x=Year, y=numGunsManu, group=gunType, linetype=gunType)) + 
-  geom_line(size=1, ) +
-  theme_classic() +
-  scale_y_continuous(labels = scales::comma, name="Number of firearms",
-                     breaks=seq(0,11000000, by=1000000), limits=c(0,11000000)) +
-  scale_x_discrete(name="") +
-  scale_linetype_manual(values=c("longdash","twodash",
-                                 "dotted","dashed","solid"),
-                       name="") +
-  #scale_color_brewer(palette = 'Dark2', )+
-  theme(legend.position="bottom", axis.text = element_text(size = 7),
-        axis.line = element_line(color = 'gray',size=0.1),
-        axis.ticks = element_line(size=1,color='gray'),
-        axis.ticks.length = unit(-.1, "cm"),
-        axis.text.y = element_text(margin=margin(0,5,0,0,"pt")),
-        axis.text.x = element_text(margin=margin(5,0,0,0,"pt")),
-        legend.box.margin=margin(c(-20,0,0,0)),
-        axis.title=element_text(size=9)) +theme(legend.title = element_blank())
-
-
-```
-
-Although it looks like the original graph, the reproduced version is difficult to read due to the line types being unclear in the legend. Instead of trying to read this version, Kiara adds color and uses regular lines:
-
 ```{r c3intro7, echo = FALSE, fig.cap = "Firearm types manufactured in the US from 1990 to 2015."}
 #plot it
 ggplot(gunsManuLong, aes(x=Year, y=numGunsManu, group=gunType, color=gunType)) + 
@@ -206,7 +165,6 @@ ggplot(gunsManuLong, aes(x=Year, y=numGunsManu, group=gunType, color=gunType)) +
         legend.box.margin=margin(c(-20,0,0,0)),
         axis.title=element_text(size=9)) +theme(legend.title = element_blank())
 ```
-
 
 Leslie, Nancy, and Kiara discuss how these four graphs tell a story about guns in the US and may suggest policy solutions such as funding research that examines the relationship, if any, between the types and quantitites of guns manufactured and number of gun homicides by weapon type. Nancy and Kiara explain to Leslie that the graphs shown here about gun research and manufacturing demonstrate just a few of the many ways to **visualize** data. **Data visualization**, or graphing, is one of the most powerful tools an analyst has for communicating information. Three graph types were demonstrated in the reproduced graphs by Nancy and Kiara: the scatterplot, the bar graph, and the line graph. Kiara explains to Leslie that these are not the only types of graphs, but they are common types. She explains that, like descriptive statistics, there are different ways to visualize data that are appropriate for each data type. 
 
@@ -249,12 +207,11 @@ ggplot(subset(fbiGunTypeLong, fbiGunTypeLong$year=='2016'),
 
 ```
 
-Pie charts are meant to show parts of a whole. The pie, or circle, represents the whole.The slices of pie shown in different colors represent the parts. While pie charts are often seen in newspapers and other popular media, they are considered by most analysts as an unclear way to display data. A few of the reasons for this were summarized in an R-bloggers post [@PieChartsinggplot2Rbloggers-2019-05-02]:  
+Pie charts are meant to show parts of a whole. The pie, or circle, represents the whole. The slices of pie shown in different colors represent the parts. While pie charts are often seen in newspapers and other popular media, they are considered by most analysts as an unclear way to display data. A few of the reasons for this were summarized in an R-bloggers post [@PieChartsinggplot2Rbloggers-2019-05-02]:  
 
 * Pie charts are difficult to read since the relative size of pie pieces is often hard to determine 
 * Pie charts take up a lot of space to convey little information 
 * People often use fancy formatting like 3D, which takes up more space and makes understanding relative size of pie pieces even more difficult 
-
 
 In fact, if you asked 100 data scientists, "Should I make a pie graph?", they might answer:
 
@@ -285,13 +242,13 @@ ggplot(pieExample, aes(x=colorPie, y=percentPie, fill=colorPie)) +
   theme_minimal()
 ```
 
-Nancy suggests that, if a pie chart is truly the most appropriate way to communicate data (it isn't), or if you have been directed to make a pie chart, there is guidance on creating pie charts on many websites. As an alternative, Nancy tells Leslie they will review how to make a waffle graph as a better way to show parts of a whole.
+Nancy suggests that, if a pie chart is truly the most appropriate way to communicate data (it isn't), or if you have been directed to make a pie chart, there is guidance on creating pie charts on many websites. As an alternative, Nancy tells Leslie they will review how to make a waffle graph as a better way to show parts of a whole. But first, the R-Team starts with bar graphs.
 
 ### Bar graphs
 
 One thing that might be useful to know in better understanding guns in the US is the rate of gun use. Although publicly available data on gun use are rare because of the Dickey Amendment, Nancy knows of a few persistent researchers who have found ways to collect gun-related data.
 
-One example she is aware of is a set of questions in the nationally representative **National Health and Nutrition Examination Survey**, or NHANES. Several administrations of the NHANES survey asked about gun use in the *audiology* section concerned with how loud noise may influence hearing loss. The most recent year of NHANES data available with a gun use question was 2011-2012 [@NHANES20112012]. Kiara has downloaded the data as a **csv** file and saved it. She uses `read.csv()` to import the data and notices that it has 82 variables, which is a lot for the `summary()` command. She checks that the import worked by using the `head()`. Download the data from edge.sagepub.com/harris1e to follow along or try downloading directly from the internet by following the instructions in Box \@ref(ch3nancy). 
+One example she is aware of is a set of questions in the nationally representative **National Health and Nutrition Examination Survey**, or NHANES. Several administrations of the NHANES survey asked about gun use in the *audiology* section concerned with how loud noise may influence hearing loss. The most recent year of NHANES data available with a gun use question was 2011-2012 [@NHANES20112012]. Kiara has downloaded the data as a **.csv** file and saved it. She uses `read.csv()` to import the data and notices that it has 81 variables, which is a lot for the `summary()` command. She checks that the import worked by using the `head()`. Download the data from edge.sagepub.com/harris1e to follow along or try downloading directly from the internet by following the instructions in Box \@ref(ch3nancy). 
 
 ```{r c3main4}
 # import the data 
@@ -341,7 +298,7 @@ nhanes.2012.clean <- nhanes.2012 %>%
 summary(object = nhanes.2012.clean$gun.use)
 ```
 
-Kiara starts by showing Leslie the `ggplot()` command from the <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> package to create a bar plot of gun use. The <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> package uses the *Grammar of Graphics*, which is what the *gg* stands for. Kiara reminds Leslie that graphs build with `ggplot()` are built in layers. The first layer starts with `ggplot()` and `aes()` or *aesthetics*, which contains the basic information about which variables are included in the graph and whether each variable should be represented on the x-axis, the y-axis, as a color, as a line type, or something else. The next layer typically gives the graph type, or graph **geometry**, in the grammar of graphics language, and starts with `geom_` followed by one of the available types. In this case, Leslie is looking for a bar graph, so the `geom_bar()` is the geometry for this graph. Leslie remembers that `geom_bar()` is a layer of the plot and so is added with a `+` instead of a `%>%`. Leslie types: 
+Kiara starts by showing Leslie the `ggplot()` command from the <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> package to create a bar plot of gun use. The <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> package uses the *Grammar of Graphics*, which is what the *gg* stands for. Kiara reminds Leslie that graphs build with `ggplot()` are built in layers. The first layer starts with `ggplot()` and `aes()` or **aesthetics**, which contains the basic information about how the graph should look such as: which variables are included in the graph and whether each variable should be represented on the x-axis, the y-axis, as a color, as a line type, or something else. The next layer typically gives the graph type, or graph **geometry**, in the grammar of graphics language, and starts with `geom_` followed by one of the available types (in geometry we study shapes -- what shape do you want to use on your graph?). In this case, Leslie is looking for a bar graph, so the `geom_bar()` is the geometry for this graph. Leslie remembers that `geom_bar()` is a layer of the plot and so is added with a `+` instead of a `%>%`. Leslie types: 
 
 ```{r c3main7, fig.cap="Gun use by NHANES 2011-2012 participants."}
 # plot gun use in US 2011-2012
@@ -352,7 +309,7 @@ nhanes.2012.clean %>%
 
 Leslie is always surprised at how quickly she can make a graph in R. While it needs a lot of work on the format, this is already a good start. Leslie makes a list of the things she wants to change about this initial graph:
 
-* Remove the NA bar from the graph 
+* Remove the `NA` bar from the graph 
 * Change the labels on the axes to provide more information
 * Use a theme that does not use so much ink 
 
@@ -361,7 +318,7 @@ Leslie also thinks she would like to:
 * Make each bar a different color 
 * Show percents instead of counts on the y-axis 
 
-Kiara thinks all of those things are do-able, although the percent on the y-axis is a little tricky. She starts with removing the NA bar using `drop_na()` for the gun.use variable before building the plot with `ggplot()`. Then she adds a custom labels layer with the `labs(x = , y = )` option to add better labels on the two axes.
+Kiara thinks all of those things are do-able, although the percent on the y-axis is a little tricky. She starts with removing the `NA` bar using `drop_na()` for the `gun.use` variable before building the plot with `ggplot()`. Then she adds a custom labels layer with the `labs(x = , y = )` option to add better labels on the two axes.
 
 ```{r c3main8, fig.cap = "Gun use among 2011-2012 NHANES participants."}
 # omit NA category from gun.use plot and add axis labels
@@ -372,7 +329,9 @@ nhanes.2012.clean %>%
   labs(x = "Gun use", y = "Number of participants")
 ```
 
-Before tackling the percent issue, Leslie works on the color. She remembers to add `fill = gun.use` to the aesthetics in `aes()` but has to go back to her earlier code to find how to assign colors and delete the legend. She finds `scale_fill_manual(values = c("#78A678", '#7463AC'), guide = FALSE)` from the code used to make Figure \@ref(fig:c1main55) from the data preparation chapter and decides to use the same colors. Kiara reminds her that `theme_minimal()` will change the look of the graph so it is cleaner and uses less ink to print. Leslie adds in these options: 
+Before tackling the percent issue, Leslie works on the color. She remembers to add `fill = gun.use` to the aesthetics in `aes()`, but Kiara elaborates on the `aes()`. She says that if you want to change the way the graph looks *based on the data*, that change should be contained within the `aes()`. For example, Leslie wants the colors of the bars to be different *depending on category* which comes from the data set. Therefore, `fill = gun.use` should be within the `aes()` like this: `aes(x = gun.use, fill = gun.use)`. However, if Leslie just wanted to make the bars a color that she likes, like purple, Kiara explains that since this is *not* based on the data set, Leslie should put the `fill = gun.use` *outside* the `aes()` like this: `aes(x = gun.use), fill = "purple"`.
+
+Leslie understands, but now can't remember how to manually change the colors of each bar. She goes back to her earlier code to find how to assign colors and delete the legend. She finds `scale_fill_manual(values = c("#78A678", '#7463AC'), guide = FALSE)` from the code used to make Figure \@ref(fig:c1main55) from the data preparation chapter and decides to use the same colors. Kiara reminds her that `theme_minimal()` will change the look of the graph so it is cleaner and uses less ink to print. Leslie adds in these options: 
 
 ```{r c3main9, fig.cap="Gun use among 2011-2012 NHANES participants."}
 # fill bars and add theme
@@ -422,7 +381,7 @@ The expanded y-axis does make some difference in the look of the graph, but the 
 
 Waffle charts are similar to pie charts in showing the parts of a whole. However, Nancy explained, the structure of a waffle chart visually shows the relative contributions of categories to the whole waffle more clearly. While pie may arguably be more delicious in real life, for reporting parts of a whole, *waffles > pie*.  
 
-Kiara suggests making a graph of the *AUQ310* variable in the NHANES data set since it has more than two categories and so may be more interesting to view. *AUQ310* is the response to the question "How many total rounds have you ever fired?" for gun users who indicated they had used a gun. The audiology data codebook on the NHANES website [@NHANES20112012codebook] shows eight categories for AUQ310:
+Kiara suggests making a graph of the `AUQ310` variable in the `nhanes.2012` data set since it has more than two categories and so may be more interesting to view. `AUQ310` is the response to the question "How many total rounds have you ever fired?" for individuals who indicated they had used a gun. The audiology data codebook on the NHANES website [@NHANES20112012codebook] shows eight categories for `AUQ310`:
 
 * 1 = 1 to less than 100 rounds 
 * 2 = 100 to less than 1000 rounds 
@@ -433,7 +392,7 @@ Kiara suggests making a graph of the *AUQ310* variable in the NHANES data set si
 * 9 = Don't know 
 * . = Missing
 
-Leslie adds on to the existing data mangement code to add labels and change the AUQ310 variable to a factor. 
+Leslie adds on to the existing data mangement code to add labels and change the `AUQ310` variable to a factor. 
 
 ```{r}
 # recode gun use variable
@@ -459,7 +418,7 @@ summary(object = nhanes.2012.clean$fired)
 
 Now it is time to make the graph. Unfortunately, Nancy explains, there is no built-in `geom_waffle()` option for `ggplot()`, so they will use the <span style="font-family:Lucida Console, monospace;font-weight:bold">waffle</span> package instead. Leslie installs the package and reviews the documentation [@waffle].
 
-The first argument for the `waffle()` is a table or vector of **summary statistics** used to make the waffle squares. That is, the data used by `waffle()` is not the **individual level** data with one observation per row. Instead it is a frequency table or a vector of frequencies that shows how many observations are in each category. The `table()` code works well for use with `waffle()`.
+The first argument for the `waffle()` is a table or vector of **summary statistics** used to make the waffle squares. That is, the data used by `waffle()` is not the *individual level* data with one observation per row. Instead it is a frequency table or a vector of frequencies that shows how many observations are in each category. The `table()` code works well for use with `waffle()`.
 
 By default, `waffle()` makes one square per observation. There are more than 1,000 observations in this data frame, which seems like a lot of squares! Nancy suggests making each square represent 25 people. Finally, the last argument for `waffle()` is the number of rows of squares. Leslie suggests they start with 5 rows and see what happens. 
 
@@ -475,9 +434,9 @@ rounds <- table(nhanes.2012.clean$fired)
 waffle(parts = rounds / 25, rows = 5)
 ```
 
-It seems clear from this waffle that the **1 to less than 100** category is the biggest. 
+It seems clear from this waffle that the *1 to less than 100* category is the biggest. 
 
-Nancy suggests that color could be used to make a point about the size of a certain category. For example, if a goal were to examine people who own firearms but are less experienced in using firearms, highlighting the low use group in a bright color might be useful. Color is added by using a `colors = ` option and listing the colors in a vector. Leslie adds the RGB code for the purple color she has been using and then finds some different shades of gray to include:
+Nancy suggests that color could be used to make a point about the size of a certain category. For example, if a goal were to examine people who own firearms but are less experienced in using firearms, highlighting the low use group in a bright color might be useful. Color is added by using a `colors = ` option and listing the colors in a vector. Leslie adds the hexidecimal (hex) code for the purple color she has been using and then finds some different shades of gray to include:
 
 ```{r fig.cap="Rounds shot by 1,613 gun users, NHANES 2011-12. One square represents 25 people."}
 # change the colors
@@ -486,21 +445,21 @@ waffle(parts = rounds / 25, rows = 5,
                   "black","gray60","gray40"))
 ```
 
-The bright color for the **1 to less than 100** category makes the waffle chart more clear. The two recommended graphs for displaying a single **categorical** or **factor** type variable are *(1) bar graph*, and *(2) waffle graph*. The bar graph is useful for showing relative group sizes. The waffle graph is an alternative to a pie chart and is best when demonstrating parts of a whole. **Pie charts** are available in R but are not recommended because they tend to be less clear for comparing group sizes. 
+The bright color for the *1 to less than 100* category makes the waffle chart more clear. The two recommended graphs for displaying a single categorical or factor type variable are *(1) bar graph*, and *(2) waffle graph*. The bar graph is useful for showing relative group sizes. The waffle graph is an alternative to a pie chart and is best when demonstrating parts of a whole. As mentioned earlier, *pie charts* are available in R but are not recommended because they tend to be less clear for comparing group sizes. 
 
-### Achievement 1: Check your understanding
+### Unlock achievement 1: Check your understanding
 
-Create a bar graph and a waffle chart for the gender variable (RIAGENDR) from the NHANES 2012 data set. Examine the codebook for coding hints and clean up the data first! 
+Create a bar graph and a waffle chart for the gender variable (`RIAGENDR`) from the NHANES 2012 data set. Examine the codebook for coding hints and clean up the data first! 
 
 ## Achievement 2: Graphs for a single continuous variable
 
-After making it through the options for graphing a single categorical variable, Leslie wants to learn which graphs are appropriate for graphing a single continuous variable. Four commonly used options are histograms, density plots, boxplots, and violin plots. Histograms and density plots are very similar to each other and show the overall shape of the data. These two types of graphs are especially useful in  determining whether a variable has a **normal distribution** or not (see Figure \@ref(fig:c2main35)). Boxplots tend to show the central tendency and spread of the data, which are another way to determine the extent to which a variable is skewed.
+After making it through the options for graphing a single categorical variable, Leslie wants to learn which graphs are appropriate for graphing a single continuous variable. Four commonly used options are **histograms**, **density plots**, **boxplots**, and **violin plots**. Histograms and density plots are very similar to each other and show the overall shape of the data. These two types of graphs are especially useful in  determining whether a variable has a **normal distribution** or not (see Figure \@ref(fig:c2main35)). Boxplots tend to show the central tendency and spread of the data, which are another way to determine the extent to which a variable is skewed. Violin plots are like a combination of boxplots and density plots, and tend to resemble `r emo::ji("violin")``r emo::ji("violin")`.
 
-Kiara notes that the gun research data includes a measure of the amount of research funding devoted to the different causes of death. While funding cannot take *any* value on a continuum--it does not fall below zero--it does fall along a continuum and would be best examined as a continuous variable using a **histogram**, **density plot**, or **boxplot**. She helps Leslie with the coding needed to create each type of graph.
+Kiara notes that the gun research data includes a measure of the amount of research funding devoted to the different causes of death. While funding cannot take *any* value on a continuum--it does not fall below zero--it does fall along a continuum and would be best examined as a continuous variable using a **histogram**, **density plot**, **boxplot**, or **violin plot**. She helps Leslie with the coding needed to create each type of graph.
 
 ### Histograms
 
-Kiara explains that histograms can be developed in **ggplot2**. The data for this example is available at edge.sagepub.com/harris1e.
+Kiara explains that all four of these plots can be made using different "shapes" or `geom`s in the `ggplot2` package. The data for this example is available at edge.sagepub.com/harris1e.
 
 ```{r fig.cap="Research funding for top 30 mortality causes in the US."}
 # bring in the data
@@ -511,18 +470,20 @@ summary(object = gun.research)
 
 ```
 
-```{r}
-# make a histogram of funding
+```{r message = FALSE, warning = FALSE}
+# make a histogram of funding and store it as the object "histo.funding"
 histo.funding <- gun.research %>%
   ggplot(aes(x = Funding)) +
   geom_histogram()
+
 histo.funding
 ```
 
 
-The histogram shows frequency on the y-axis and mortality rate on the x-axis. Leslie notices that the x-axis is shown using scientific notation. While she is familiar with scientific notation, which is useful for printing large numbers in small spaces, she knows it is not well-understood by most audiences (see Box \@ref(ch3leslie)). Kiara suggests changing the axis to show numbers that can be more easily interpreted; this can be done in several ways. One strategy is to convert the numbers from *dollars* to *billions of dollars* by dividing the Funding variable by 1,000,000,000. To plot a histogram in <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span>, use the `geom_histogram()` layer.
+The histogram shows frequency on the y-axis and mortality rate on the x-axis.
+Leslie notices that the x-axis is shown using scientific notation. While she is familiar with scientific notation, which is useful for printing large numbers in small spaces, she knows it is not well-understood by most audiences (see Box \@ref(ch3leslie)). Kiara suggests changing the axis to show numbers that can be more easily interpreted; this can be done in several ways. One strategy is to convert the numbers from *dollars* to *billions of dollars* by dividing the Funding variable by 1,000,000,000. To plot a histogram in <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span>, use the `geom_histogram()` layer.
 
-```{r fig.cap="Research funding in billions for top 30 mortality causes in the US."}
+```{r, message = FALSE, warning = FALSE, fig.cap="Research funding in billions for top 30 mortality causes in the US."}
 # make a histogram of funding
 histo.funding <- gun.research %>%
   ggplot(aes(x = Funding/1000000000)) +
@@ -569,7 +530,7 @@ histo.funding
   
 ```
 
-This looks good to Leslie so she asks Kiara and Nancy if they have any suggestions for other formatting that might make the graph more easy to interpret. Kiara says she likes to add thin borders around the bins and fill the bins with white, similar to the plots in the last chapter (e.g., Figure \@ref(fig:c2main44)). Leslie ask her how to do this and Kiara says that `geom_histogram()` can take arguments for `fill =`, which takes a color to fill each bin, and `color =`, which takes a color for the border of each bin. Leslie adds these arguments to `geom_histogram()`.
+This looks good to Leslie so she asks Kiara and Nancy if they have any suggestions for other formatting that might make the graph more easy to interpret. Kiara says she likes to add thin borders around the bins and fill the bins with white, similar to the plots in the last chapter (e.g., Figure \@ref(fig:c2main44)). Leslie ask her how to do this and Kiara says that `geom_histogram()` can take arguments for `fill =`, which takes a color to fill each bin, and `color =`, which takes a color for the border of each bin. Leslie ultimately decides that since she is adding a `color` and `fill` based on what she wants, and not based on the dataset, she adds these arguments to `geom_histogram()` *without* also putting them within an `aes()`.
 
 ```{r c3main12, fig.cap="Research funding for top 30 mortality causes in the US."}
 # make a histogram of funding
@@ -584,11 +545,11 @@ histo.funding
   
 ```
 
-The team is happy with this final plot. Before moving on to density plots, they pause for a minute to discuss the shape of the distribution. Leslie notes that it is right skewed and would therefore be best described using the median rather than the mean as they discussed in Section \@ref(defining-and-calculating-central-tendency). She also thinks that the IQR would probably be better than the range for reporting spread given how wide the range is (Section \@ref(spread-to-report-with-the-median)). Nancy and Kiara agree with this assessment and the team decides to move on to **density plots**.
+The team is happy with this final plot. Before moving on to density plots, they pause for a minute to discuss the shape of the distribution. Leslie notes that it is right skewed and would therefore be best described using the median rather than the mean as they discussed in Section \@ref(defining-and-calculating-central-tendency). She also thinks that the IQR would probably be better than the range for reporting spread given how wide the range is (Section \@ref(spread-to-report-with-the-median)). Nancy and Kiara agree with this assessment and the team decides to move on to density plots.
 
 ### Density plots
 
-A **density plot** is similar to a histogram but more fluid in appearance because it does not have the separate **bins**. Density plots can be created in <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> with a `geom_density()` layer. Leslie takes the code from the histogram and replaces the `geom_histogram()` layer to see if that would work. Before she runs the code, Nancy stops her to let her know that the y-axis is a different measure for this type of plot. Instead of frequency it is the probability density. The probability density is not too useful for interpreting what is happening at any given value of the variable on the x-axis, but it is useful in computing the percent of values that are within any given range along the x-axis. 
+A **density plot** is similar to a histogram but more fluid in appearance because it does not have the separate bins. Density plots can be created in <span style="font-family:Lucida Console, monospace;font-weight:bold">ggplot2</span> with a `geom_density()` layer. Leslie takes the code from the histogram and replaces the `geom_histogram()` layer to see if that would work. Before she runs the code, Nancy stops her to let her know that the y-axis is a different measure for this type of plot. Instead of frequency, it is the probability density. The probability density is not too useful for interpreting what is happening at any given value of the variable on the x-axis, but it is useful in computing the percent of values that are within any given range along the x-axis. 
 
 Leslie is confused by this interpretation. Nancy clarifies that the area under the curve adds up to 100 percent of the data and the height of the curve is determined by the distribution of the data and by scaling so that the area will be 100 percent (or 1). Leslie removes the `ylab =` option and leaves the y-axis as showing the density.
 
@@ -604,7 +565,7 @@ dens.funding
 
 Kiara tries to clarify some more. She tells Leslie that the **area under the curve** in a density plot could be interpreted as the probability of a single observation or a range of observations. Probabilities are most useful when we have a **sample** taken from a **population** where a sample is a subgroup selected from a larger group. In this case we have all the top 30 mortality causes, so it is not a sample. The use of density plots to demonstrate probability will be covered in a later chapter with other probability concepts. 
 
-Leslie is not happy with the way the density plot looks. She adds some color in order to be able to see the shape a little more. Nancy suggests trying a few values of `bw = ` within the `geom_density()`, noting that bw usually takes much smaller values than bin. The 'bw" stands for bandwidth in a density plot, which is similar to the bin width in a histogram. Leslie plays with the bandwidth and some color:
+Leslie is not happy with the way the density plot looks. She adds some color in order to be able to see the shape a little more. Nancy suggests trying a few values of `bw = ` within the `geom_density()`, noting that bw usually takes much smaller values than bin. The `bw` stands for bandwidth in a density plot, which is similar to the bin width in a histogram. Leslie plays with the bandwidth and some color:
 
 ```{r fig.cap="Research funding for top 30 mortality causes in the US."}
 # density plot of research funding
@@ -632,7 +593,7 @@ It seems like the higher the value used as a bandwith in `bw =`, the smoother th
 
 ### Boxplots
 
-Nancy explains that histograms and density plots are great was to examine the overall shape of the data for a continuous variable, but the boxplot and the violin plot are useful for identifying the middle value and the boundaries around the middle half of the data. Typically, boxplots consist of several parts:
+Nancy explains that histograms and density plots are great was to examine the overall shape of the data for a continuous variable, but boxplots and violin plots are useful for identifying the middle value and the boundaries around the middle half of the data. Typically, boxplots consist of several parts:
 
 (1) A line representing the median value, 
 (2) A box containing the middle 50% of values, 
@@ -664,9 +625,27 @@ box.funding <- gun.research %>%
 box.funding
 ```
 
-She can then see the median funding level was about 2 billion based on where the think black line in the middle of the box is. Based on the boundaries of the box, she also determines that the middle half of the data appears to be between 1 and 5 billion dollars. 
+She can now see the median funding level was about 2 billion based on where the think black line in the middle of the box is. Based on the boundaries of the box, she also determines that the middle half of the data appears to be between 1 and 5 billion dollars. 
 
 Nancy points out that the right skew shown in the histogram and density plot can also be seen in this graph, with the long whisker to the right of the box and the outliers on the far right. The left whisker coming from the box and the right whisker coming from the box both extend to 1.5 times the value of the IQR away from the median (the box ends at 1 IQR from the median). The team agrees that each of the three graphs has strengths and weaknesses in revealing how the values of a numeric variable are distributed.
+
+### Violin Plots
+
+As Nancy mentioned earlier, violin plots (`r emo::ji("violin")`) are very similar to boxplots. The primary difference is that they also show the probability density (like a density plot!) that is rotated on it's side. Leslie is eager to get going.
+
+```{r violin}
+violin.funding <- gun.research %>%
+  ggplot(aes(y = Funding/1000000000)) +
+  geom_violin() + 
+  theme_minimal() +
+  labs(y = "Research funding for 2004-2015 (billions of dollars)") 
+violin.funding
+
+
+```
+
+
+
 
 Nancy suggests they plot the histogram and boxplot together in order to see the similarities and differences between the two. Kiara has just the thing for that, the `grid.arrange()` command in the <span style="font-family:Lucida Console, monospace;font-weight:bold">gridExtra</span> package allows multiple graphs to be printed together. Leslie gives it a try, using the option `nrow = 3` to display one graph per row rather than side-by-side in columns.
 
