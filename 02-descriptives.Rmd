@@ -38,7 +38,7 @@ In 2014, 19 states and Guam included a question about transgender transition sta
 
 Leslie shared the first table of statistics from the study with Kiara and Nancy:
 
-```{r c2intro1, echo=FALSE}
+```{r c2intro1, echo=FALSE, warning=FALSE,message=FALSE}
 library("knitr")
 library("kableExtra")
 library("tidyverse")
@@ -1437,59 +1437,111 @@ Perfect! However, there are six more variables in the table. Nancy explains they
 ( table.perc <- rbind(trans.perc, race.perc) )
 ```
 
-#### Using a function for repeated commands 
+#### Repeating commands with
 
-Leslie notes that `rbind()` works great to create a data frame with each category and the percent in that category. However, with seven variables to work with, Nancy suggests that they be more efficient by using a **function**. 
+Leslie notes that `rbind()` works great to create a data frame with each category and the percent in that category. However, with seven variables to work with, Nancy suggests that they be more efficient by using a **for loop**. Nancy explains that for loops are a fundamental aspect of computer programming, and you can find them in all programming languages -- not just R! They are a general purpose way of doing the same thing multiple times, or doing something **iteratively**. A for loop can be read as "for each item in (things you want to iterate over), do something". This seems a little abstract to Leslie, so nancy suggests showing the basic format and a very basic example. 
 
-Nancy shows Leslie that she can put the commands used to get the percents into a function with the name of the object being replaced by `x`. She reminds Leslie that function names are in camel case:
+```{r c2main68a, eval=FALSE}
+# basic format of a for loop
+for (i in 1:some number) {
+   do something
+}
+```
 
-```{r c2main68}
-# finding percents and rounding to one decimal place
-# putting all percents in one column with cbind
-tableFun <- function(x){
-    data.frame(round(x = prop.table(x = table(x))*100, 1))
+Nancy breaks this down for Leslie:
+
+* The `1:some number` bit contains the elements you want to iterate over. Here, we want to perform the same function for the 7 variables from our `brfss.2014.small` data.frame. So we could write `1:7`. However, sometimes you don't know how many iterations to do. For example, if you knew you wanted to do the same thing for each row, but you don't know off the top of your head how many rows there are, you could do `1:nrow(data.frame)`. 
+
+* The `i` stands for "each" and is the same type of `i` seen in equations. The top line then reads: "For each item/element in 1 through some number".
+
+* The curly brackets **`{ }`** indicate that you are now in the body of the for loop. Whatever it is you want done a lot of times, you put that in here. 
+
+* Although not shown here, most of the time we want to store the output. For this, you simply need to make an *empty* object that will ultimately store the output. This is called *initializing*. 
+
+Nancy thinks it's time to go through a basic example:
+
+```{r}
+# basic example of a for loop
+squaredNumbers <- NULL # initialize an empty vector that will contain the output
+
+for (i in 1:10) { 
+  squaredNumbers[i] <- i^2 # body of the for loop
 }
 
+#print out the result
+print(squaredNumbers)
 ```
 
-This creates a function called `tableFun` to apply the commands from above to more than one variable at a time. The commands to be applied are inside the curly brackets **`{ }`**. To use the function on a single variable, Nancy shows Leslie she can just type the function name with the name of the variable in parentheses, like this:
+Leslie tries to verbalizes what just happened: 
 
-```{r c2main69}
-# using the tableFun function for the transgender variable
-tableFun(x = brfss.2014.small$TRNSGNDR)
+>First, make an empty vectory called `squaredNumbers`. For each item in numbers 1 though 10, take that number or `i` and square it (`i^2`). Whatever that is, store it in the `squaredNumbers` vector.
+
+Nancy and Kiara are again impressed, but Leslie has one question. Why is there a `[i]` next to `squaredNumbers`? Great question! Nancy reminds Leslie that `i` is the element. So on the first iteration, `i=1`. The `squaredNumbers[i]` bit is saying to store the result of the 1st iteration in the in the 1st location of `squaredNumbers`. On the 7th iteration, `i=7`, so we want to make sure we're storing that result in the 7th location of the output `squaredNumbers`. Leslie thinks she understands, but wants to practice on the actual data set at hand. She is reminded that the goal is to get a data frame that contains percent per category of all 7 factors in the `brfss.2014.small` data set. Put differently "for each variable (or column) in `brfss.2014.small`, get the percents via the `prop.table` function, and then combine the results into a single data.frame." Nancy begins to write the for loop. 
+
+```{r}
+# initialize an empty data.frame
+table.data <- data.frame()
+
+for (i in 1:ncol(brfss.2014.small)) {
+  # first, get the table
+  table.each <-
+    data.frame(round(x = prop.table(x = table(brfss.2014.small[, i])) * 100, 1))
+  
+  # combine this with the table.data via rbind
+  table.data <- rbind(table.data, table.each)
+}
+
+table.data
 ```
 
-#### Using the `apply` family 
+This is really close to ready! But there are still a couple details to work out. First, it's hard to tell which variable (here, which iteration), each row belongs to. Nancy suggests that they redo the for loop, this time including the iteration (here, the variable/column name) as it's own column in the output `table.data`. Also, Leslie remembers that the `brfss.2014.small` data frame includes the `PHYSHLTH` variable, which is not in the table they are trying to recreate, but it is currently in this table. Leslie notes that `PHYSHLTH` is the last column. Nancy gets to work!
 
-However, says Nancy, it is a little more complicated to use the function on all the variables in the `brfss.2014.small` data set at one time. First, use the `lapply()` command. The `lapply()` command is used to apply a function to each item in a list. In this case, use `lapply()` to apply the TableFun function to each variable in the `brfss.2014.small` data frame. Nancy reminds Leslie that data frames are a special type of list where each variable is an element of the list.
+```{r}
+# initialize an empty data.frame
+table.data <- data.frame()
 
-Nancy goes on to explain that using `lapply()` to apply the `tableFun` function to the `brfss.2014.small` data frame will result in a list of tables of percentages, one table for each variable in the data frame. Once this list of tables is ready, she says, combine the tables using `rbind()` to merge objects by rows. Because there are seven tables to merge together, use the `do.call()` command to apply the `rbind()` function to each item in the list. The `do.call()` command acts like a loop, conducting the specified analyses for each element in the object, then starting over on the next element. So, Nancy summarizes, the `tableFun` function is applied to each item in the `brfss.2014.small` list and then the `do.call()` command puts the resulting tables together using `rbind()` by going through and adding each table to the others one at a time.
+for (i in 1:(ncol(brfss.2014.small)-1)) {
+  # first, get the table
+  table.each <-
+    data.frame(round(x = prop.table(x = table(brfss.2014.small[, i])) * 100, 1))
+  
+  # store the column name of that iteration for labels
+  c.name <- colnames(brfss.2014.small[i])
+  
+  # make a new data.frame that just contains the labels
+  label.names <- data.frame(Variable = rep(c.name, times = nrow(table.each)))
+  
+  # combine the label.names data frame and table.each data.fram via columns
+  table.each.labelled <- cbind(label.names, table.each)
+  
+  # combine this with the table.data via rbind
+  table.data <- rbind(table.data, table.each.labelled)
+}
 
-Nancy explains that this results in a new data frame containing each of the categories for each variable and the percent of survey participants in the category. Leslie remembers that the `brfss.2014.small` data frame includes the `PHYSHLTH` variable, which is not in the table. To exclude the `PHYSHLTH` variable from the calculations, take a subset of the variables by using the square brackets and subtracting the column where the variable is stored from the data frame. Leslie opens the data frame by clicking on it once in the Environment and counts to see that the `PHYSHLTH` variable is in column 7. They add -7 to the code to remove this column.
-
-```{r c2main70}
-# use lapply to apply the tableFun function to 
-# all the variables in the data frame
-# use the do.call command to call the rbind function
-# to combine the list items into rows
-( table.data <- do.call(rbind, (lapply(X = brfss.2014.small[ , -7], FUN = tableFun))) )
+table.data
 ```
 
-Once the `table.data` data frame is created, Leslie sees that it has more categories listed than what appeared in the published version. She uses subsetting to remove the *No* category from the healthcare variable since it was not in the table. 
+Leslie thinks this is perfect, although Kiara asks her to take a closer look at the newly created `table.data` and the original published table because there is one slight difference. Leslie finds what Kiara was hinting at -- the original table does not include the *No* category from the healthcare variable. Leslie thinks this is no problem and goes about subsetting the `table.data` to grab the first 26 rows (or not the last row) and all of the columns. Leslie also labels the columns of the data frame to be consistent with the table columns.
 
-After looking at the `table.data` object, Leslie notes that there are 27 observations (or rows) of 2 variables. The last row is the the *No* category for healthcare. She removes the last row by subsetting the data frame so it includes just rows 1 through 26.
+```{r}
+table.data <- table.data[c(1:26),]
 
-Finally, Leslie labels the columns of the data frame to be consistent with the table columns.
+colnames(table.data) <- c("Variable",
+                          "Survey participant demographics",
+                          "Percent")
 
-```{r c2main71}
-#remove Healthcare No category 
-table.data <- data.frame(table.data[c(1:26), ])
-
-#label the columns
-colnames(x = table.data) <- c("Survey participant demographics","Percent")
+table.data
 ```
 
-Nancy reassures her that all of the commands used here will be used and explained multiple times throughout the text, so if Do not worry if `rbind()` or `do.call()` or anything else is not yet 100% clear, there will be additional opportunities to use these and all the other commands. Nancy suggests copying and pasting any new commands Leslie is trying to use and changing little things to see what the result is. In this way the purpose of each little piece of the code might become more familiar. Nancy also suggests that the help documentation and Google can be useful for finding examples of code in the early stages of learning R. 
+Perfect! Leslie recognizes the importance of for loops -- it's much easier than copying/pasting the same code over and over again! Nancy tells Leslie that while for loops can be done in R and in most other programming languages, there are also some R-specific functions that act as for loops. She mentions the `apply` family of functions, and tells Leslie she can read more about it at Nancy's Fancy Code (**insert link to Nancy's fancy code**). 
+
+Before moving on to formatting tables, Nancy wants to mention one other thing. She explains that if Leslie thinks that the same bit of code would be useful across many different analyses, she might consider making a custom **function**. The R-Team has been using functions, or commands, all along! They are the "verbs" of the programming language and perform actions. For example, `mutate()` is a function that comes from the `dplyr` package. There are three parts of a function: a unique name (well, mostly unique -- see the "namespace" issue from Chapter 1), input arguments, and an output. So the function name is `mutate()`, the input arguments are the data to be transformed and how they should be transformed, and the output is the newly transformed data set that can be stored as it's own object. One of the reasons R is so powerful, Nancy explains, is that lots of really talented people have already made lots of functions, and bundled them into packages. However, if you write a piece of code that you think you will use often, you can make your own custom function. It works the same way as it does for functions that come from a package. So, if you think you there might be cases in the future where you'll want to make this kind of table, even if it's on a totally different data set and for a totally different project, you can write a custom function so you don't need to re-type the same bit of code over and over again. 
+
+Leslie is really excited but also overwhelmed by this idea, and the caffeine is starting to fade. Rather than trying to power through it, Nancy suggests Leslie check out **Nancy's Fancy Code**, along with searching various internet forums for more on making custom functions. 
+
+Leslie still seems a bit uneasy on how she's going to remember everything she's learned. Nancy reassures her that all of the commands used here will be used and explained multiple times throughout the text, so not to worry if everything is not yet 100% clear as there will be additional opportunities to use these and all the other commands. Nancy suggests copying and pasting any new commands Leslie is trying to use and changing little things to see how the results change. In this way the purpose of each little piece of the code might become more familiar. Nancy also suggests that the help documentation and Google can be useful for finding examples of code in the early stages of learning R. 
+
+##### Formatting tables with `kable()`
 
 Finally, with a clean data frame containing all the information for the table, Nancy shows Leslie how to use the *pipe* structure to send the data frame to `kable()` for formatting. The pipe, or `%>%` allows sending existing objects into function without creating new objects and saving them to the environment. Two packages are used in creating well-formatted kable tables, <span style="font-family:Lucida Console, monospace;font-weight:bold">knitr</span> and <span style="font-family:Lucida Console, monospace;font-weight:bold">kableExtra</span>. The <span style="font-family:Lucida Console, monospace;font-weight:bold">knitr</span> package is used to get the basic table while the <span style="font-family:Lucida Console, monospace;font-weight:bold">kableExtra</span> package is used for some of the formatting options like adding sections.
 
@@ -1510,13 +1562,12 @@ table.data %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)") 
 ```
 
-Well, it's a start, says Leslie. She then tries removing the row names:
+Well, it's a start, says Leslie. She then tries removing the column `Variable` using subsetting:
 
 ```{r c2main74}
-# send the table.data without row names
-table.data %>% 
-  kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
-      row.names = FALSE) 
+# make a table with the table.data, but use only columns 2 & 3
+table.data[,2:3] %>% 
+  kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)") 
 ```
 
 For the final formatting, Nancy shows Leslie how to add labels by using the pipe structure. For each variable use the `group_rows()` argument with the name of the variable and the rows the variable categories are in. For example, rows 1 to 3 are the transition status, so the first `group_rows()` argument shows: `group_rows("Transition status (n=220)", 1, 3)`.
@@ -1525,8 +1576,9 @@ Unfortunately, `group_rows()` is one of those commands that is in more than one 
 
 
 ```{r c2main75, echo=FALSE}
-# send the table.data and add better row names 
-table.data %>%
+# make the table with table.data (after subsetting) and make better
+# row names. Note that this is a slightly differentw way of subsetting
+table.data[,-1] %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
         row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 
@@ -1540,8 +1592,11 @@ table.data %>%
 
 
 ```{r c2main76, eval=FALSE}
-# send the table.data and add better row names 
-table.data %>%
+# make the table with table.data (after subsetting) and make better
+# row names.
+# Note this slightly different way of subsetting - lots of ways to do the same
+# thing in R!
+table.data[,-1] %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
       row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 
@@ -1558,36 +1613,62 @@ table.data %>%
              start_row = 26, end_row = 26) 
 ```
 
-Now that she has the manuscript table reproduced, Leslie is interested in making the bigger table with frequencies, and the median and IQR of `PHYSHLTH.` The first step, says Nancy, is to create a function (or expand TableFun) to compute both frequencies and percentages. The `table()` command computes frequencies, so add the table command to TableFun and rename it something logical like *tableFreqPerc*:
+Now that she has the manuscript table reproduced, Leslie is interested in making the bigger table with frequencies. The first step, says Nancy, is to modify the for loop to compute both frequencies and percentages. The `table()` command computes frequencies. If stored as a data frame object, then you can combine the frequencies to the percentages table in a column-wise fashion using `cbind()`.
 
 ```{r c2main77}
-# revise the tableFun function to compute both
+# revise the for loop to compute both
 # frequencies and percentages
-tableFreqPerc<- function(x){
-    data.frame(table(x), round(x = prop.table(x = table(x))*100, 1))
+
+# initialize an empty data.frame
+table.data <- data.frame()
+
+for (i in 1:(ncol(brfss.2014.small)-1)) {
+  # first, get the table with precents
+  table.each <-
+    data.frame(round(x = prop.table(x = table(brfss.2014.small[, i])) * 100, 1))
+  
+  # Now get the frequencies using table
+  frequencies <- as.data.frame(table(brfss.2014.small[,i]))
+  
+  # Add this column of frequencies to the table.each data frame
+  table.each <- cbind(table.each, frequencies$Freq)
+  
+  # store the column name of that iteration for labels
+  c.name <- colnames(brfss.2014.small[i])
+  
+  # make a new data.frame that just contains the labels
+  label.names <- data.frame(Variable = rep(c.name, times = nrow(table.each)))
+  
+  # combine the label.names data frame and table.each data.fram via columns
+  table.each.labelled <- cbind(label.names, table.each)
+  
+  # combine this with the table.data via rbind
+  table.data <- rbind(table.data, table.each.labelled)
 }
 
-# apply new function to brfss.2014.small data frame
-bigger.table <- do.call(rbind, (lapply(X = brfss.2014.small, FUN = tableFreqPerc)))
-
-# click on the biggerTable object in the environment
-# pane to see the resulting table
-# note that the categories show up twice in the data frame
-# delete the second occurance by subsetting the data
-bigger.table <- bigger.table[-3]
+table.data
 
 # remove Healthcare No category and PHYSHLTH numbers
-bigger.table <- data.frame(bigger.table[c(1:26), ])
+table.data <- data.frame(table.data[c(1:26), ])
 
-#add variable names
-names(x = bigger.table) <- c("Survey participant demographics", "Frequency", "Percent")
+#rename the columns
+names(x = table.data) <- c("Variable", "Survey participant demographics", "Percent", "Frequency")
+
+# while usually not necessary, columns can be reordered
+# it works almost exactly the same as subsetting, except now you
+# choose the order instead of removing a position. 
+# to swap Percent and Frequency:
+table.data <- table.data[,c(1,2,4,3)]
+
+# the above code says "keep all the rows, but make the columns go in this order
+# that I specified"
 ```
 
 Now with a clean data frame, Leslie uses the code from above to create a table with both frequencies and percentages:
 
 ```{r c2main78, echo=FALSE}
-# use pipe to send the bigger.table into kable
-bigger.table %>%
+# use pipe to send the table.data into kable
+table.data[,-1] %>%
   kable("html", caption = "Transgender Survey Participant Demographics (n=222)",
       row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 1, 3) %>%
@@ -1599,8 +1680,8 @@ bigger.table %>%
 ```
 
 ```{r c2main79, eval=FALSE}
-# use pipe to send the bigger.table into kable
-bigger.table %>%
+# use pipe to send the table.data into kable
+table.data[,-1] %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
       row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 
@@ -1619,7 +1700,7 @@ bigger.table %>%
 
 Although the original table creation seemed tedious, Leslie found adding frequencies and re-running the table code was not nearly as time consuming.
 
-The last thing, says Nancy, is to try adding continuous variables to the table. Leslie decides to add measures of the central tendency and spread of `PHYSHLTH` since it is in the data frame. She remembers that this variable is not normally distributed, so the median and IQR are a better choice than the mean and standdard deviation. Leslie uses the commands learned earlier in this chapter to re-check the median and IQR:
+The last thing, says Nancy, is to try adding continuous variables to the table. Leslie decides to add measures of the central tendency and spread of `PHYSHLTH` since it is in the data frame. She remembers that this variable is not normally distributed, so the median and IQR are a better choice than the mean and standard deviation. Leslie uses the commands learned earlier in this chapter to re-check the median and IQR:
 
 ```{r c2main80}
 # descriptive statistics for age
@@ -1627,37 +1708,78 @@ median(x = brfss.2014.small$PHYSHLTH, na.rm = TRUE)
 IQR(x = brfss.2014.small$PHYSHLTH, na.rm = TRUE)
 ```
 
-The median days of poor physical health per month in this group is 1 and the IQR shows that there is a 11 day spread that encompasses the middle half of the people in this group. Now that she knows what she is looking for in the table, Nancy tells her that adding this to the table requires will require a few steps. She writes the code and then walks Leslie through it:
+The median days of poor physical health per month in this group is 1 and the IQR shows that there is a 11 day spread that encompasses the middle half of the people in this group. Now that she knows what she is looking for in the table, Nancy tells her that adding this to the table is the same as adding a new row to a data frame using `rbind()`. However, Nancy points out that both `Variable` and `Survey participant demographics` are factor variables, and sometimes adding new rows with factors can be messy. Her suggestion is to keep all the factors as character variables instead. Then, it's easy to use `rbind()` to add a row, and convert the first two columns to a factor. She writes the code and then walks Leslie through it:
 
 ```{r c2main81}
-# revise the tableFreqPerc function to compute
-# frequencies and percentages for factors
-# median and IQR for numeric data types
-tableFreqPerc<- function(x){
-  if(is.factor(x))
-    data.frame(table(x), round(x = prop.table(x = table(x))*100,1))
+# Almost exactly the same code as before, except some minor conversions
+# so that factors remain as character strings
+
+# initialize an empty data.frame
+table.data <- data.frame()
+
+for (i in 1:(ncol(brfss.2014.small)-1)) {
+  # first, get the table with precents
+  table.each <-
+    data.frame(round(x = prop.table(x = table(brfss.2014.small[, i])) * 100, 1))
+  
+  # convert Var1 from table.each into a character so it's not a factor!
+  table.each$Var1 <- as.character(table.each$Var1)
+  
+  # Now get the frequencies using table
+  # add the `stringsAsFactors` option so it's not a character!
+  frequencies <- as.data.frame(table(brfss.2014.small[,i]),
+                               stringsAsFactors = FALSE)
+  
+  # Add this column of frequencies to the table.each data frame
+  table.each <- cbind(table.each, frequencies$Freq)
+  
+  # store the column name of that iteration for labels
+  c.name <- colnames(brfss.2014.small[i])
+  
+  # make a new data.frame that just contains the labels
+  # again, make sure stringsAsFactors = FALSE
+  label.names <- data.frame(Variable = rep(c.name, times = nrow(table.each)),
+                            stringsAsFactors = FALSE)
+  
+  # combine the label.names data frame and table.each data.fram via columns
+  table.each.labelled <- cbind(label.names, table.each)
+  
+  # combine this with the table.data via rbind
+  table.data <- rbind(table.data, table.each.labelled)
 }
 
-# apply new function to brfss.2014.small data frame
-bigger.table <- do.call(rbind, (lapply(X = brfss.2014.small, FUN = TableFreqPerc)))
+table.data
 
-# note that the categories show up twice in the data frame
-# delete the second occurance by subsetting the data
-bigger.table <- bigger.table[-3]
+# remove Healthcare No category and PHYSHLTH numbers
+table.data <- data.frame(table.data[c(1:26), ])
 
-# remove Healthcare No category
-bigger.table <- data.frame(bigger.table[c(1:26),])
+# ccheck the environment pane to make sure the first 2 columns are not factors
+# or use the class() function
 
-# add the age summary data
-# make a small data frame for the age information
-bigger.table <- rbind(bigger.table, data.frame(x="Poor health (days/mo)",
-                                            Freq = median(x = brfss.2014.small$PHYSHLTH,
-                                                          na.rm = TRUE),
-                                            Freq.1=IQR(x = brfss.2014.small$PHYSHLTH,
-                                                       na.rm = TRUE)))
+# Now, make a vector that you want to be the row. The vector needs to have the 
+# same number of elements as there are columns. That is, make a complete row
 
-# add variable names
-names(bigger.table) <- c("Survey participant demographics", "Frequency", "Percent")
+physhlt.table.row <- c("PHYSHLTH",
+                       "Poor health (days/mo)",
+                       IQR(brfss.2014.small$PHYSHLTH, na.rm = TRUE),
+                       median(brfss.2014.small$PHYSHLTH, na.rm = TRUE))
+
+# combine this row with the data using rbind
+table.data <- rbind(table.data, physhlt.table.row)
+
+# look in the environment and check out the class of the variables
+# convert them back to their original types using mutate in tidyverse
+
+table.data <- table.data %>%
+  mutate(Variable, Variable = as.factor(Variable)) %>%
+  mutate(Var1, Var1 = as.factor(Var1)) %>%
+  mutate(Freq, Freq = as.numeric(Freq)) %>%
+  mutate(frequencies.Freq, frequencies.Freq = as.numeric(frequencies.Freq))
+
+# as before, rename the columns and switch the order
+
+names(table.data) <- c("Variable", "Survey participant demographics", "Percent", "Frequency")
+table.data <- table.data[,c(1,2,4,3)]
 
 ```
 
@@ -1665,7 +1787,7 @@ Once the values are all together in the new data frame, Nancy tells Leslie that 
 
 ```{r c2main82, echo=FALSE}
 #use pipe to send the bigger.table into kable
-bigger.table %>%
+table.data[,-1] %>%
   kable("html", caption = "Transgender Survey Participant Demographics (n=222)", 
       row.names = FALSE) %>%
   kableExtra::group_rows("Transition status (n=220)", 1, 3) %>%
@@ -1679,11 +1801,11 @@ bigger.table %>%
 
 ```{r c2main83, eval=FALSE}
 #use pipe to send the bigger.table into kable
-bigger.table %>%
+table.data[,-1] %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
         row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 
-             tart_row = 1, end_row = 3) %>%
+             start_row = 1, end_row = 3) %>%
   kableExtra::group_rows(group_label = "Age category", 
              start_row = 4, end_row = 10) %>%
   kableExtra::group_rows(group_label = "Race/ethnicity", 
@@ -1750,7 +1872,7 @@ d. mode
 
 Q4: In R, categorical variables are best represented by the data type of _____________ and continuous variables are best represented by the data type of _____________.
 
-Q5: Functions are useful when:
+Q5: For loops are useful when:
 
 a. loading a library
 b. visualizing the distribution of one variable
@@ -1759,7 +1881,7 @@ d. doing the same thing multiple times
 
 #### Chapter exercises: Coder edition
 
-Use the BRFSS data in the **transgender_hc_ch2.csv** file at edge.sagepub.com/harris1e to create a table of appropriate descriptive statistics for *all* transgender participants in the 2014 BRFSS. Spend a few minutes looking through the BRFSS website before you begin. Include variables representing transition status, health status, healthy days (PHYSHLTH), healthy days (MENTHLTH), sex, race, and age category. Write a paragraph using the numbers in the table to describe the characteristics of the transgender participants of the 2014 BRFSS.
+Use the BRFSS data in the **transgender_hc_ch2.csv** file at edge.sagepub.com/harris1e to create a table of appropriate descriptive statistics for *all* transgender participants in the 2014 BRFSS. Spend a few minutes looking through the BRFSS website before you begin. Include variables representing transition status, health status, healthy days (`PHYSHLTH`), healthy days (`MENTHLTH`), `sex`, `race`, and `age category`. Write a paragraph using the numbers in the table to describe the characteristics of the transgender participants of the 2014 BRFSS.
 
 1) Open the **transgender_hc_ch2.csv** 2014 BRFSS data file 
 2) Select the data including only transgender participants  
@@ -1773,11 +1895,11 @@ Use the BRFSS data in the **transgender_hc_ch2.csv** file at edge.sagepub.com/ha
 
 #### Chapter exercises: Hacker edition
 
-Use the BRFSS data in the **transgender_hc_ch2.csv** file at edge.sagepub.com/harris1e to create a table of appropriate descriptive statistics for *all* transgender participants in the 2014 BRFSS. Spend a few minutes looking through the BRFSS website before you begin. Include variables representing transition status, health status, healthy days (PHYSHLTH), healthy days (MENTHLTH), sex, race, and age category. Write a paragraph using the numbers in the table to describe the characteristics of the transgender participants of the 2014 BRFSS.
+Use the BRFSS data in the **transgender_hc_ch2.csv** file at edge.sagepub.com/harris1e to create a table of appropriate descriptive statistics for *all* transgender participants in the 2014 BRFSS. Spend a few minutes looking through the BRFSS website before you begin. Include variables representing transition status, health status, healthy days (`PHYSHLTH`), healthy days (`MENTHLTH`), `sex`, `race`, and `age category`. Write a paragraph using the numbers in the table to describe the characteristics of the transgender participants of the 2014 BRFSS.
 
 Complete tasks 1-5 from the coder edition, then:
-6) (**A3**) Find the mean or median value of PHYSHLTH (whichever is most appropriate) and recode to create a new factor variable with values above the mean or median as "good physical health" and values below the mean as "poor physical health". Check your coding.
-7) (**A2**) Find the mean or median value of MENTHLTH (whichever is most appropriate) and recode to create a new factor variable with values above the mean or median as "good mental health" and values below the mean as "poor mental health". Check your coding.
+6) (**A3**) Find the mean or median value of `PHYSHLTH` (whichever is most appropriate) and recode to create a new factor variable with values above the mean or median as "good physical health" and values below the mean as "poor physical health". Check your coding.
+7) (**A2**) Find the mean or median value of `MENTHLTH` (whichever is most appropriate) and recode to create a new factor variable with values above the mean or median as "good mental health" and values below the mean as "poor mental health". Check your coding.
 8) (**A2** **A3**) Choose and conduct appropriate descriptive statistics for all variables in the small data set
 9) (**A4**) Develop a well-formatted table of results including all variables in the small data set
 10) Add a prolog and comments to your code
@@ -1789,11 +1911,11 @@ Solutions to exercises can be found on the book website, along with *Ideas for G
 
 ### BOXES
 
-#### Nancy's fancy code: apply & lapply (#ch2nancy1)
+#### Nancy's fancy code: `apply` & `lapply` (#ch2nancy1)
 
 <img align = "left" src = "graphics\nancy.gif" style="PADDING-RIGHT: 30px">
 
-The *apply* family of commands can be used to do something to every **row** or **column** or **both** of a data frame or matrix or list. For example, if you had a small data frame that included the number of hot dogs your cousins ate each year for the last two years, you could use *apply* to find the mean for each cousin (the rows) or each year (the columns):
+The *apply* family of commands can be used to do something to every **row** or **column** or **both** of a data frame or matrix or list. For example, if you had a small data frame that included the number of hot dogs your cousins ate each year for the last two years, you could use `apply` to find the mean for each cousin (the rows) or each year (the columns):
 
 ```{r c2end1}
 #vectors for each variable
@@ -1808,21 +1930,21 @@ row.names(x = cuz.hot.dogs) <- cousins
 cuz.hot.dogs
 ```
 
-To find the mean for each cousin, use *apply* for rows. Apply takes 3 arguments: data frame or matrix name (`X =`), rows or columns (`MARGIN = `), and function name (`FUN =`). For rows, the `MARGIN = ` argument would be 1. For columns, the `MARGIN = ` argument would be 2.
+To find the mean for each cousin, use `apply` for rows. Apply takes 3 arguments: data frame or matrix name (`X =`), rows or columns (`MARGIN = `), and function name (`FUN =`). For rows, the `MARGIN = ` argument would be 1. For columns, the `MARGIN = ` argument would be 2.
 
 ```{r c2end2}
 # mean by observation
 apply(X = cuz.hot.dogs, MARGIN = 1, FUN = mean)
 ```
 
-To find the mean for each year, use *apply* for columns:
+To find the mean for each year, use `apply` for columns:
 
 ```{r c2end3}
 # mean by variable
 apply(X = cuz.hot.dogs, MARGIN = 2, FUN = mean)
 ```
 
-Use *lapply* instead if you have a list rather than a data frame. Perhaps you have a list of the pets your cousins have and also the favorite ice cream flavor.
+Use `lapply` instead if you have a list rather than a data frame. Perhaps you have a list of the pets your cousins have and also the favorite ice cream flavor.
 
 ```{r c2end4}
 # make a list
@@ -1834,7 +1956,7 @@ cuz.list
 
 ```
 
-To create a frequency table for each variable, use *lapply* with two arguments. The first argument is the name of the list, the second is the function to use on each element of the list:
+To create a frequency table for each variable, use `lapply` with two arguments. The first argument is the name of the list, the second is the function to use on each element of the list:
 
 ```{r c2end5}
 # make a table for each 
@@ -1879,7 +2001,7 @@ While the final version of the reproduced table looks great, Nancy suggests that
 
 ```{r c2end7}
 # piping the full table to kable_styling
-bigger.table %>%
+table.data[,-1] %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
       row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 
@@ -1903,7 +2025,7 @@ Nancy is not fond of how wide this table is and suggests that `full_width = FALS
 
 ```{r c2end8}
 # using kable_styling to format tables
-bigger.table %>%
+table.data[,-1] %>%
   kable(format = "html", caption = "Transgender Survey Participant Demographics (n=222)",
       row.names = FALSE) %>%
   kableExtra::group_rows(group_label = "Transition status (n=220)", 
@@ -1924,4 +2046,70 @@ bigger.table %>%
 ```
 
 Nancy is satisfied with this final version of the table, although she knows there are several other options that she can search for online if she wants to play with the look of her tables.
+
+#### Nancy's fancy code (custom functions)
+
+The general format for making a custom function is:
+
+```{r, eval=FALSE}
+# the structure of a function (name is in Pascal case or Upper Camel Case)
+NameOfFunction <- function(input arguments) {
+  what the function should do
+}
+```
+
+As a very basic example, lets check to see which elements in a vector of numbers is even. Maybe this is something that you might do many times in many different coding sessions for many different data sets. We can write a custom function:
+
+```{r}
+# name = isItEven
+# arguments = data
+# output = a logical vector for however many items was in the input data
+
+IsItEven <- function(data) {
+  # evaluate the logical statement "does the number divided by 2
+  # have a remainder of 0?" and store it in an object called `dataOut`
+  dataOut <- data %% 2 == 0
+}
+
+# Now you can use this for many datasets!
+
+dataset1 <- 1:10
+dataset2 <- -5:5
+
+evens.dataset1 <- IsItEven(data = dataset1)
+evens.dataset1
+
+evens.dataset2 <- IsItEven(data = dataset2)
+evens.dataset2
+```
+
+Let's apply this idea to the table we made earlier. 
+
+```{r c2main68}
+# finding percents and rounding to one decimal place
+# putting all percents in one column with cbind
+TableFun <- function(x){
+    data.frame(round(x = prop.table(x = table(x))*100, 1))
+}
+
+```
+
+This creates a function called `tableFun` to apply the commands from above to more than one variable at a time. The commands to be applied are inside the curly brackets **`{ }`**. To use the function on a single variable, Nancy shows Leslie she can just type the function name with the name of the variable in parentheses, like this:
+
+```{r c2main69}
+# using the tableFun function for the transgender variable
+TableFun(x = brfss.2014.small$TRNSGNDR)
+```
+
+Now, you can `lapply` over the columns, and the function you apply is your very own custom function! Using `lapply()` to apply the `TableFun` function to the `brfss.2014.small` data frame will result in a list of tables of percentages, one table for each variable in the data frame. Once this list of tables is ready, Nancy says, you can combine the tables using `rbind()` to merge objects by rows. Because there are seven tables to merge together, use the `do.call()` command to apply the `rbind()` function to each item in the list. The `do.call()` command acts like a loop, conducting the specified analyses for each element in the object, then starting over on the next element. So, Nancy summarizes, the `TableFun` function is applied to each item in the `brfss.2014.small` list and then the `do.call()` command puts the resulting tables together using `rbind()` by going through and adding each table to the others one at a time.
+
+Nancy explains that this results in a new data frame containing each of the categories for each variable and the percent of survey participants in the category. Leslie remembers that the `brfss.2014.small` data frame includes the `PHYSHLTH` variable, which is not in the table. To exclude the `PHYSHLTH` variable from the calculations, take a subset of the variables by using the square brackets and subtracting the column where the variable is stored from the data frame. Leslie opens the data frame by clicking on it once in the Environment and counts to see that the `PHYSHLTH` variable is in column 7. They add -7 to the code to remove this column.
+
+```{r c2main70}
+# use lapply to apply the tableFun function to 
+# all the variables in the data frame
+# use the do.call command to call the rbind function
+# to combine the list items into rows
+( table.data <- do.call(rbind, (lapply(X = brfss.2014.small[ , -7], FUN = TableFun))) )
+```
 
