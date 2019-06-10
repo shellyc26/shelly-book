@@ -1,4 +1,4 @@
-# The R team discovers distributions and inference
+# The R-Team discovers distributions and inference
 
 With descriptive statistics and graphs as a foundation, Kiara and Nancy decide to introduce Leslie to statistical inference. Statistical inference is one of the foundational ideas in statistics. Since it is often impossible to collect information on every single person or organization, scientists take samples of people or organizations and examine the observations in the sample. Inferential statistics are then used to take the information from the sample and use it to understand (or infer to) populations. 
 
@@ -103,12 +103,12 @@ Leslie is curious about policies and programs that might address this growing pr
 * imposing quantity limits 
 * requiring prior authorization for opioids 
 * use of clinical criteria for prescribing opioids 
-* step-therapy requirements, and 
+* step therapy requirements, and 
 * required use of prescription drug monitoring programs 
 
-Leslie looks into these different strategies and finds that _quantity limit policies_ set limits on the supply of opioids prescribed in an intial prescription. States limit first-time prescriptions to three, five, seven, or 14 days. _Prior authorization_ is the requirement of a medical justification for an opioid prescription before an insurer will cover the prescription [@RefWorks:2321]. _Clinical criteria for prescribing opioids_ are guidelines for physicians making decisions about opioids including selection of the type, dose, duration, discontinuation, and associated potential risks. _Step-therapy_ requires patients to try certain drugs before other drugs, so certain opioids may not be available until patients have tried non-opioid or alternative opioid options. _Prescription drug monitoring programs_ are active programs that collect, monitor, and analyze data on prescriptions from prescribers and pharmacies in order to identify problematic prescribing patterns and aid in understading the epidemic.
+Leslie looks into these different strategies and finds that _quantity limit policies_ set limits on the supply of opioids prescribed in an intial prescription. States limit first-time prescriptions to three, five, seven, or 14 days. _Prior authorization_ is the requirement of a medical justification for an opioid prescription before an insurer will cover the prescription [@RefWorks:2321]. _Clinical criteria for prescribing opioids_ are guidelines for physicians making decisions about opioids including selection of the type, dose, duration, discontinuation, and associated potential risks. _Step therapy_ requires patients to try certain drugs before other drugs, so certain opioids may not be available until patients have tried non-opioid or alternative opioid options. _Prescription drug monitoring programs_ are active programs that collect, monitor, and analyze data on prescriptions from prescribers and pharmacies in order to identify problematic prescribing patterns and aid in understading the epidemic.
 
-The Kaiser Family Foundation (KFF) keeps track of the adoption of these policies across all 50 states and the District of Columbia [@KFFopioid]. After reading through the KFF website, Leslie notices that it seems like the number of state policies being adopted in states is also increasing. Leslie decides to bring the idea of opioid overdoses to the R team as a possible tricky problem for their next meeting. 
+The Kaiser Family Foundation (KFF) keeps track of the adoption of these policies across all 50 states and the District of Columbia [@KFFopioid]. After reading through the KFF website, Leslie notices that it seems like the number of state policies being adopted in states is also increasing. Leslie decides to bring the idea of opioid overdoses to the R-Team as a possible tricky problem for their next meeting. 
 
 When they meet, she summarizes everything she found above and shows the team the data sources at the County Roadmaps, CDC, and KFF that they could work with. She shows them a copy of Figure \@ref(fig:c4intro1) and explains that when she was reading the KFF website she thought it showed an increase in the number of states adopting policies that might address the increases in drug overdoses and especially in opioid overdoses. Nancy is eager, as usual, to get started coding, so she goes to the KFF website and starts working on some code to see if what Leslie noticed about the number of policies increasing is supported by the data. When she gets to the website, she finds one of her very favorite things, *messy data* saved in inconsistent formats. It takes her a little time, but she eventually gets the data to cooperate and creates a line graph showing state opioid policies from 2015 to 2017. 
 
@@ -158,17 +158,17 @@ Kiara adds that there are many different probability distributions, with each on
 
 ### Types of probability distributions 
 
-These two categories of probability distributions are are the foundation for most statistical tests in social science. Kiara suggests that there are two specific probability distributions in particular that are commonly used and good examples for learning how a probability distribution works: the _binomial distribution_ and the _normal distribution_. The binomial distribution is a _discrete probability distribution_ and applies to probability for binary categorical variables with specific characteristics.  The _normal distribution_ is a _continuous probability distribution_ and applies to probability for continuous variables. 
+These two categories of probability distributions are are the foundation for most statistical tests in social science. Kiara suggests that there are two specific probability distributions in particular that are commonly used and good examples for learning how a probability distribution works: the _binomial distribution_ and the _normal distribution_. The binomial distribution is a _discrete probability distribution_ and applies to probability for binary categorical variables with specific characteristics. The _normal distribution_ is a _continuous probability distribution_ and applies to probability for continuous variables. 
 
-### Achievement 1: Check your understanding
+### Unlock achievement 1: Check your understanding
 
 The _binomial distribution_ is a probability distribution for ___________ variables, while the _normal distribution_ is a probability distribution for ____________ variables.
 
 Thirty-six of 51 states have opioid step therapy requirements. What are the probabilities that would make up the probability distribution for states having opioid step therapy requirements?
 
-## Achievement 2: Understanding the characteristics and uses of a binomial distribution of a binary variable
+## Achievement 2: Understanding the characteristics and uses of a binomial distribution
 
-The binomial distribution is a _discrete probability distribution_ used to understand what may happen when a variable has two possible outcomes. The most common example is flipping a coin, but there are many variables that have two outcomes: alive or dead, smoker or non-smoker, healthy weight or unhealthy weight, depressed or not depressed. Kiara reminds Leslie that whether a state adopted, or did not adopt, an opioid policy is another example of a variable with two possible outcomes: policy, no policy. More specifically, the _binomial distribution_ is used to represent the distribution of a _binomial random variable_, which has the following properties: 
+The binomial distribution is a _discrete probability distribution_ used to understand what may happen when a variable has two possible outcomes. The most common example is flipping a coin, but there are many variables that have two outcomes: alive or dead, smoker or non-smoker, healthy weight or unhealthy weight, depressed or not depressed. Kiara reminds Leslie that whether a state adopted, or did not adopt, an opioid policy is another example of a variable with two possible outcomes: policy or no policy. More specifically, the _binomial distribution_ is used to represent the distribution of a _binomial random variable_, which has the following properties: 
 
 * A variable is measured in the same way _n_ times 
 * There are only two possible values of the variable, often called "success" and "failure"
@@ -178,8 +178,8 @@ The binomial distribution is a _discrete probability distribution_ used to under
 
 The binomial distribution is defined by two things: 
 
-* n - the number of observations (e.g., coin flips, people surveyed, states selected)   
-* p - the probability of _success_ (e.g., 50% chance of heads for a coin flip, 51% chance of a state having a prescription drug monitoring program)
+* $n$ - the number of observations (e.g., coin flips, people surveyed, states selected)   
+* $p$ - the probability of _success_ (e.g., 50% chance of heads for a coin flip, 51% chance of a state having a prescription drug monitoring program)
 
 Leslie is thinking that this seems overly complicated so far. If she knows that 51% of states have monitoring programs and 49% do not, why not just report those percents and be done with it?
 
@@ -191,14 +191,14 @@ Nancy explains that researchers often work with **samples** instead of **populat
 
 If Leslie did not know which states had PDMP (she just knew it was 51% of states) and decided her sample of states needed to include exactly 10 states with PDMP, she could use the binomial distribution to decide how many states to include in a sample in order to have a good chance of picking 10 with PDMP. Before she can use the binomial distribution, she needs to ensure that the PDMP variable has the properties of a **binomial random variable**: 
 
-* The existence of a monitoring program would be measured each state 
+* The existence of a monitoring program would be measured in each state 
 * The only two possible values are "success" for having a PDMP and "failure" for not having a PDMP 
 * Each state is independent of the other states 
 * The probability of having a program is the same for each state 
 
 Leslie is concerned about the third and fourth assumptions of states being independent of other states and having the same probability of having a program. She thinks that states and state lawmakers are definitely separate but that she has read that often neighboring states will be more similar to each other than to states in other parts of the country. They discuss it for a few minutes and decide that the influence of geography is complex and should definitely be seriously considered before publishing any research with these data, but that they feel ok using these data to explore the statistical concepts. So, for today, they will consider the states and counties in the data they use as independent of each other. This makes Kiara a little nervous and she vows to put a big emphasis on assumption checking and meeting assumptions for all the data used in the remaining chapters. 
 
-After that detour, they go back to their discussion of the binomial distribution. The **expected value** of a binomial random variable is $np$, where n is sample size and p is the probability of a *success*. In this example, if the sample size is 20 and the probability of success (having a PDMP) is 51%, which is formatted as a proportion rather than a percentage for the purposes of this calculation, the expected value of the binomial random variable after taking a sample of 20 states would be $20*.51$ or `r 20*.51`. 
+After that detour, they go back to their discussion of the binomial distribution. The **expected value** of a binomial random variable is $np$, where $n$ is sample size and $p$ is the probability of a *success*. In this example, if the sample size is 20 and the probability of success (having a PDMP) is 51%, which is formatted as a proportion rather than a percentage for the purposes of this calculation, the expected value of the binomial random variable after taking a sample of 20 states would be $20\times.51$ or `r 20*.51`. 
 
 The expected value is useful, but since the value of $p$ is a probability (not a certainty), the expected value will not occur every time a sample is taken. Leslie uses the **probability mass function** for the binomial distribution to compute the probability that any given sample of 20 states would have *exactly* 10 states with PDMP. A probability mass function is a function that computes the probability that an exact number of successes happens for a discrete random variable. Nancy's eyes start to glaze over with all this terminology. Leslie summarizes it in practical terms. She explains that the probability mass function will give them the probability of getting 10 states with a PDMP if they select 20 states at random from the population of states where the likelihood of any one state having a prescription drug monitoring program was 51%. In the probability mass function, $x$ represents the specific number of successes of interest, $n$ is the sample size, and $p$ is the probability of success. 
 
@@ -221,7 +221,7 @@ f(10, 20, .51) = .175
 \end{equation}
 $$
 
-Leslie confirms that there is a 17.5% probability of choosing exactly 10 states with drug monitoring programs if she chooses 20 states at random from the population of states where 51% of them have a drug monitoring program. Nancy sees her chance to get some code into the discussion and shows Leslie that R has a function built in for using the binomial distribution. She shows them how to use the `dbinom()` command in base R, which uses Equation \@ref(eq:pmfbinom), to compute this probability given the number successes, the sample size (`size =` option), and the probability of successes (`prob =` option):
+Leslie confirms that there is a 17.5% probability of choosing exactly 10 states with drug monitoring programs if she chooses 20 states at random from the population of states where 51% of them have a drug monitoring program. Nancy sees her chance to get some code into the discussion and shows Leslie that R has a function built in for using the binomial distribution. She shows them how to use the `dbinom()` command in base R ("base R" simply means that you do not need to load in an external package -- it is built in to R), which uses Equation \@ref(eq:pmfbinom), to compute this probability given the number successes, the sample size (`size =` option), and the probability of successes (`prob =` option):
 
 ```{r}
 # where successes = 10, n = 20, p = .51
@@ -230,7 +230,7 @@ dbinom(x = 10, size = 20, prob = .51)
 
 ### Visualizing the binomial distribution
 
-Kiara lets Leslie know that the binomial distribution can also be displayed graphically and used to understand the probability of getting a specific number of successes or a range of successes (e.g., _10 or more successes_). She creates a plot of the *probability mass function* showing the distribution of probabilities of different numbers of successes. Nancy makes an example graph showing the probability of getting a certain number of states with monitoring programs in a sample when 20 are selected:
+Kiara lets Leslie know that the binomial distribution can also be displayed graphically and can be used to understand the probability of getting a specific number of successes or a range of successes (e.g., _10 or more successes_). She creates a plot of the *probability mass function* showing the distribution of probabilities of different numbers of successes. Nancy makes an example graph showing the probability of getting a certain number of states with monitoring programs in a sample when 20 are selected:
 
 ```{r echo=FALSE, fig.cap = "Probability mass function plot showing probability of number of selected states with PDMP out of 20 total selected when 51% have PDMP overall"}
 states  <- 0:20
@@ -336,7 +336,7 @@ ggplot(df, aes(x = x, y = y)) +
 
 ```
 
-Leslie thinks this looks like more than half the time. She asks Nancy to use `pbinom()` to compute the value. This time the range of values she wants to get the probability for is on the right side of the graph instead of the left side, so she looks at the help documentation and finds that there is a setting for `pbinom()` to get the right side of the graph but specifying `lower.tail = FALSE`. The `lower.tail =` option has the default value of true, so it does not need to be included when estimating the lower tail, but does need to be added when it is the upper tail on the right to be estimated:
+Leslie thinks this looks like more than half the time. She asks Nancy to use `pbinom()` to compute the value. This time the range of values she wants to get the probability for is on the right side of the graph instead of the left side, so she looks at the help documentation and finds that there is a setting for `pbinom()` to get the right side of the graph but specifying `lower.tail = FALSE`. The `lower.tail =` option has the default value of `TRUE`, so it does not need to be included when estimating the lower tail, but does need to be added when it is the upper tail on the right to be estimated:
 
 ```{r}
 # 10 or fewer successes from 20 selections 
@@ -368,16 +368,16 @@ opioid.policy.kff <- read.csv(file = "data/pdmp_2018_kff_ch4.csv")
 summary(object = opioid.policy.kff)
 ```
 
-Leslie is unsure about how to proceed. Kiara explains that they can pretend that they only have a budget to collect data from a sample of states and then use the binomial distribution with that sample to see if they can get close to what the true value is. Kiara suggests they see if a sample of 25 states has 15 or more states with PDMP. First they should see what the binomial distribution tells them about the probability of getting a sample with 15 or more PDMP out of 25 states. For this they need the percent of states that currently have PDMP (the *success* rate). Leslie examines the new data and sees 32/51, or 63% of state have PDMP (up from 51% before). Leslie copies the `pbinom()` code and revises it for the new scenario: 
+Leslie is unsure about how to proceed. Kiara explains that they can pretend that they only have a budget to collect data from a sample of states and then use the binomial distribution with that sample to see if they can get close to the true value. Kiara suggests they see if a sample of 25 states has 15 or more states with PDMP. First they should see what the binomial distribution tells them about the probability of getting a sample with 15 or more PDMP out of 25 states. For this they need the percent of states that currently have PDMP (the *success* rate). Leslie examines the new data and sees 32/51, or 63% of state have PDMP (up from 51% before). Leslie copies the `pbinom()` code and revises it for the new scenario: 
 
 ```{r}
-# 10 or more successes from 20 selections 
+# 15 or more successes from 25 selections 
 # with 63% probability of success
 # pbinom computes left tail, so subtract use lower.tail = FALSE
 pbinom(q = 14, size=25, prob=.63, lower.tail = FALSE) 
 ```
 
-The probability of selecting a sample of 25 states where 15 or more states have PDMP is `r round(100*(1 - pbinom(14, size=25, prob=.63)),2)`%. Leslie does not know what to do next. Luckily Nancy has some R code to help. Before they start sampling, Kiara chimes in to tell Leslie and Nancy that the `set.seed()` command is useful when conducting random sampling since it will result in the same sample to be taken each time the code is run, so it is useful for reproducibility (for more, see Box \@ref(ch4kiara). 
+The probability of selecting a sample of 25 states where 15 or more states have PDMP is `r round(100*(1 - pbinom(14, size=25, prob=.63)),2)`%. Leslie does not know what to do next, in terms of drawing a sample. Luckily Nancy has some R code to help. Before they start sampling, Kiara chimes in to tell Leslie and Nancy that the `set.seed()` command is useful when conducting random sampling since it will result in the same sample to be taken each time the code is run, so it is useful for reproducibility (for more, see Box \@ref(ch4kiara). 
 
 As she is writing the code, Nancy explains that `sample_n()` can be used to take a sample. The arguments for `sample_n()` are `size =` which is where to put the size of the sample to take and `replace =` which is where you choose whether or not you want R to sample **with replacement** (replacing each value after selection) or without replacement (leaving a value out of the sampling after selection). Leslie has just learned about sampling with and without replacement and shares some of her notes with Kiara and Nancy for later (see Box \@ref(ch4leslie)).
 
@@ -423,7 +423,7 @@ opioid.policy.kff %>%
 
 This one just has 14 states with PDMP. So, out of three samples of 25 states, two samples had more than 10 states with PDMP and one sample had fewer than 10 states with PDMP. This seems consistent with the binomial distribution prediction that 70% of the time a sample of size 25 will have at least 15 states with PDMP. Leslie agrees that it is a lot easier to use `pbinom()` than to take a bunch of samples to see what happens and she finally sees the value of this distribution for selecting a sample size. Kiara is glad this clarified things and they get ready to move on.
 
-### Achievement 2: Check your understanding
+### Unlock achievement 2: Check your understanding
 
 Forty-eight states (94%) had implemented an opioid quantity limits policy in 2017. Nancy created the graph below to show the probability for having an opioid quantity policy in a sample of 30 states when the probability in the population of states is 94%. Based on the graph, how likely do you think it is that all 30 states in a sample would have this policy? 
 
@@ -442,9 +442,9 @@ ggplot(df, aes(x = x, y = y)) +
 
 Use `dbinom()` to determine the probability of choosing 30 states and having exactly 30 of them with an implemented opioid quantity limits policy in 2017. Interpret the result for Leslie and note how well the result matches what could be estimated based on the graph.  
 
-## Achievement 3: Understanding the characteristics and uses of a the normal distribution of a continuous variable {#normdistch4}
+## Achievement 3: Understanding the characteristics and uses of the normal distribution {#normdistch4}
 
-Kiara reminds Leslie that many of the variables of interest in social science are not binary so the binomial distribution and its related functions would not be all that useful. Instead, Kiara explains that the probability distribution for a continuous variable is the normal distribution. Just as the binomial distribution is determined by $n$ and $p$, the normal distribution is determined by $m$ and $s$, the mean and standard deviation of a variable. 
+Kiara reminds Leslie that many of the variables of interest in social science are not binary so the binomial distribution and its related functions is not always useful. Instead, Kiara explains that the probability distribution for a continuous variable is the **normal distribution**. Just as the binomial distribution is determined by $n$ and $p$, the normal distribution is determined by $m$ and $s$, the mean and standard deviation of a variable. 
 
 ### Probability density function 
 
@@ -473,48 +473,51 @@ summary(object = dist.mat)
 
 ```
 
-Leslie starts by graphing the distance variable to confirm whether skew is the problem. Nancy lets Leslie know that the VALUE variable is the distance in miles, so this is the variable to work with.
+Leslie starts by graphing the distance variable to confirm whether skew is the problem. Nancy lets Leslie know that the `VALUE` variable is the distance in miles, so this is the variable to work with.
 
 ```{r fig.cap="Miles to the nearest substance abuse treatment facility with medication-assisted therapy (2017)."}
 # graph the transformations
 dist.mat %>%
   ggplot(aes(x = VALUE)) +
-  geom_histogram(fill = "#7463AC", color = "white") +
+  geom_histogram(fill = "#7463AC", color = "white", bins = 30) +
   theme_minimal() +
   labs(x = "Miles to nearest facility")
 ```
 
-
-
 The variable is skewed indeed! Leslie tries the four transformations to see which seems more useful for making the distance variable more normally distributed.
 
-```{r fig.cap = "Selecting a transformation to make the distance variable more normal for analysis."}
-# transform the variable
+```{r message = FALSE, warning = FALSE, fig.cap = "Selecting a transformation to make the distance variable more normal for analysis."}
+# transform the variable 
 dist.mat.cleaned <- dist.mat %>%
-  mutate(miles.cube.root = VALUE^(1/3)) %>%
-  mutate(miles.log = log(VALUE)) %>%
-  mutate(miles.inverse = 1/VALUE) %>%
-  mutate(miles.sqrt = sqrt(VALUE))
+  mutate(miles.cube.root = VALUE^(1/3)) %>% # Cube root transformation
+  mutate(miles.log = log(VALUE)) %>% # Log transformation
+  mutate(miles.inverse = 1/VALUE) %>% # Reciprocal transformation
+  mutate(miles.sqrt = sqrt(VALUE)) # Square root transformation
 
-# graph the transformations
+# graph the transformations:
+
+# cube root transform
 cuberoot <- dist.mat.cleaned %>%
   ggplot(aes(x = miles.cube.root)) +
   geom_histogram(fill = "#7463AC", color = "white") +
   theme_minimal() +
   labs(x = "Cube root of miles to nearest facility")
 
+# log transform
 logged <- dist.mat.cleaned %>%
   ggplot(aes(x = miles.log)) +
   geom_histogram(fill = "#7463AC", color = "white") +
   theme_minimal() +
   labs(x = "Log of miles to nearest facility")
 
+# reciprocal transform
 inversed <- dist.mat.cleaned %>%
   ggplot(aes(x = miles.inverse)) +
   geom_histogram(fill = "#7463AC", color = "white") +
   theme_minimal() + xlim(0,1) +
   labs(x = "Inverse of miles to nearest facility")
 
+# square root transform
 squareroot <- dist.mat.cleaned %>%
   ggplot(aes(x = miles.sqrt)) +
   geom_histogram(fill = "#7463AC", color = "white") +
@@ -544,7 +547,7 @@ ggplot(data = dat, mapping = aes(x = x, y = y)) +
   xlab("Cube root of miles to the nearest facility") + ylab("Probability density")
 ```
 
-That looks good for the purposes of discussing the probabilities. The go back to the original topic and Kiara explains that the area under the Figure \@ref(fig:pdfplot) curve represents 100% of observations. Using this **probability density function** graph to determine probabilities is a little different from using the **probability mass function** graph from the binomial distribution in the previous examples with categorical variables. With continuous variables the probability of any one certain number is going to be extremely low, often near zero. So, instead, probabilities are usually computed for a range of values. 
+That looks good for the purposes of discussing the probabilities. They go back to the original topic and Kiara explains that the area under the Figure \@ref(fig:pdfplot) curve represents 100% of observations. Using this **probability density function** graph to determine probabilities is a little different from using the **probability mass function** graph from the binomial distribution in the previous examples with categorical variables. With continuous variables the probability of any one certain number is going to be extremely low, often near zero. So, instead, probabilities are usually computed for a range of values. 
 
 Nancy creates an example of this with the shading under the curve representing U.S. counties with the cube root of miles to a treatment facility being greater than 4 (which is 4 cubed or `r 4^3` miles to the nearest substance abuse treatment facility):
 
@@ -581,7 +584,7 @@ pnorm(q = 4, mean = 2.66, sd = .79, lower.tail = FALSE)
 
 Much better! It looks like 4.49% of observations are in the tail of this distribution and are therefore 4 or greater. Reversing the transformation, this indicates that residents of 4.49% of counties have to travel `r 4^3` miles or more to get to the the nearest substance abuse facility providing medication assisted treatment.
 
-### Achievement 3: Check your understanding
+### Unlock achievement 3: Check your understanding
 
 Figure \@ref(fig:c4main20) shows shading for the part of the distribution that is less than 2. Look at the graph and make your best estimate (without computing the answer) of the percentage of counties in the shaded area.
 
@@ -598,7 +601,7 @@ ggplot(data = dat, mapping = aes(x = x, y = y)) +
 
 Use `pnorm()` to compute the percent of counties in the shaded area. Compare your answer with the value you estimated to see if it seems accurate. Interpret the computed value and describe how you made your estimate. 
 
-## Achievement 4: Computing and interpreting z-scores to compare observations to groups {#zscore}
+## Achievement 4: Computing and interpreting z-scores to compare observations across groups {#zscore}
 
 Kiara chimes in at this point to show off her favorite useful feature of the normal distribution. She tells Leslie that, regardless of what the mean and standard deviation are, a normally distributed variable has approximately: 
 
@@ -608,7 +611,7 @@ Kiara chimes in at this point to show off her favorite useful feature of the nor
 
 These characteristics of the normal distribution can be used to describe and compare how far individual observations are from a mean value. For example, in the example above, about 68% of counties are between $2.66 - .79$ and $2.66 + .79$ for the cube root of miles to the nearest substance abuse facility. So, about 68% of counties have between `r 2.66-.79` and `r 2.66+.79` cube root miles to the nearest substance abuse facility. Transforming these values back into miles would be `r (2.66-.79)^3` to `r (2.66+.79)^3` miles. In addition, about 95% of counties would be between $2.66 - .79 \cdot 2$ and $2.66 + .79 \cdot 2$ or `r (2.66 - .79*2)^3` and `r (2.66 + .79*2)^3` mile to travel to the nearest substance abuse facility.
 
-Kiara explains that this information is used to create z-scores, which allow description and comparison of where an observation falls compared to the other observations for a normally distributed variable. 
+Kiara explains that this information is used to create **z-scores**, which allows description and comparison of where an observation falls compared to the other observations for a normally distributed variable. 
 
 ### Defining the z-score {#zscore.section}
 
@@ -621,7 +624,7 @@ z=\frac{x-m}{s}
 \end{equation}
 $$
 
-The $x$ in the z-score represents the value of a variable for a single observation, $m$ is the mean of the variable, $s$ is the standard deviation of the variable. So, $z$ is the difference between the observation value and the mean value for a variable and is converted by the denominator into standard deviations.
+The $x$ represents the value of a variable for a single observation, $m$ is the mean of the variable, $s$ is the standard deviation of the variable. So, $z$ is the difference between the observation value and the mean value for a variable (or a *deviation score*) and is converted by the denominator into standard deviations.
 
 ### Calculating and interpreting z-scores
 
@@ -646,7 +649,7 @@ $$
 
 Leslie notices that the z-score was a positive value for the county with a rate that was higher than the mean and a negative value for the county with a rate that was lower than the mean. So, the z-score not only indicates how many standard deviations away from the mean an observation is, but whether the observed value is above or below the mean. 
 
-### Achievement 4: Check your understanding
+### Unlock achievement 4: Check your understanding
 
 Use Equation \@ref(eq:zscore) to calculate the z-score for a county where you have to drive 15 miles to the nearest substance abuse treatment facility. Interpret your result.
 
@@ -654,7 +657,7 @@ Use Equation \@ref(eq:zscore) to calculate the z-score for a county where you ha
 
 ### Samples and populations
 
-Kiara explains that the characteristics of the normal curve are exceptionally useful in better understanding the characteristics of a population when it is impossible to measure the entire population. She states that there is no realistical way to measure the height or weight or income of every single person in the U.S. right now. Instead, researchers often use a **representative sample** from the population they are interested in and use properties of the normal distribution to understand what is likely happening to the whole population. 
+Kiara explains that the characteristics of the normal curve are exceptionally useful in better understanding the characteristics of a population when it is impossible to measure the entire population. She states that there is no realistic way to measure the height or weight or income of every single person in the U.S. right now. Instead, researchers often use a **representative sample** from the population they are interested in and use properties of the normal distribution to understand what is likely happening to the whole population. 
 
 A **representative sample** is a sample taken carefully so that it does a good job of maintaining the characteristics of the population. For example, if a sample of U.S. citizens were taken and the sample was 75% female, this would not be **representative** of the distribution of sex in the population. There are many strategies for sampling that help to ensure a representative sample. Kiara suggests that Leslie read about sampling if she is even going to collect her own data.
 
@@ -664,7 +667,7 @@ To see how the normal distribution can use sample data to understand the populat
 
 ### Data management 
 
-Remembering her data management practices, Leslie uses the `rename()` code from Section \@ref(bar-graphs) to give the distance variable a name that is easier to remember and use. She then uses summarize from Section \@ref(importing-a-comma-separated-values-(csv)-file) to remind them all of the mean and standard deviation of the variable.
+Remembering her data management practices, Leslie uses the `rename()` code from Section \@ref(bar-graphs) to give the distance variable a name that is easier to remember and use. She then uses `summarize` from Section \@ref(importing-a-comma-separated-values-(csv)-file) to remind them all of the mean and standard deviation of the variable.
 
 ```{r}
 # rename variable
@@ -784,7 +787,7 @@ sample.1000.means <- samples.1000 %>%
 mean(x = sample.1000.means$mean.distance)
 ```
 
-```{r fig.cap="Mean miles to a substance abuse facility in 1000 samples of 500 counties each"}
+```{r warning = FALSE, message=FALSE,fig.cap="Mean miles to a substance abuse facility in 1000 samples of 500 counties each"}
 # histogram of the 1000 means
 sample.1000.means %>%
   ggplot(aes(x = mean.distance)) +
@@ -799,7 +802,7 @@ Leslie notes that the mean of the sample means of 24.07 is very close to the pop
 
 Kiara explains that this phenomenon is called the _Central Limit Theorem_ and that it holds true for continuous variables that are normally distributed and those that not normally distributed. The **Central Limit Theorem** is one of the most important ideas for _inferential statistics_, or statistical approaches that infer population characteristics based on sample data. 
 
-Another characteristic of the **Central Limit Theorem** is that the standard deviation of the sample means can be estimated using the population standard deviation and the size of the samples that make up the distribution, like this: 
+Another characteristic of the Central Limit Theorem is that the standard deviation of the sample means can be estimated using the population standard deviation and the size of the samples that make up the distribution, like this: 
 
 $$
 \begin{equation}
