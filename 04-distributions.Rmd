@@ -833,7 +833,7 @@ Leslie notes that the results are similar (1.01 and .91) but not identical.
 
 Kiara explains that the standard deviation of the sampling distribution shows how much we expect samples to vary from the population. Specifically, 68% of sample means will be within one standard deviation of the mean of the sampling distribution and 95% of sample means will be within two standard deviations of the sampling distribution mean. Since the sampling distribution mean is a good estimate of the population mean, it follows that most of the samples will have means that are within one or two standard deviations of the population mean.
 
-Since it is unusual to have the entire population for computing the population standard deviation, and it is also unusual to have a large number of samples from one population, a close approximation to this value is called the _standard error_. The standard error is computed by dividing the standard deviation *of a sample* by the square root of the sample size: 
+Since it is unusual to have the entire population for computing the population standard deviation, and it is also unusual to have a large number of samples from one population, a close approximation to this value is called the _standard error of the mean_ (often referred to simply as the "standard error"). The standard error is computed by dividing the standard deviation *of a sample* by the square root of the sample size: 
 
 $$
 \begin{equation}
@@ -867,7 +867,7 @@ counties.500.2 %>%
             se = sd(x = distance)/sqrt(x = length(x = distance)))
 ```
 
-Both of the standard erro (se) values are close to the population standard deviation of .907, but are not exactly the same. The first sample standard error of 1.017 was a little above and the second sample standard error of .889 was a little below.
+Both of the standard error (se) values are close to the population standard deviation of .907, but are not exactly the same. The first sample standard error of 1.017 was a little above and the second sample standard error of .889 was a little below.
 
 Kiara wants to summarize what they have just walked through:
 
@@ -884,7 +884,7 @@ Most of the time, she explains, researchers have a single sample and so the only
 
 So...  
 
-> The mean of any given sample (given good data collection practices) is *likely to be within two standard erors of the population mean for that variable*. 
+> The mean of any given sample (given good data collection practices) is *likely to be within two standard erors of the population mean for that variable.* 
 
 Kiara explains that this is one of the foundational ideas of **inferential statistics**. 
 
@@ -894,15 +894,15 @@ Leslie stops Kiara to make sure she understands the difference between a sample 
 
 So, if there were no way to measure every county to get the population mean for the distance to the nearest substance abuse facility in a county, Leslie could use the first sample of 500 counties to estimate that there is a good chance that the population mean distance is between $23.48-1.02$ and $23.48+1.02$ or `r 23.48-1.02` and `r 23.48+1.02`. There is an even higher probability that the population mean distance is between $23.48-1.02\cdot 2$ and $23.48+1.02\cdot 2$ or `r 23.48-2*1.02` and `r 23.48+1.02*2`. While it is unusual to have the population mean to compare sample results to, this time the team has it and can see that the population mean of 24.04 miles to the nearest substance abuse facility is represented well by the sample mean of 23.48 and its standard error of 1.02.
 
-### Achievement 5: Check your understanding
+### Unlock achievement 5: Check your understanding
 
-Take a sample of 200 counties and compute the mean, standard deviation, and standard error for the drug poisoning death rate in 2017. BAsed on the sample mean and standard error, fine the range of values where the population mean drug poisoning death rate could be. Explain your results.
+Take a sample of 200 counties and compute the mean, standard deviation, and standard error for the drug poisoning death rate in 2017. Based on the sample mean and standard error, find the range of values where the population mean drug poisoning death rate could be. Explain your results.
 
 ## Achievement 6: Computing and interpreting confidence intervals around means and proportions {#confintmean}
 
 Leslie wants to be sure she has the standard error concept correct because it seems important. Kiara states that the sample mean and the range around it where the population mean might be show the *uncertainty* of computing a mean from a sample.
 
-These ranges around the sample mean, Kiara goes on, are reported as **confidence intervals**. Leslie looks confused. Kiara clarifies that **confidence** in this context is not about an emotion or feeling, but about how much uncertainty there is in the results. Most of the time, social scientists report 95% intervals or **95% confidence intervals** which show the range where the population value will likely be 95 times if the study were conducted 100 times. Sometimes smaller or larger intervals are reported, like a _68% confidence interval_ or a _99% confidence interval_.
+These ranges around the sample mean, Kiara goes on, are reported as **confidence intervals** (or CIs). Leslie looks confused. Kiara clarifies that **confidence** in this context is not about an emotion or feeling, but about how much uncertainty there is in the results. Most of the time, social scientists report 95% intervals or **95% confidence intervals** which show the range where the population value will likely be 95 times if the study were conducted 100 times. Sometimes smaller or larger intervals are reported, like a _68% confidence interval_ or a _99% confidence interval_, but usually it's a 95% interval.
 
 Leslie clarifies the 95% interval idea as she understands it: 
 
@@ -936,7 +936,7 @@ The 95% confidence interval for the mean is `r round(summ.500.counties$lower.ci,
 
 Nancy thinks now is a good time to go back to the visuals and examine this confidence interval with a histogram. She creates a histogram of the distance to a treatment facility showing the mean and the 95% confidence interval around the mean:
 
-```{r echo = FALSE, fig.cap = "Miles to the nearest substance abues treatment facility and 95% CI from a 2017 sample of 500 counties in the US."}
+```{r echo = FALSE, warning=FALSE,message=FALSE,fig.cap = "Miles to the nearest substance abues treatment facility and 95% CI from a 2017 sample of 500 counties in the US."}
 counties.500 %>% 
   ggplot(aes(x = distance)) + 
   geom_histogram(fill = "white", color = "gray60") + 
@@ -950,13 +950,11 @@ counties.500 %>%
   theme_minimal()
 ```
 
-
-
 Wow, the confidence interval is really narrow. Leslie notices that the mean seems to be a little to the right of where she would have guessed, but also notices that the histogram is right skewed, so it makes sense that the mean is a little larger than it seems like it should be. She remembers back to Section \@ref(defining-and-calculating-central-tendency), which explained what skew does to the value of the mean and why the median might be a better measure of central tendency in this situation.
 
 Since they have the unusual benefit of knowing the population mean of the overdose variable, Nancy thinks it might be a good idea to add the mean for the population to see how well this sample is doing at representing the popultion. She adds another vertical line to show where the population mean is in relation to the sample mean and its confidence interval:
 
-```{r echo = FALSE, fig.cap = "Miles to the nearest substance abuse treatment facility and 95% CI from a 2017 sample of 500 counties in the US."}
+```{r echo = FALSE, message=FALSE,warning=FALSE,fig.cap = "Miles to the nearest substance abuse treatment facility and 95% CI from a 2017 sample of 500 counties in the US."}
 counties.500 %>% 
   ggplot(aes(x = distance)) + 
   geom_histogram(fill = "white", color = "gray60") + 
@@ -989,7 +987,7 @@ counties.500.2 %>%
 
 This mean is a smaller value than the first sample mean. Leslie asks Nancy if she could plot the mean with its CI and the population mean again so she can see the sample mean, confidence interval, and population mean altogether.  
 
-```{r echo = FALSE, fig.cap = "Miles to the nearest substance abuse treatment facility and 95% CI from a 2017 sample of 500 counties in the US."}
+```{r echo = FALSE, warning=FALSE,message=FALSE,fig.cap = "Miles to the nearest substance abuse treatment facility and 95% CI from a 2017 sample of 500 counties in the US."}
 counties.500.2 %>% 
   ggplot(aes(x = distance)) + 
   geom_histogram(fill = "white", color = "gray60") + 
@@ -1025,7 +1023,7 @@ The confidence intervals that Leslie can see all contain the population mean of 
 ```{r fig.cap = "Means and 95% confidence interval of miles to the nearest substance abuse treatment facility and 95% CI from 20 samples of counties in the US."}
 # graph means and CI for 20 samples
 samp.20.stats %>%  
-  ggplot(aes(y = means, x = sample_num)) +
+  ggplot(aes(y = means, x = as.numeric(sample_num))) +
   geom_point(stat = "identity", color = "#7463AC") +
   geom_errorbar(aes(ymin = lower.ci, 
                     ymax = upper.ci),
@@ -1033,7 +1031,8 @@ samp.20.stats %>%
   geom_hline(yintercept = 24.04, color = "deeppink") +
   labs(y = "Mean distance to treatment facility (95% CI)",
        x = "Sample number") +
-  theme_minimal()
+  theme_minimal() +
+  scale_x_discrete(limits = c(1:20))
 ```
 
 Leslie notices that the 95% confidence intervals for all 20 samples contain the population mean and wonders about the 100 samples. She copies Nancy's graphing code and starts editing it. Nancy suggests that 100 samples is a lot to put on one graph, especially to read the sample numbers on the x-axis. Leslie tries it and agrees. Nancy shows her a little trick to remove the text from the x-axis with one more layer in her graph code. 
@@ -1103,16 +1102,14 @@ coffee <- c(1, 0, 1, 1, 0,
             0, 0, 1, 1, 1)
 ```
 
-
 Finding the mean of this data set, like finding any other mean, would entail adding up the values and dividing by how many observations there were. Adding up the ones and zeros would $1+0+1+1+0+0+0+1+1+1$ or 6. Six divided by 10 is .6. This is also the proportion or, after multiplying by 100, the percent of people in this sample who drink coffee. 
 
 ```{r}
 # mean of coffee variable
 mean(x = coffee)
-
 ```
 
-This means that the percent of people in a sample who have the variable category of interest is the mean of the sample for that variable. The mean of a binary variable like this one is typically abbreviated as $p$ for proportion rather than $m$ for mean. Nancy imports the data and does a little data management so that it is easier to work with. Leslie stops her to explain why she subtracted 1 from the pdmp variable after making it numeric with `as.numeric()`. Nancy explains that R does not use zero for `as.numeric()`, so the two categories get recoded to be No is 1 and Yes is 2. These values will not work for computing the mean, the variable needs to be coded as 0 and 1 for this. So, by subtracting one, the variable is coded 0 for No and 1 for Yes, which works for computing the mean. After explaining, Nancy computes the mean, which is .6275, so 62.75% of the states have a PDMP.  
+This means that the percent of people in a sample who have the variable category of interest is the mean of the sample for that variable. The mean of a binary variable like this one is typically abbreviated as $p$ for proportion rather than $m$ for mean. Nancy imports the data and does a little data management so that it is easier to work with. Leslie stops her to explain why she subtracted 1 from the PDMP variable after making it numeric with `as.numeric()`. Nancy explains that R does not use zero for `as.numeric()`, so the two categories get recoded to be No is 1 and Yes is 2. These values will not work for computing the mean, the variable needs to be coded as 0 and 1 for this. So, by subtracting one, the variable is coded 0 for No and 1 for Yes, which works for computing the mean. After explaining, Nancy computes the mean, which is .6275, so 62.75% of the states have a PDMP.  
 
 ```{r}
 # open state opioid program data
@@ -1209,7 +1206,7 @@ Kiara wants to mention two last things before they are done for the day. While 9
 
 Kiara suggests that other $z$-scores for other confidence intervals can be found on many statistics websites. The last thing Kiara wants to mention is that confidence intervals for small samples, usually defined as samples with fewer than 30 observations [@field2013discovering], use a $t$-statistic instead of a $z$-statistic in computing confidence intervals for means and in other types of analyses. 
 
-The $t$-statistic is from the $t$-distribution and, like the $z$-score, the $t$-statistic measures the distance from the mean. However, the $t$ statistic does this using the _standard deviation of the sampling distribution_, also known as the _standard error_, rather then the _standard deviation of the sample_. Specifically, the t-statistic is computed:
+The $t$-statistic is from the $t$-distribution and, like the $z$-score, the $t$-statistic measures the distance from the mean. However, the $t$ statistic does this using the _standard deviation of the sampling distribution_, also known as the _standard error_, rather then the _standard deviation of the sample_. Specifically, the $t$-statistic is computed:
 
 $$
 \begin{equation}
@@ -1219,11 +1216,11 @@ t=\frac{m}{\frac{s}{\sqrt{n}}}
 $$
 Where $m$ is the sample mean, $s$ is the sample standard deviation, and $n$ is the sample size. Note that the denominator for $m$ is $\frac{s}{\sqrt{n}}$, which is the standard error.
 
-The main practical difference between the two is that the $t$-statistic works better when samples are small; once samples are very large ($n$ > 1000), the two will be virtually identical. The t-statistic and t-distribution will be discussed in much more detail in Chapter \@ref(t-tests-and-non-parametric-alternatives). 
+The main practical difference between the two is that the $t$-statistic works better when samples are small; once samples are very large ($n$ > 1000), the two will be virtually identical. The $t$-statistic and $t$-distribution will be discussed in much more detail in Chapter \@ref(t-tests-and-non-parametric-alternatives). 
 
 Leslie feels like she learned a lot today about statistics and about the seriousness of the opioid problem with people traveling a mean of 24.04 miles just to get to a treatment facility where they can get medication-assisted therapy and 18.08 people out of every 100,000 dying of opioid overdose in 2017. She also learned that, while there are some effective policies for reducing opioid use, not all states have adopted these policies. However, she is keeping in mind that the assumptions that they made about states being independent needs more attention before adopting the conclusions from today as facts. As she starts to learn more about how to use statistics from samples to learn about populations, Leslie thinks she will be better able to contribute to the research on all of these tricky problems. She starts to review the concepts from the day while Nancy and Kiara put together a brief summary and some tasks to work on. 
 
-### Achievement 6: Check your understanding
+### Unlock achievement 6: Check your understanding
 
 Describe what a confidence interval is in your own words. 
 
@@ -1249,8 +1246,8 @@ The _binomial distribution_ is the probability distribution used to represent th
 
 The binomial distribution is defined by two things: 
 
-* n - the number of observations (e.g., coin flips, people surveyed, states selected)   
-* p - the probability of _success_ (e.g., 50% chance of heads for a coin flip, 51% chance of a state having a prescription drug monitoring program)
+* $n$ - the number of observations (e.g., coin flips, people surveyed, states selected)   
+* $p$ - the probability of _success_ (e.g., 50% chance of heads for a coin flip, 51% chance of a state having a prescription drug monitoring program)
 
 #### Achievement 3 recap: The normal distribution
 
@@ -1484,7 +1481,7 @@ od.rates.year %>%
 
 It is often difficult or even impossible to measure even a single characteristic of a population, even for a characteristic that does not seem complex. For example, consider measuring the age of every person in the US. With more than 325 million people and people being born and dying constantly, there is just no feasible way. Instead, researchers take **samples** or subsets of the population. There are many methods of sampling that serve different purposes, but one common choice researcher have to make is whether they will sample with or without replacement. 
 
-In sampling **with replacement** a person selected to be in a sample would then be **replaced** into the population before the next selection. This means the same person could be selected multiple times, which is a problem for some types of statistics. Most of the time in statistics, samples should be selected **without replacement** so that each person in the population can only be represented in the sample one time.
+In sampling **with replacement** a person selected to be in a sample would then be *replaced* into the population before the next selection. This means the same person could be selected multiple times, which is a problem for some types of statistics. Most of the time in statistics, samples should be selected **without replacement** so that each person in the population can only be represented in the sample one time.
 
 #### Kiara's reproducibility resource: Using set.seed() {#ch4kiara}
 
