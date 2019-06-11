@@ -1,14 +1,14 @@
-# The R team learns linear regression 
+# The R-Team learns linear regression 
 
-Kiara has been waiting months for this day! They finally are moving on to linear models, which, aside from descriptive statistics, are some of the most useful methods across many fields. Linear models are useful because they allow people to use multiple variables to explain or predict the values of an outcome such as voter fraud, getting screened for breast cancer, systolic blood pressure, technology use, and many other things. The outcome can be explained or predicted not just by one other variable like sex, race, income, or education, but instead linear models allow multiple variables to be combined to explain or predict something. This reminds Leslie of the two-way ANOVA in Section \@ref(twowayanova) where sex and education together were useful in understanding technology use. She also starts thinking about when they looked at how poverty influences the relationship between female education and water access when discussing partial correlations in Section \@ref(partcorr). Kiara says these sorts of analyses were exactly what she is describing, although linear models are even more flexible. Linear models can be simple with just one variable explaining an outcome or complex, using three, four, five, or even 10 variables to explain an outcome. Also, Kiara explains, the variables in a linear model are not limited to just categorical like in two-way ANOVA or just continuous like in the partial correlation example, they can be most variable types. Leslie thinks this sounds like an  interesting statistical method and she knows it is widely used from seeing it in published research in her classes. 
+Kiara has been waiting months for this day! They finally are moving on to linear models, which, aside from descriptive statistics, are some of the most useful methods across many fields. Linear models are useful because they allow people to use multiple variables to explain or predict the values of an outcome such as voter fraud, getting screened for breast cancer, systolic blood pressure, technology use, and many other things. The outcome can be explained or predicted not just by one other variable like sex, race, income, or education, but instead linear models allow multiple variables to be combined to explain or predict something. This reminds Leslie of the two-way ANOVA in Section \@ref(twowayanova) where sex and education together were useful in understanding technology use. She also starts thinking about when they looked at how poverty influences the relationship between female education and water access when discussing partial correlations in Section \@ref(partcorr). Kiara says these sorts of analyses were exactly what she is describing, although linear models are even more flexible. Linear models can be simple (simple linear regression) with just one variable explaining an outcome or complex, using three, four, five, or even 10 variables to explain an outcome (multiple linear regression). Also, Kiara explains, the variables in a linear model are not limited to just categorical like in two-way ANOVA or just continuous like in the partial correlation example -- they can be most variable types. Leslie thinks this sounds like an interesting statistical method and she knows it is widely used from seeing it in published research.
 
 ## Achievements to unlock 
 
-Kiara suggests that learn linear regression modeling by: 
+Kiara suggests they learn linear regression modeling by: 
 
 * Achievement 1: Using exploratory data analysis to learn about the data before developing a linear regression model 
 * Achievement 2: Exploring the statistical model for a line 
-* Achievement 3: Estima simple linear regression using ordinary least squares regression
+* Achievement 3: Estimating simple linear regression using ordinary least squares regression
 * Achievement 4: Interpreting the meaning, value, and significance of the slope of the line (b, p-value, CI) 
 * Achievement 5: Examining overall model significance and model fit 
 * Achievement 6: Checking assumptions and conducting diagnostics 
@@ -16,13 +16,13 @@ Kiara suggests that learn linear regression modeling by:
 
 ## The needle exchange problem
 
-Nancy was talking to her friend Leanne about the R-team and all the problems they had been exploring with data when Leanne mentioned that she was surprised to read about an outbreak of Human Immunodeficiency Virus (HIV) in the homeless population in Seattle where she has family members [@golden2019outbreak]. Nancy thinks this sounds really familiar, like it has happened in other cities as well. She looks online for a few minutes and finds that the Indiana HIV Outbreak Investigation Team had reported on the same thing several years earlier [@peters2016indiana] where there was an outbreak of HIV primarily among persons who inject drugs (PWID). Nancy also finds a press release from the Massachusetts Department of Public Health describing a cluster of HIV cases in another group of people who either inject drugs, have experienced homelessness, or both [@masshiv]. While new HIV cases have been declining in the US, Nancy found a related study reporting that Hepatitis C rates have been increasing rapidly starting in 2010 with young people in non-urban areas having the highest increases and needle-sharing being a major factor [@canary2017geographic]. The study reported that those infected with Hepatitis C mostly lived more than 10 miles from a needle exchange program [@canary2017geographic]. 
+Nancy was talking to her friend Leanne about the R-Team and all the problems they had been exploring with data when Leanne mentioned that she was surprised to read about an outbreak of Human Immunodeficiency Virus (HIV) in the homeless population in Seattle where she has family members [@golden2019outbreak]. Nancy thinks this sounds really familiar, like it has happened in other cities as well. She looks online for a few minutes and finds that the Indiana HIV Outbreak Investigation Team had reported on the same thing several years earlier [@peters2016indiana] where there was an outbreak of HIV primarily among persons who inject drugs (PWID). Nancy also finds a press release from the Massachusetts Department of Public Health describing a cluster of HIV cases in another group of people who either inject drugs, have experienced homelessness, or both [@masshiv]. While new HIV cases have been declining in the US, Nancy found a related study reporting that Hepatitis C rates have been increasing rapidly starting in 2010 with young people in non-urban areas having the highest increases and needle-sharing being a major factor [@canary2017geographic]. The study reported that those infected with Hepatitis C mostly lived more than 10 miles from a needle exchange program [@canary2017geographic]. 
 
 Nancy reads through some of the press releases and papers about these outbreaks and finds that one of the strategies mentioned for protecting people who inject drugs from infectious disease is to provide clean needles for injection. Although this strategy does not address the injection drug use problem itself, it can prevent transmission of disease among injection drug users [@teshale2019estimated]. Clean needles, or syringes, for injection are distributed by syringe services programs (SSP), which can also provide a number of other related services including overdose prevention, referrals for substance use treatment, and infectious disease testing [@teshale2019estimated]. In her search for more information on the benefits and downsides to SSP, Nancy finds an article about needle litter, or used syringes left improperly in public places, which she had never considered before [@tookes2012comparison]. Apparently one city with needle exchange programs was compared to a city without needle exchange programs and the city without the programs had substantially more used syringes discarded in public places [@tookes2012comparison]. Another study found a reduction in syringe litter in one city from before a needle exchange program was opened until after it opened [@wood2004changes].
 
 Nancy is surprised to learn that needle exchange programs are illegal in many states in the US. She finds that opposition to these programs may come from the opinion that providing free needles to drug addicts promotes drug use [@goodlatte1999send] or that these programs are an inadequate way to address the connection between injection drug use and infectious disease spread [@rogers1993aids]. She also finds some evidence of speculation that needle exchange programs increased the spread of HIV for injection drug users [@schechter1999needle], however, an evaluation of this hypothesis did not provide evidence that it was true. The majority of studies she reviewed suggested that needle exchange programs provided some benefit to their communities [@teshale2019estimated]. 
 
-Leslie is especially interested in the study Nancy mentioned at the beginning about the young people in rural areas having a large increase in Hepatitis C and that many of the infected live far from the nearest needle exchange [@canary2017geographic]. Having lived mostly in bigger cities, Leslie had not considered how far some people must have to travel for health services, especially for services that are specialized like needle exchanges. She searches online and finds the amFAR (American Foundation for AIDS Research) website, which includes a database with data related to HIV including information on HIV rates, opioid prescriptions and other drug-related variables, and several variables related to health services. Leslie is excited to find a **distance to syringe services program** variable among the health services data sources [@OpioidHealthIndicatorsDatabase]. The variable is at the county-level and measures how many miles it is from the county to the nearest syringe services program. She shares her discovery with the R-team and they decide that this sounds like a good problem to work on for linear regression. They discuss it for a few minutes and look through the database Leslie found. Unfortunately, many of the more interesting variables are not available for much of the country and many of them are only at the state level. Given these limitations, they decide to examine whether the distance to a syringe program can be explained by whether a county is urban or rural, what percentage of the county residents have insurance as a measure of both access to healthcare and socioeconomic status, HIV prevalence, and the number of opioid prescriptions. The amFAR database does not have a variable for rural or urban status, which Leslie thinks is really important, so she searches for one and finds a variable that classifies all counties as metro or non-metro on the United States Department of Agriculture Economic Research Services website [@USDAERSCountyTypologyCodes]. They are ready to get started. 
+Leslie is especially interested in the study Nancy mentioned at the beginning about the young people in rural areas having a large increase in Hepatitis C and that many of the infected live far from the nearest needle exchange [@canary2017geographic]. Having lived mostly in bigger cities, Leslie had not considered how far some people must have to travel for health services, especially for services that are specialized like needle exchanges. She searches online and finds the amFAR (American Foundation for AIDS Research) website, which includes a database with data related to HIV including information on HIV rates, opioid prescriptions and other drug-related variables, and several variables related to health services. Leslie is excited to find a **distance to syringe services program** variable among the health services data sources [@OpioidHealthIndicatorsDatabase]. The variable is at the county-level and measures how many miles it is from the county to the nearest syringe services program. She shares her discovery with the R-Team and they decide that this sounds like a good problem to work on for linear regression. They discuss it for a few minutes and look through the database Leslie found. Unfortunately, many of the more interesting variables are not available for much of the country and many of them are only at the state level. Given these limitations, they decide to examine whether the distance to a syringe program can be explained by whether a county is urban or rural, what percentage of the county residents have insurance (which is thought to be a measure of both access to healthcare and socioeconomic status), HIV prevalence, and the number of opioid prescriptions. The amFAR database does not have a variable for rural or urban status, which Leslie thinks is really important, so she searches for one and finds a variable that classifies all counties as metro or non-metro on the United States Department of Agriculture Economic Research Services website [@USDAERSCountyTypologyCodes]. They are ready to get started. 
 
 ## Data, codebook, and packages for logistic regression practice 
 
@@ -59,14 +59,14 @@ Leslie looks through the variables and the codebook and determines that the vari
 * county: the county the statistics are for 
 * STATEABBREVIATION: the two-letter abbreviation for the state the county is in 
 * dist_SSP: distance in miles to the nearest syringe services program 
-* HIVprevalence: people age 13 and older living with diagnosed HIV per 100,000 
+* HIVprevalence: people aged 13 and older living with diagnosed HIV per 100,000 
 * opioid_RxRate: number of opioid prescriptions per 100 people 
 * pctunins: percent of the civilian noninstitutionalized population with no health insurance coverage 
 * metro: county is non-metro, which includes open countryside, rural towns, or smaller cities with up to 49,999 people, or metro
 
 However, she is not sure what the variable `X` is that is showing up as the first column in the data frame. Kiara and Nancy take a look at their data importing and cleaning and think that `X` is likely just row numbers that were saved as a variable when Kiara used `write.csv()` to save the file to the data folder (see Box \@ref(ch9kiara)). Leslie deletes the variable using `select()` and a minus sign to subtract instead of typing all the variable names of the ones to keep.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 # load tidyverse
 library(tidyverse)
 
@@ -75,11 +75,11 @@ dist.ssp.cleaned <- dist.ssp %>%
   select(-X)
 ```
 
-Leslie checks the new `dist.ssp.cleaned` object in the environment pane and the `X`, `county`, and `STATEABBREVIATION` variables are gone, they are ready to get to work.
+Leslie checks the new `dist.ssp.cleaned` object in the environment pane and the `X` variable is gone -- they are ready to get to work.
 
 ### Checking the descriptive statistics
 
-Leslie thinks `CreateTableOne()` from the `tableone` package is just about the easiest way to get descriptive statistics for all the variables of interest, so she starts with that. Nancy reminds here that the state and county are in the data set and probably do not need to be in the descriptive statistics table. Leslie adds a vector of the variables she would like in the table to `CreateTableOne()`.
+Leslie thinks `CreateTableOne()` from the <span style="font-family:Lucida Console, monospace;font-weight:bold">tableone</span> package is just about the easiest way to get descriptive statistics for all the variables of interest, so she starts with that. Nancy reminds here that although the state and county are in the data set, they probably do not need to be in the descriptive statistics table. Leslie adds a vector of the variables she would like in the table to `CreateTableOne()`.
 
 ```{r}
 # descriptive statistics for syringe data
@@ -91,7 +91,7 @@ tableone::CreateTableOne(data = dist.ssp.cleaned,
 
 Leslie looks through the results and notices that the `HIVprevalence` variable has a standard deviation that is much higher than the mean. She remembers that this might indicate a problem with **kurtosis** (see Section \@ref(mean.spread)), which means the variable may not be normally distributed and the median would be better. She decides to use a histogram to check the distribution:
 
-```{r disthiv, fig.cap="Distribution of 2016 HIV rate in 500 counties (data source: amFAR)."}
+```{r disthiv, warning=FALSE,message=FALSE,fig.cap="Distribution of 2016 HIV rate in 500 counties (data source: amFAR)."}
 # check distribution of HIV rate
 dist.ssp.cleaned %>%
   ggplot(aes(x = HIVprevalence)) +
@@ -118,7 +118,7 @@ Leslie asks Kiara if they should check the other continuous variables to see abo
 
 Kiara explains that, while the descriptive statistics are a good place to start getting to know the data and developing ideas about what might be happening, linear regression is about examining relationships between variables. Specifically, linear regression examines how one or more variables can be used to predict or explain some continuous outcome variable. In this case uninsurance, metro or non-metro status, HIV prevalence, and number of opioid prescriptions may help to predict or explain distance to the nearest syringe program at the county level.
 
-Kiara and Leslie decide to start by examining whether the distance to a syringe program can be explained or predicted by percentage of county residents without insurance. Kiara suggests they start by making a graph of the relationship. Leslie remembers how relationships between two continuous variables are often examined using a scatterplot (see Section \@ref(line-graphs-and-scatterplots-for-two-continuous-variables)). Using what she knows about `ggplot()` from prior chapters, she creates a scatterplot of distance to syringe program and percent of uninsured people. Kiara explains that she should put the variable they are interested in explaining, also known as the **outcome variable** on the y-axis and the predictor variable on the x-axis. In this case, they are explaining distance to syringe program, so `dist_SSP` goes on the y-axis and `pctunins` goes on the x-axis. Kiara explains that graphs used to explore data for a linear model have the outcome always on the y-axis for reasons that will become clear soon. 
+Kiara and Leslie decide to start by examining whether the distance to a syringe program can be explained or predicted by percentage of county residents without insurance. Kiara suggests they start by making a graph of the relationship. Leslie remembers how relationships between two continuous variables are often examined using a scatterplot (see Section \@ref(line-graphs-and-scatterplots-for-two-continuous-variables)). Using what she knows about `ggplot()` from prior R-Team meetings, she creates a scatterplot of distance to syringe program and percent of uninsured people. Kiara explains that she should put the variable they are interested in explaining, also known as the **outcome variable** on the y-axis and the predictor variable on the x-axis. In this case, they are explaining distance to syringe program, so `dist_SSP` goes on the y-axis and `pctunins` goes on the x-axis. Kiara explains that graphs used to explore data for a linear model have the outcome always on the y-axis for reasons that will become clear soon. 
 
 ```{r fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
 # percent without health insurance and distance to needle exchange
@@ -130,9 +130,9 @@ dist.ssp.cleaned %>%
   xlab("Percent without health insurance")                          
 ```
 
-The plot seems to show that, as percent without health insurance goes up, so does distance to the nearest syringe program. That is, counties where there is a higher percent without insurance are further from the nearest needle exchange.  Leslie remembers the correlation coefficients from Section \@ref(interpscat) and thinks that these two variables appear to have a positive correlation. 
+The plot seems to show that, as percent without health insurance goes up, so does distance to the nearest syringe program. That is, counties where there is a higher percent of people without insurance are further from the nearest needle exchange. Leslie remembers the correlation coefficients from Section \@ref(interpscat) and thinks that these two variables appear to have a positive correlation. 
 
-Kiara suggests that Leslie use a `geom_smooth()` layer to add a line to the plot and get a better understanding of the relationship between the variables. Leslie uses `geom_smooth()` to add the line. In the help documentation for `geom_smooth()` she finds that the `method = "lm"` argument adds a line to the plot that represents the linear regression model for the relationship between the variables. Since they are working toward conducting a linear regression analysis, she uses this option to update the plot showing a regression line. Since the graph is getting more complicated, she asks Nancy if they can add a legend that clarifies what the dots represent and what the line represents. Nancy explains that this can be done using aesthetics within `geom_point()` and `geom_smooth()`. Leslie does not quite get it, so Nancy goes ahead with some code to show her. Leslie is still confused so Nancy makes a little set of instructions for her to follow (see Box \@ref(ch9nancy)).
+Kiara suggests that Leslie use a `geom_smooth()` layer to add a line to the plot and get a better understanding of the relationship between the variables. In the help documentation for `geom_smooth()` she finds that the `method = "lm"` argument adds a line to the plot that represents the linear regression model for the relationship between the variables. Since they are working toward conducting a linear regression analysis, she uses this option to update the plot showing a regression line. Since the graph is getting more complicated, she asks Nancy if they can add a legend that clarifies what the dots represent and what the line represents. Nancy explains that this can be done using aesthetics within `geom_point()` and `geom_smooth()`. Leslie does not quite get it, so Nancy goes ahead with some code to show her. Leslie is still confused so Nancy makes a little set of instructions for her to follow (see Box \@ref(ch9nancy)).
 
 ```{r needleins, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
 # percent without health insurance and distance to needle exchange
@@ -204,14 +204,14 @@ They find that there is a notably higher mean distance in miles to a syringe pro
 
 ### Exploring the data with boxplots 
 
-Leslie is interested in learning a little more about the difference in `dist_SSP` based on metro and non-metro status since the difference in the means seems quite large. Nancy thinks a boxplot would work well since they are comparing a continuous variable across two groups (see Section \@ref(catcont)). She shows Leslie a trick for adding a scatterplot behind the boxplot so that they not only see the boxplot but also the raw data. Leslie thinks they may have used this trick before, but she cannot remember. Even if they did, Leslie cannot remember why there is an `alpha = .4` and `alpha = .8` for the two `geom_` layers. Nancy explains that `alpha = ` in this context is used to measure how transparent the colors in the graph are. The values for `alpha = ` range from 0, which is completely transparent, to 1, which is the full color. Numbers in between 0 and 1 are partially transparent versions of the color. Nancy prefers making the data points for `geom_jitter()` more transparent than the fill color for the boxes. She thinks this makes the graph easy to interpret compared to having darker colors. Leslie looks at the plot and agrees.
+Leslie is interested in learning a little more about the difference in `dist_SSP` based on metro and non-metro status since the difference in the means seems quite large. Nancy thinks a boxplot would work well since they are comparing a continuous variable across two groups (see Section \@ref(catcont)). She shows Leslie a trick for adding a scatterplot behind the boxplot so that they not only see the boxplot but also the raw data. Leslie thinks they may have used this trick before, but she cannot remember. Even if they did, Leslie cannot remember why there is an `alpha = .4` and `alpha = .8` for the two `geom_` layers. Nancy explains that `alpha = ` in this context is used to measure how transparent the colors in the graph are. The values for `alpha = ` range from 0, which is completely transparent, to 1, which is the full color. Numbers in between 0 and 1 are partially transparent versions of the color. Nancy prefers making the data points for `geom_jitter()` more transparent than the fill color for the boxes. She thinks this makes the graph easy to interpret compared to having darker colors for the points and lighter colors for the boxes, although she acknowledges that this is a personal preference. Leslie looks at the plot and agrees.
 
 ```{r boxmetro, fig.cap = "Distance to syringe programs by metro or non-metro status for 500 counties in 2018 (data source: amFAR)."} 
 # metro and distance to SSP
 dist.ssp.cleaned %>%
   ggplot(aes(x = metro, y = dist_SSP, fill = metro)) +
   geom_jitter(aes(color = metro), alpha = .4) +
-  geom_boxplot(aes(fill = metro), alpha = .8) + 
+  geom_boxplot(aes(fill = metro), alpha = .8) +
   labs(x = "Type of county", 
        y = "Distance to nearest syringe program") +
   scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) + 
@@ -219,7 +219,7 @@ dist.ssp.cleaned %>%
   theme_minimal() 
 ```
 
-Kiara asks Nancy if she has ever created a violin plot? Nancy has heard of this but has not created one before. She searches online to see if it is available in R and she finds the `geom_violin()` layer option for `ggplot()`. Nancy replaces `geom_boxplot()` with `geom_violin()` and they review the results.
+Kiara asks Nancy if she has ever created a violin plot? Nancy remembers it very briefly from their past session on visualizing data, but has not created one before. She searches online to see if it is available in R and she finds the `geom_violin()` layer option for `ggplot()`. Nancy replaces `geom_boxplot()` with `geom_violin()` and they review the results.
 
 ```{r violinmetro, fig.cap = "Distance to syringe programs by metro or non-metro status for 500 counties in 2018 (data source: amFAR)."} 
 # metro and distance to SSP
@@ -243,7 +243,7 @@ dist.ssp.cleaned %>%
   geom_jitter(aes(color = metro), alpha = .4) +
   geom_violin(aes(fill = metro), alpha = .8) + 
   labs(x = "Type of county", 
-       y = "Miles to syringe program") +
+       y = "Distance to nearest syringe program") +
   scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) + 
   scale_color_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
   theme_minimal() +
@@ -252,7 +252,7 @@ dist.ssp.cleaned %>%
 
 They all like this new version because the skew is quite clear. Nancy is happy to have learned some new code. They are ready to move on to the linear regression development.
 
-### Achievement 1: Check your understanding
+### Unlock achievement 1: Check your understanding
 
 Use the code above or the code from Box \@ref(ch9kiara) to import the data. Check the distributions of `opioid_RxRate` and `pctunins`. Are the variables normally distributed? If not, what changes might Leslie make to her descriptive statistics and correlations to account for the non-normal data?
 
@@ -260,7 +260,7 @@ Use the code above or the code from Box \@ref(ch9kiara) to import the data. Chec
 
 ### The equation for a line
 
-Leslie is familiar with simple linear regression modeling. She knows that linear models use the concept of a line to explain and predict things about relationships among variables. She knows that, to build and use linear models, it is useful to think about the equation of a line:
+Leslie is familiar with simple linear regression modeling. She knows that linear models use the concept of a line to explain and predict things about relationships among variables. To build and use linear models, Leslie knows that it is useful to think about the equation of a line:
 
 $$
 \begin{equation}
@@ -270,7 +270,7 @@ y = mx + b
 $$
 Where:
 
-* $m$ is the slope of the line 
+* $m$ is the slope ($\frac{rise}{run}$) of the line 
 * $b$ is the $y$-intercept of the line, or the value of $y$ when $x$ = 0 
 * $x$ and $y$ are the coordinates of each point along the line 
 
@@ -290,11 +290,11 @@ y = c + b_1x
 \end{equation}
 $$
 
-Leslie remembers that occasionally she has seen a $\beta$ rather than a b, however, typically Greek letters are only used for _population_ values so when working with samples the lower-case $b$ is more appropriate. 
+Leslie remembers that occasionally she has seen a $\beta$ rather than a $b$, however, typically Greek letters are only used for _population_ values so when working with samples the lower-case $b$ is more appropriate. (Occasionally, you might see $b^*$. This still reflects a sample, however the $^*$ indicates that the variable has been standardized or $z$-scored.)
 
 ### Using the equation for a line
 
-Kiara and Leslie discuss how the equation for a line is useful in two ways, to *explain* values of the outcome ($y$) and to *predict* values of the outcome ($y$). Kiara suggests they review how the model works with a simple example and writes down the equation for the line with a slope of 2 and a $y$-intercept of 3:
+Kiara and Leslie discuss how the equation for a line is useful to a) *explain* values of the outcome ($y$) and to b) *predict* values of the outcome ($y$). Kiara suggests they review how the model works with a simple example and writes down the equation for the line with a slope of 2 and a $y$-intercept of 3:
 
 $$
 \begin{equation}
@@ -303,13 +303,13 @@ y = 3 + 2x
 \end{equation}
 $$
 
-She makes up a scenario where this model predicts the number of gallons of clean drinking water per person per week needed to survive. In this case, $x$ would be the number of weeks and $y$ would represent the gallons of water needed to survive. Consider a person who hears from their landlord that there is a major repair needed with the pipes and the water supply in the building will not be safe for drinking for up to 4 weeks. Based on the equation, how many gallons of drinking water would be needed to survive?
+She makes up a scenario where this model predicts the number of gallons of clean drinking water a person needed per week in order to survive. In this case, $x$ would be the number of weeks and $y$ would represent the gallons of water needed to survive. Consider a person who hears from their landlord that there is a major repair needed with the pipes and the water supply in the building will not be safe for drinking for up to 4 weeks. Based on the equation, how many gallons of drinking water would be needed to survive?
 
 Leslie starts by re-writing the equation using the names of the variables of interest to clarify the meaning:
 
 $$
 \begin{equation}
-gallons = 3 + 2 * weeks
+gallons = 3 + 2 \cdot weeks
  (\#eq:practiceline2)
 \end{equation}
 $$
@@ -318,7 +318,7 @@ She then substitutes the value of 4, for the 4 weeks without drinking water, int
 
 $$
 \begin{equation}
-gallons = 3 + 2*4
+gallons = 3 + 2\cdot4
  (\#eq:practiceline2)
 \end{equation}
 $$
@@ -326,7 +326,32 @@ Keeping in mind the *order of operations* (see Box \@ref(ch9kiara)) she solves t
 
 $gallons = 11$
 
-Kiara thinks it might be good to go over some additional terminology before they move into the actual modeling. She explains that each part of the model can be referred to in several ways:
+Leslie then explains that any number can be substituted in for $x$, which would ultimately produce a line. For example:
+
+```{r}
+# step 1: make a data frame called "water" that has 2 columns:
+# weeks = numbers 1 through 12
+# gallons = NA (these values are missing for now, but we will fill this in)
+water <- data.frame(weeks = 1:12,
+                    gallons = NA)
+
+# step 2: use each observation (or row) in the weeks column to solve the
+# equation for each value of x (or weeks)
+water$gallons <- 3 + 2*water$weeks
+
+# step 3: now plot!
+ggplot(data = water, aes(x = weeks, y = gallons)) +
+  geom_line(linetype = "dashed", color = "#78A678") +
+  geom_point(size = 2, color = "#7463AC") +
+  theme_classic() +
+  coord_cartesian(xlim = c(0,12), ylim = c(0,30)) +
+  labs(x = "Weeks", y = "Gallons")
+
+```
+
+By including lots of different values for $x$, we are able to get lots of corresponding values for $y$ or $gallons$ that all satisfy the equation $gallons = 3 + 2 \cdot x$, and we are able to draw a straight line through these points!
+
+Before they move into the actual modeling, Kiara thinks it might be good to introduce some terms that are commonly used in the statistics and regression worlds. She explains that each part of the model can be referred to in several ways:
 
 * The y variable on the left-hand side of the equation is called the _dependent_ or _outcome_ variable. 
 
@@ -336,7 +361,7 @@ The equation can be rewritten with these terms instead:
 
 $$
 \begin{equation}
-outcome = b_0 + b_1*predictor
+outcome = b_0 + b_1 \cdot predictor
  (\#eq:practiceline3)
 \end{equation}
 $$
@@ -345,76 +370,55 @@ So, in the previous example, `weeks` was the _predictor_ variable and `gallons o
 
 ### The distinction between deterministic and stochastic
 
-Nancy is ready to move on but Kiara has one more term to add to the discussion. She suggests the relationships between $y$ and $x$ in all of the equations presented so far are *deterministic*. A deterministic equation has one precise value for $y$ for each value of $x$. This is true for some relationships. For example, many people have heard of the equation from physics $e = mc^2$. In this equation, $e$ represents *energy*, $m$ represents *mass* and $c$ represents the *speed of light*. The laws of physics dictate that this equation will give an exact value for energy given a specific mass traveling at the speed of light squared. 
+Nancy and Leslie are eager to get going, but Kiara has one more term to add to the discussion. She suggests the relationships between $y$ and $x$ in all of the equations presented so far are *deterministic*. A deterministic equation has one precise value for $y$ for each value of $x$. This is true for some relationships. For example, many people have heard of the equation from physics $e = mc^2$. In this equation, $e$ represents *energy*, $m$ represents *mass* and $c$ represents the *speed of light*. The laws of physics dictate that this equation will give an exact value for energy given a specific mass traveling at the speed of light squared.
 
 Kiara explains that social science is not deterministic; it is **stochastic**. It is unusual in social science to be able to predict something exactly. Most of the time there is some variability in an outcome that the predictor variable (or variables) cannot explain. Stochastic models include some randomness or variability that cannot be explained. This unexplained variability in the outcome is represented by adding an *error* term to the equation, like this: 
 
 $$
 \begin{equation}
-outcome = b_0 + b_1*predictor + error
+outcome = b_0 + b_1\cdot predictor + e
  (\#eq:stoch)
 \end{equation}
 $$
-Consider the water example. It is unlikely that every human would drink exactly 11 gallons over 4 weeks. If a person is larger or smaller or active or inactive they may need to drink a different amount of water. This *error* or $e$ in the equation accounts for the variability in the outcome that is not explained by the predictor. Equation \@ref(e1:stoch) is the **simple linear regression** equation or *model*.
 
-### Achievement 2: Check your understanding
+This equation looks *nearly* identical to the ones we have been working with, however it includes *error* or $e$. Error ($e$) in the equation accounts for the variability in the outcome that is not explained by the predictor, and Equation \@ref(e1:stoch) is the **simple linear regression** equation or *model*. Consider the water example. It is unlikely that every human would drink exactly 11 gallons over 4 weeks. If a person is larger or smaller or active or inactive they may need to drink a different amount of water. For example, the following graph is something that is much more likely to happen in real life:
+
+```{r echo=FALSE}
+set.seed(1234)
+err = seq(from = -3, to = 5, by = .5)
+water$error <- sample(x = err, size = 12, replace = TRUE)
+water$galsWithError = water$gallons + water$error
+
+ggplot(data = water, aes(x = weeks, y = galsWithError)) +
+  geom_segment(aes(xend = weeks, yend = gallons), color = "darkgray") +
+  geom_point(color = "#7463AC", size = 2) +
+  geom_line(aes(y = gallons), color = "#78A678", linetype = "dashed") +
+  theme_classic() +
+  scale_x_continuous(limits = c(0,12), breaks = 0:12) +
+  scale_y_continuous(limits = c(2,30), breaks = seq(0,30,by=2)) +
+  labs(x = "Weeks", y = "Gallons")
+
+```
+
+Notice how the purple dots are *not* exactly along the green fit line? That's because there is *error*. At the 4 week mark, rather than drinking exactly 11 gallons of water (like our equation *without* error would have predicted), this person actually drank about 13 gallons. While our equation of $gallons = 3 + 2\cdot weeks$ does a good job explaining how much clean drinking water per week a person needs to survive, it isn't perfect. This is true for nearly all data in the social sciences and is a fundamental aspect of regression. There will always be error! But we can still look for linear relationships among variables, and even learn things from this error!
+
+### Unlock achievement 2: Check your understanding
 
 Write out the equation for a line where income is the outcome and years of education is the predictor. Include an error term if it makes sense for the equation. Write out an explanation of each part of the model. 
 
 ## Achievement 3: Computing the slope and intercept in a simple linear regression
 
-Kiara goes on to explain that, in the case of simple linear regression, _simple_ does not mean _easy_, instead it is the term used for a regression model with only _one predictor_. For example, Kiara suggests that a simple linear regression model could be used to examine the relationship between the percentage of people without insurance and the distance to a syringe program for a county. To understand this relationship between one predictor and an outcome, she would use a _simple linear regression model_. 
+In the case of simple linear regression, _simple_ does not mean _easy_. Instead, it is the term used for a regression model with only _one predictor_. For example, Kiara suggests that a simple linear regression model could be used to examine the relationship between the percentage of people without insurance and the distance to a syringe program for a county. To understand this relationship between one predictor and an outcome, she would use a _simple linear regression model_. Kiara reassures Leslie and Nancy that, like the $t$-test and the $\chi^2$ test, linear regression is appropriate for examining relationships in a sample to understand what is happening in the population that the sample came from. 
 
-### Sampling from a data frame 
-
-Kiara explains that, like the $t$-test and $\chi^2$, linear regression is appropriate for examining relationships in a sample to understand what is happening in the population that the sample came from. 
-
-### Exploring the relationship with a scatterplot
-
-Leslie looks back at Figure \@ref(fig:needleins), which contains the line added with the `method = "lm"` layer. This is the simple linear regression line that they will be estimating and interpreting. She thinks the graph looks good but wants to add a key so that it is more clear what all the colors and parts 
-
-```{r needleins2, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
-# percent without health insurance and distance to needle exchange
-dist.ssp.cleaned %>%
-  ggplot(aes(x = pctunins, y = dist_SSP)) +
-  geom_point(aes(color = "County"), size = 2) + 
-  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
-  theme_minimal() +
-  labs(y = "Miles to syringe program", x = "Percent uninsured") +
-  scale_color_manual(values = c("#7463AC", "#78A678"), name = "")
-```
-
-### Understanding residuals 
-
-The linear regression line in Figure \@ref(fig:needleins2) is based on the values of the intercept and slope that are the best at minimizing the distances between all the points and the regression line. These distances are called _residuals_ and are the leftover information that the line does not explain. Nancy has not graphed residuals before, so she looks online for some guidance. She finds a good tutorial [@VisualisingResiduals] and modifies some of the instructions to come up with Figure \@ref(fig:needleins3). The basic idea of the tutorial is to add a layer with `geom_segment()` that creates line segments between each observed value (the dots) and the value predicted by the fit line. Nancy goes ahead with the graph and Kiara says they will talk more about predicted values after they estimate the model.
-
-```{r needleins3, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties with residuals (data source: amFAR)."}
-# add predicted values to the data
-dist.ssp.cleaned$predicted <- predict(lm(dist_SSP ~ pctunins, 
-                                 data = dist.ssp.cleaned,
-                                 na.action = na.exclude))
-
-# use geom_segment to draw lines between observed (purple) and
-# predicted values for each county, these are residuals
-dist.ssp.cleaned %>%
-  ggplot(aes(x = pctunins, y = dist_SSP)) +
-  geom_segment(aes(xend = pctunins, yend = predicted, color = "Residual")) +
-  geom_point(aes(color = "County"), size = 2) + 
-  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
-  theme_minimal() +
-  labs(y = "Miles to syringe program", x = "Percent uninsured") +
-  scale_color_manual(values = c("#7463AC", "#78A678", "gray80"), name = "")
-```
-
-Leslie sees that the vertical lines show the information that the regression line is not explaining. 
+Nancy understands that the goal of simple linear regression is to examine the relationship between two variables: an independent (or predictor) variable and a dependent (or outcome) variable. She also realizes that we can think of this relationship as being able to draw a straight (linear) line through the data points. But she's still confused on how to get that line. How do you know the slope of the line? Leslie and Kiara are excited to show Nancy how it's done!
 
 ### Computing the slope of the line 
 
-The formula to compute the slope uses the difference between each observation and the mean values of $x$ and $y$, like this: 
+Let's go back to the distance to syringe program data. The formula to compute the slope uses the difference between each observation and the mean values of $x$ and $y$, like this: 
 
 $$
 \begin{equation}
-b=\frac{{\sum_{i=1}^n}(x_i-\bar{x})(y_i-\bar{y})}{{\sum_{i=1}^n}(x_i-\bar{x})^2}
+b=\frac{{\sum\limits_{i=1}^n}(x_i-\bar{x})(y_i-\bar{y})}{{\sum\limits_{i=1}^n}(x_i-\bar{x})^2}
  (\#eq:lrslope)
 \end{equation}
 $$
@@ -435,6 +439,84 @@ So, Kiara explains, the formula is adding up the product of differences between 
 Once the slope is computed, the intercept can be determined by plugging in the slope and values of $\overline{x}$ and $\overline{y}$ into the equation for the line: $\overline{y} = b_0 + b_1{\cdot}\overline{x}$ and solving it for the $y$-intercept, $b_0$. 
 
 Because this way of computing the slope and intercept relies on the squared differences and works to minimize the residuals overall, it is often called **Ordinary Least Squares** or **OLS** regression.
+
+### Understanding residuals 
+
+Leslie explains that after getting the slope and the intercept, the result is an equation. You can plot this equation as a line, which is called a "best fit line" or simply a "fit line". However, Leslie points out that earlier in the water example, she said that the equation does a good job, but it's not perfect. Well, she says, it's the same idea here. The equation the R-Team just solved for using OLS regression gave a slope and an intercept. You use that equation to plug in different values of $x$, and as a result, get a *predicted* value for $y$ (sometimes shown as $\hat{y}$). This predicted $y$ or $\hat{y}$ is *not* the same as the actual $y$ because there is error! 
+
+To hit this point home, Leslie goes through a thought exercise in comparing 4 graphs from the water data side-by-side. First graph is if there is no error at all. The second is one where the error is minimized such that the predicted $y$ ($\hat{y}$) values are closest to the actual observed $y$ values. The third is what happens if the slope of the fit line changed (here, gets more shallow). And the last is what happens if there is no relationship at all (correlation of 0), or simply a flat horizontal line. 
+
+```{r echo=FALSE}
+# get the new slope line values for plot 3
+water$galsNewSlope <- 3 + 1.5*water$weeks
+# get the mean of gallons for plot 4
+meanGals = mean(water$gallons)
+
+
+p1 = ggplot(data = water, aes(x = weeks, y = gallons)) +
+  geom_line(linetype = "dashed", color = "#78A678") +
+  geom_point(size = 2, color = "#7463AC") +
+  theme_classic() +
+  scale_x_continuous(limits = c(0,12), breaks = 0:12) +
+  scale_y_continuous(limits = c(2,30), breaks = seq(0,30,by=10)) +
+  labs(x = "Weeks", y = "Gallons", subtitle = "Perfect Relationship/No Error")
+
+p2 = ggplot(data = water, aes(x = weeks, y = galsWithError)) +
+  geom_segment(aes(xend = weeks, yend = gallons), color = "darkgray") +
+  geom_point(color = "#7463AC", size = 2) +
+  geom_line(aes(y = gallons), color = "#78A678", linetype = "dashed") +
+  theme_classic() +
+  scale_x_continuous(limits = c(0,12), breaks = 0:12) +
+  scale_y_continuous(limits = c(2,30), breaks = seq(0,30,by=10)) +
+  labs(x = "Weeks", y = "Gallons", subtitle = "Best Fit: Minimizes Error")
+
+p3 = ggplot(data = water, aes(x = weeks, y = galsWithError)) +
+  geom_segment(aes(xend = weeks, yend = galsNewSlope), color = "darkgray") +
+  geom_point(color = "#7463AC", size = 2) +
+  geom_line(aes(y = galsNewSlope), color = "#78A678", linetype = "dashed") +
+  theme_classic() +
+  scale_x_continuous(limits = c(0,12), breaks = 0:12) +
+  scale_y_continuous(limits = c(2,30), breaks = seq(0,30,by=10)) +
+  labs(x = "Weeks", y = "Gallons", subtitle = "Worse Fit: Different Slope")
+
+p4 = ggplot(data = water, aes(x = weeks, y = galsWithError)) +
+  geom_segment(aes(xend = weeks, yend = meanGals), color = "darkgray") +
+  geom_point(color = "#7463AC", size = 2) +
+  geom_hline(aes(yintercept = meanGals), color = "#78A678", linetype = "dashed") +
+  theme_classic() +
+  scale_x_continuous(limits = c(0,12), breaks = 0:12) +
+  scale_y_continuous(limits = c(2,30), breaks = seq(0,30,by=10)) +
+  labs(x = "Weeks", y = "Gallons", subtitle = "Worst Fit: No Relationship")
+
+gridExtra::grid.arrange(p1, p2, p3, p4, nrow = 2)
+
+```
+
+The top left graph is the ideal, but Nancy realizes this never happens in real research where there are lots of potential sources of error. In the remaining three graphs, all the points stay in the same place, but the green line between them is at different angles. The graph on the top right is the best one because it minimizes the length of the gray bars (which indicate distances from the actual point to the predicted value of $y$ for that particular $x$). Leslie reiterates that this is the best part of using OLS -- it minimizes those distances, which are known as **residuals**. 
+
+The linear regression line in Figure \@ref(fig:needleins2) is based on the values of the intercept and slope that are the best at minimizing the distances between all the points and the regression line (OLS regression). These distances are called _residuals_ and they are the leftover information that the line does *not* explain. Put differently, residuals are the difference between the observed value and the predicted value.
+
+Nancy has not graphed residuals before, so she looks online for some guidance in creating the same type of plots as just shown (with the bars between the points and the line). She finds a good tutorial [@VisualisingResiduals] and modifies some of the instructions to come up with Figure \@ref(fig:needleins3). The basic idea of the tutorial is to add a layer with `geom_segment()` that creates line segments between each observed value (the dots) and the value *predicted* by the fit line. Nancy goes ahead with the graph and Kiara says they will talk more about predicted values after they estimate the model.
+
+```{r needleins3, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties with residuals (data source: amFAR)."}
+# add predicted values to the data
+dist.ssp.cleaned$predicted <- predict(lm(dist_SSP ~ pctunins, 
+                                 data = dist.ssp.cleaned,
+                                 na.action = na.exclude))
+
+# use geom_segment to draw lines between observed (purple) and
+# predicted values for each county, these are residuals
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_segment(aes(xend = pctunins, yend = predicted, color = "Residual")) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678", "gray80"), name = "")
+```
+
+Leslie sees that the vertical lines show the information that the regression line is not explaining.
 
 ### Estimating the linear regression model in R
 
