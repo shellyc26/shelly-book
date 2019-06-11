@@ -1,0 +1,1645 @@
+# The R team learns linear regression 
+
+Kiara has been waiting months for this day! They finally are moving on to linear models, which, aside from descriptive statistics, are some of the most useful methods across many fields. Linear models are useful because they allow people to use multiple variables to explain or predict the values of an outcome such as voter fraud, getting screened for breast cancer, systolic blood pressure, technology use, and many other things. The outcome can be explained or predicted not just by one other variable like sex, race, income, or education, but instead linear models allow multiple variables to be combined to explain or predict something. This reminds Leslie of the two-way ANOVA in Section \@ref(twowayanova) where sex and education together were useful in understanding technology use. She also starts thinking about when they looked at how poverty influences the relationship between female education and water access when discussing partial correlations in Section \@ref(partcorr). Kiara says these sorts of analyses were exactly what she is describing, although linear models are even more flexible. Linear models can be simple with just one variable explaining an outcome or complex, using three, four, five, or even 10 variables to explain an outcome. Also, Kiara explains, the variables in a linear model are not limited to just categorical like in two-way ANOVA or just continuous like in the partial correlation example, they can be most variable types. Leslie thinks this sounds like an  interesting statistical method and she knows it is widely used from seeing it in published research in her classes. 
+
+## Achievements to unlock 
+
+Kiara suggests that learn linear regression modeling by: 
+
+* Achievement 1: Using exploratory data analysis to learn about the data before developing a linear regression model 
+* Achievement 2: Exploring the statistical model for a line 
+* Achievement 3: Estima simple linear regression using ordinary least squares regression
+* Achievement 4: Interpreting the meaning, value, and significance of the slope of the line (b, p-value, CI) 
+* Achievement 5: Examining overall model significance and model fit 
+* Achievement 6: Checking assumptions and conducting diagnostics 
+* Achievement 7: Adding variables to the model and statistically comparing two linear models 
+
+## The needle exchange problem
+
+Nancy was talking to her friend Leanne about the R-team and all the problems they had been exploring with data when Leanne mentioned that she was surprised to read about an outbreak of Human Immunodeficiency Virus (HIV) in the homeless population in Seattle where she has family members [@golden2019outbreak]. Nancy thinks this sounds really familiar, like it has happened in other cities as well. She looks online for a few minutes and finds that the Indiana HIV Outbreak Investigation Team had reported on the same thing several years earlier [@peters2016indiana] where there was an outbreak of HIV primarily among persons who inject drugs (PWID). Nancy also finds a press release from the Massachusetts Department of Public Health describing a cluster of HIV cases in another group of people who either inject drugs, have experienced homelessness, or both [@masshiv]. While new HIV cases have been declining in the US, Nancy found a related study reporting that Hepatitis C rates have been increasing rapidly starting in 2010 with young people in non-urban areas having the highest increases and needle-sharing being a major factor [@canary2017geographic]. The study reported that those infected with Hepatitis C mostly lived more than 10 miles from a needle exchange program [@canary2017geographic]. 
+
+Nancy reads through some of the press releases and papers about these outbreaks and finds that one of the strategies mentioned for protecting people who inject drugs from infectious disease is to provide clean needles for injection. Although this strategy does not address the injection drug use problem itself, it can prevent transmission of disease among injection drug users [@teshale2019estimated]. Clean needles, or syringes, for injection are distributed by syringe services programs (SSP), which can also provide a number of other related services including overdose prevention, referrals for substance use treatment, and infectious disease testing [@teshale2019estimated]. In her search for more information on the benefits and downsides to SSP, Nancy finds an article about needle litter, or used syringes left improperly in public places, which she had never considered before [@tookes2012comparison]. Apparently one city with needle exchange programs was compared to a city without needle exchange programs and the city without the programs had substantially more used syringes discarded in public places [@tookes2012comparison]. Another study found a reduction in syringe litter in one city from before a needle exchange program was opened until after it opened [@wood2004changes].
+
+Nancy is surprised to learn that needle exchange programs are illegal in many states in the US. She finds that opposition to these programs may come from the opinion that providing free needles to drug addicts promotes drug use [@goodlatte1999send] or that these programs are an inadequate way to address the connection between injection drug use and infectious disease spread [@rogers1993aids]. She also finds some evidence of speculation that needle exchange programs increased the spread of HIV for injection drug users [@schechter1999needle], however, an evaluation of this hypothesis did not provide evidence that it was true. The majority of studies she reviewed suggested that needle exchange programs provided some benefit to their communities [@teshale2019estimated]. 
+
+Leslie is especially interested in the study Nancy mentioned at the beginning about the young people in rural areas having a large increase in Hepatitis C and that many of the infected live far from the nearest needle exchange [@canary2017geographic]. Having lived mostly in bigger cities, Leslie had not considered how far some people must have to travel for health services, especially for services that are specialized like needle exchanges. She searches online and finds the amFAR (American Foundation for AIDS Research) website, which includes a database with data related to HIV including information on HIV rates, opioid prescriptions and other drug-related variables, and several variables related to health services. Leslie is excited to find a **distance to syringe services program** variable among the health services data sources [@OpioidHealthIndicatorsDatabase]. The variable is at the county-level and measures how many miles it is from the county to the nearest syringe services program. She shares her discovery with the R-team and they decide that this sounds like a good problem to work on for linear regression. They discuss it for a few minutes and look through the database Leslie found. Unfortunately, many of the more interesting variables are not available for much of the country and many of them are only at the state level. Given these limitations, they decide to examine whether the distance to a syringe program can be explained by whether a county is urban or rural, what percentage of the county residents have insurance as a measure of both access to healthcare and socioeconomic status, HIV prevalence, and the number of opioid prescriptions. The amFAR database does not have a variable for rural or urban status, which Leslie thinks is really important, so she searches for one and finds a variable that classifies all counties as metro or non-metro on the United States Department of Agriculture Economic Research Services website [@USDAERSCountyTypologyCodes]. They are ready to get started. 
+
+## Data, codebook, and packages for logistic regression practice 
+
+Before they begin examining the data, Kiara made a list of all the data and packages for learning linear regression they can download and install: 
+
+* Download the cleaned data set **dist_ssp_amfar_ch9.csv** from [edge.sagepub.com/harris1e](edge.sagepub.com/harris1e). 
+* To practice data merging and cleaning (see Box \@ref(ch10kiara)) download the raw data directly from the amFAR Opioid & Health Indicators Database [@OpioidHealthIndicatorsDatabase] or go to [edge.sagepub.com/harris1e](edge.sagepub.com/harris1e) and download: 
+   + opioid_dist_to_needle_exchange_2018.csv 
+   + hiv_prevalence_amfar_ch9.csv 
+   + opioid_script_rate_amfar_ch9.csv
+   + percent_unins_amfar_2016_ch9.csv
+   + metro_nonmetro_usda_ers_2015_ch9.csv
+* Download the codebook file **opioid_county_codebook.xlsx** from [edge.sagepub.com/harris1e](edge.sagepub.com/harris1e) or use the version from the amFAR Opioid & Health Indicators Database website [@OpioidHealthIndicatorsDatabase]. 
+* Install the following packages if not already installed: <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse, tableone, lmtest, broom</span>.
+
+## Achievement 1: Using exploratory data analysis to learn about the data before developing a linear regression model 
+
+As usual, Nancy wants to jump right into the modeling, but Kiara slows her down. Before they can examine relationships between variables, there is data importing, data management, and data exploration to do first. 
+
+### Importing and merging data sources 
+
+The data were available in comma separated values files on the amFAR website in the Opioid & Health Indicators Database [@OpioidHealthIndicatorsDatabase] and on the United States Department of Agriculture Economic Research Services website [@USDAERSCountyTypologyCodes]. To keep the team moving along, Kiara downloads, cleans, and merges the data sources (see Box \@ref(ch9kiara)). Nancy suggests that they take a sample of 500 counties to work with since they want to practice inferential statistics. Leslie looked back at Section \@ref(samptopop) and reminded herself about why they would take a sample instead of using the entire population. She finds that inferential statistics are used to infer what is going on in a population based on characteristics and relationships in a sample, so it makes more sense to work with a sample. While she was looking this up, Nancy was already loading the data that Kiara cleaned into R:
+
+```{r}
+# distance to syringe program data
+dist.ssp <- read.csv(file = "data/dist_ssp_amfar_ch9.csv")
+
+# summary
+summary(object = dist.ssp)
+```
+
+Leslie looks through the variables and the codebook and determines that the variables have the following meanings:
+
+* county: the county the statistics are for 
+* STATEABBREVIATION: the two-letter abbreviation for the state the county is in 
+* dist_SSP: distance in miles to the nearest syringe services program 
+* HIVprevalence: people age 13 and older living with diagnosed HIV per 100,000 
+* opioid_RxRate: number of opioid prescriptions per 100 people 
+* pctunins: percent of the civilian noninstitutionalized population with no health insurance coverage 
+* metro: county is non-metro, which includes open countryside, rural towns, or smaller cities with up to 49,999 people, or metro
+
+However, she is not sure what the variable `X` is that is showing up as the first column in the data frame. Kiara and Nancy take a look at their data importing and cleaning and think that `X` is likely just row numbers that were saved as a variable when Kiara used `write.csv()` to save the file to the data folder (see Box \@ref(ch9kiara)). Leslie deletes the variable using `select()` and a minus sign to subtract instead of typing all the variable names of the ones to keep.
+
+```{r}
+# load tidyverse
+library(tidyverse)
+
+# delete unneeded variables
+dist.ssp.cleaned <- dist.ssp %>%
+  select(-X)
+```
+
+Leslie checks the new `dist.ssp.cleaned` object in the environment pane and the `X`, `county`, and `STATEABBREVIATION` variables are gone, they are ready to get to work.
+
+### Checking the descriptive statistics
+
+Leslie thinks `CreateTableOne()` from the `tableone` package is just about the easiest way to get descriptive statistics for all the variables of interest, so she starts with that. Nancy reminds here that the state and county are in the data set and probably do not need to be in the descriptive statistics table. Leslie adds a vector of the variables she would like in the table to `CreateTableOne()`.
+
+```{r}
+# descriptive statistics for syringe data
+tableone::CreateTableOne(data = dist.ssp.cleaned,
+                         vars = c('dist_SSP', 'HIVprevalence',
+                                  'opioid_RxRate', 'pctunins',
+                                  'metro'))
+```
+
+Leslie looks through the results and notices that the `HIVprevalence` variable has a standard deviation that is much higher than the mean. She remembers that this might indicate a problem with **kurtosis** (see Section \@ref(mean.spread)), which means the variable may not be normally distributed and the median would be better. She decides to use a histogram to check the distribution:
+
+```{r disthiv, fig.cap="Distribution of 2016 HIV rate in 500 counties (data source: amFAR)."}
+# check distribution of HIV rate
+dist.ssp.cleaned %>%
+  ggplot(aes(x = HIVprevalence)) +
+  geom_histogram(fill = "#7463AC", color = "white") +
+  labs(x = "HIV cases per 100,000 people", y = "Number of counties") +
+  theme_minimal()
+
+```
+
+The `HIVprevalence` variable definitely seems right skewed to Leslie, so the median would be a better option than the mean (see Section \@ref(centtend)). Leslie revises the table to show the median and IQR instead of the mean and standard deviation for the `HIVprevalence` variable.
+
+```{r}
+# descriptive statistics for syringe data
+syringe.desc <- tableone::CreateTableOne(data = dist.ssp.cleaned,
+                                         vars = c('dist_SSP', 'HIVprevalence',
+                                                  'opioid_RxRate', 'pctunins',
+                                                  'metro'))
+print(syringe.desc, nonnormal = c("HIVprevalence"))
+```
+
+Leslie asks Kiara if they should check the other continuous variables to see about distributions. Kiara explains that checking these distributions will be part of the linear regression modeling process, so they can probably skip it for now.
+
+### Using a scatterplot to explore the relationship
+
+Kiara explains that, while the descriptive statistics are a good place to start getting to know the data and developing ideas about what might be happening, linear regression is about examining relationships between variables. Specifically, linear regression examines how one or more variables can be used to predict or explain some continuous outcome variable. In this case uninsurance, metro or non-metro status, HIV prevalence, and number of opioid prescriptions may help to predict or explain distance to the nearest syringe program at the county level.
+
+Kiara and Leslie decide to start by examining whether the distance to a syringe program can be explained or predicted by percentage of county residents without insurance. Kiara suggests they start by making a graph of the relationship. Leslie remembers how relationships between two continuous variables are often examined using a scatterplot (see Section \@ref(line-graphs-and-scatterplots-for-two-continuous-variables)). Using what she knows about `ggplot()` from prior chapters, she creates a scatterplot of distance to syringe program and percent of uninsured people. Kiara explains that she should put the variable they are interested in explaining, also known as the **outcome variable** on the y-axis and the predictor variable on the x-axis. In this case, they are explaining distance to syringe program, so `dist_SSP` goes on the y-axis and `pctunins` goes on the x-axis. Kiara explains that graphs used to explore data for a linear model have the outcome always on the y-axis for reasons that will become clear soon. 
+
+```{r fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(size = 2, color = "#7463AC") + 
+  theme_minimal() +
+  ylab("Miles to syringe program") + 
+  xlab("Percent without health insurance")                          
+```
+
+The plot seems to show that, as percent without health insurance goes up, so does distance to the nearest syringe program. That is, counties where there is a higher percent without insurance are further from the nearest needle exchange.  Leslie remembers the correlation coefficients from Section \@ref(interpscat) and thinks that these two variables appear to have a positive correlation. 
+
+Kiara suggests that Leslie use a `geom_smooth()` layer to add a line to the plot and get a better understanding of the relationship between the variables. Leslie uses `geom_smooth()` to add the line. In the help documentation for `geom_smooth()` she finds that the `method = "lm"` argument adds a line to the plot that represents the linear regression model for the relationship between the variables. Since they are working toward conducting a linear regression analysis, she uses this option to update the plot showing a regression line. Since the graph is getting more complicated, she asks Nancy if they can add a legend that clarifies what the dots represent and what the line represents. Nancy explains that this can be done using aesthetics within `geom_point()` and `geom_smooth()`. Leslie does not quite get it, so Nancy goes ahead with some code to show her. Leslie is still confused so Nancy makes a little set of instructions for her to follow (see Box \@ref(ch9nancy)).
+
+```{r needleins, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678"), name = "")
+```
+
+The line goes up from left to right, demonstrating a positive relationship between percent uninsured and distance to a syringe exchange. This indicates that Leslie was right in thinking that this looks like a positive relationship. 
+
+### Using a correlation coefficient to explore the relationship 
+
+Kiara suggests she could confirm her idea about this being a positive correlation using `cor()` and Leslie looks back at Section \@ref(pearsonrtest) to remind herself how to do this. She writes the command:
+
+```{r}
+# correlation between percent uninsured and distance
+dist.ssp.cleaned %>%
+  summarize(cor.dist.uninsur = cor(x = dist_SSP,
+                                   y = pctunins),
+            n = n())
+```
+
+The correlation coefficient is positive (r = `r round(cor(dist.ssp.cleaned$dist_SSP, dist.ssp.cleaned$pctunins), 2)`). Leslie thinks the strength is moderate but just to be sure, she looks back again to Section \@ref(rstrength) and finds that the threshold for moderate strength is $r$ = .5, so this seems to fit that description. Kiara summarizes what they know so far about the relationship between percent uninsured and the distance to a syringe exchange for the counties:
+
+* The mean distance to a syringe program is `r round(mean(dist.ssp.cleaned$dist_SSP),2)` with a standard deviation of `r round(sd(dist.ssp.cleaned$dist_SSP),2)` 
+
+* The mean percent of county residents without insurance is `r round(mean(dist.ssp.cleaned$pctunins), 2)`% with a standard deviation of `r round(sd(dist.ssp.cleaned$pctunins),2)`
+
+* Third, the relationship between uninsured percent and distance to syringe program is moderate and positive; counties with a higher percent of uninsured are further from syringe programs (r = `r round(cor(dist.ssp.cleaned$dist_SSP, dist.ssp.cleaned$pctunins), 2)`) 
+
+### Explore the data by comparing means across groups
+
+Before they move on to the next step, Kiara suggests they examine the other bivariate relationships between distance to syringe program and opioid prescriptions (`opioid_RxRate`), HIV prevalence (`HIVprevalence`), and urban or rural status (`metro`). 
+
+```{r}
+# bivariate relationships with distance to SSP
+dist.ssp.cleaned %>%
+  summarize(cor.rx.rate = cor(dist_SSP, opioid_RxRate),
+            cor.hiv = cor(dist_SSP, HIVprevalence),
+            cor.unins = cor(dist_SSP, pctunins))
+```
+
+Leslie finds that the correlations are weak and negative for `dist_SSP` with `opioid_RxRate` and `HIVprevalence`. She remembers that `HIVprevalence` is not normally distributed and so Spearman's $\rho$, or $r_s$, might be better (see Section \@ref(spearrho). She revises the code:
+
+```{r}
+# bivariate relationships with distance to SSP
+dist.ssp.cleaned %>%
+  summarize(cor.rx.rate = cor(dist_SSP, opioid_RxRate),
+            cor.hiv = cor(dist_SSP, HIVprevalence, method = "spearman"),
+            cor.unins = cor(dist_SSP, pctunins))
+```
+
+Well that small change made a pretty notable difference in the correlation between `dist_SSP` and `HIVprevalence`! It is still weak, but it is now positive, $r_s = .06$, indicating that distance to syringe programs increases as HIV prevalence increases in a county. 
+
+Leslie goes ahead and checks the mean distance to a syringe program for metro and non-metro counties:
+
+```{r}
+# metro and distance to SSP
+dist.ssp.cleaned %>%
+  group_by(metro) %>%
+  summarize(mean(dist_SSP))
+```
+
+They find that there is a notably higher mean distance in miles to a syringe program in non-metro counties ($m_{non-metro}$ = `r round(mean(dist.ssp.cleaned$dist_SSP[dist.ssp.cleaned$metro == "non-metro"]), 1)`) compared to metro counties ($m_{metro}$ = `r round(mean(dist.ssp.cleaned$dist_SSP[dist.ssp.cleaned$metro == "metro"]), 1)`).  
+
+### Exploring the data with boxplots 
+
+Leslie is interested in learning a little more about the difference in `dist_SSP` based on metro and non-metro status since the difference in the means seems quite large. Nancy thinks a boxplot would work well since they are comparing a continuous variable across two groups (see Section \@ref(catcont)). She shows Leslie a trick for adding a scatterplot behind the boxplot so that they not only see the boxplot but also the raw data. Leslie thinks they may have used this trick before, but she cannot remember. Even if they did, Leslie cannot remember why there is an `alpha = .4` and `alpha = .8` for the two `geom_` layers. Nancy explains that `alpha = ` in this context is used to measure how transparent the colors in the graph are. The values for `alpha = ` range from 0, which is completely transparent, to 1, which is the full color. Numbers in between 0 and 1 are partially transparent versions of the color. Nancy prefers making the data points for `geom_jitter()` more transparent than the fill color for the boxes. She thinks this makes the graph easy to interpret compared to having darker colors. Leslie looks at the plot and agrees.
+
+```{r boxmetro, fig.cap = "Distance to syringe programs by metro or non-metro status for 500 counties in 2018 (data source: amFAR)."} 
+# metro and distance to SSP
+dist.ssp.cleaned %>%
+  ggplot(aes(x = metro, y = dist_SSP, fill = metro)) +
+  geom_jitter(aes(color = metro), alpha = .4) +
+  geom_boxplot(aes(fill = metro), alpha = .8) + 
+  labs(x = "Type of county", 
+       y = "Distance to nearest syringe program") +
+  scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) + 
+  scale_color_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
+  theme_minimal() 
+```
+
+Kiara asks Nancy if she has ever created a violin plot? Nancy has heard of this but has not created one before. She searches online to see if it is available in R and she finds the `geom_violin()` layer option for `ggplot()`. Nancy replaces `geom_boxplot()` with `geom_violin()` and they review the results.
+
+```{r violinmetro, fig.cap = "Distance to syringe programs by metro or non-metro status for 500 counties in 2018 (data source: amFAR)."} 
+# metro and distance to SSP
+dist.ssp.cleaned %>%
+  ggplot(aes(x = metro, y = dist_SSP, fill = metro)) +
+  geom_jitter(aes(color = metro), alpha = .4) +
+  geom_violin(aes(fill = metro), alpha = .8) + 
+  labs(x = "Type of county", 
+       y = "Distance to nearest syringe program") +
+  scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) + 
+  scale_color_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
+  theme_minimal() 
+```
+
+Neat! Nancy reads that this is basically a mixture of a density plot and a boxplot. The shape of the "violin" shows the distribution of the data within each group. In this case, the data are skewed toward the higher numbers, which (if the graph were rotated sideways) is a right skew or positive skew. Leslie thinks this is easier to interpret quickly compared to the boxplot. Kiara agrees but mentions that they do lose some information like the value of the median and the boundaries of the IQR when they use this strategy. Nancy wants to try rotating the graph to see what happens:
+
+```{r fig.cap = "Distance to syringe programs by metro or non-metro status for 500 counties in 2018 (data source: amFAR)."} 
+# metro and distance to SSP
+dist.ssp.cleaned %>%
+  ggplot(aes(x = metro, y = dist_SSP, fill = metro)) +
+  geom_jitter(aes(color = metro), alpha = .4) +
+  geom_violin(aes(fill = metro), alpha = .8) + 
+  labs(x = "Type of county", 
+       y = "Miles to syringe program") +
+  scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) + 
+  scale_color_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
+  theme_minimal() +
+  coord_flip()
+```
+
+They all like this new version because the skew is quite clear. Nancy is happy to have learned some new code. They are ready to move on to the linear regression development.
+
+### Achievement 1: Check your understanding
+
+Use the code above or the code from Box \@ref(ch9kiara) to import the data. Check the distributions of `opioid_RxRate` and `pctunins`. Are the variables normally distributed? If not, what changes might Leslie make to her descriptive statistics and correlations to account for the non-normal data?
+
+## Achievement 2: Exploring the statistical model for a line
+
+### The equation for a line
+
+Leslie is familiar with simple linear regression modeling. She knows that linear models use the concept of a line to explain and predict things about relationships among variables. She knows that, to build and use linear models, it is useful to think about the equation of a line:
+
+$$
+\begin{equation}
+y = mx + b
+ (\#eq:basicline)
+\end{equation}
+$$
+Where:
+
+* $m$ is the slope of the line 
+* $b$ is the $y$-intercept of the line, or the value of $y$ when $x$ = 0 
+* $x$ and $y$ are the coordinates of each point along the line 
+
+In statistics, the intercept is often represented by $c$ or $b_0$ and the slope is often represented by $b_1$. Rewriting the equation for a line with these options would look like this:
+
+$$
+\begin{equation}
+y = b_0 + b_1x
+ (\#eq:basiclinewb)
+\end{equation}
+$$
+
+$$
+\begin{equation}
+y = c + b_1x
+ (\#eq:basiclinewc)
+\end{equation}
+$$
+
+Leslie remembers that occasionally she has seen a $\beta$ rather than a b, however, typically Greek letters are only used for _population_ values so when working with samples the lower-case $b$ is more appropriate. 
+
+### Using the equation for a line
+
+Kiara and Leslie discuss how the equation for a line is useful in two ways, to *explain* values of the outcome ($y$) and to *predict* values of the outcome ($y$). Kiara suggests they review how the model works with a simple example and writes down the equation for the line with a slope of 2 and a $y$-intercept of 3:
+
+$$
+\begin{equation}
+y = 3 + 2x
+ (\#eq:practiceline)
+\end{equation}
+$$
+
+She makes up a scenario where this model predicts the number of gallons of clean drinking water per person per week needed to survive. In this case, $x$ would be the number of weeks and $y$ would represent the gallons of water needed to survive. Consider a person who hears from their landlord that there is a major repair needed with the pipes and the water supply in the building will not be safe for drinking for up to 4 weeks. Based on the equation, how many gallons of drinking water would be needed to survive?
+
+Leslie starts by re-writing the equation using the names of the variables of interest to clarify the meaning:
+
+$$
+\begin{equation}
+gallons = 3 + 2 * weeks
+ (\#eq:practiceline2)
+\end{equation}
+$$
+
+She then substitutes the value of 4, for the 4 weeks without drinking water, into the equation:
+
+$$
+\begin{equation}
+gallons = 3 + 2*4
+ (\#eq:practiceline2)
+\end{equation}
+$$
+Keeping in mind the *order of operations* (see Box \@ref(ch9kiara)) she solves the right-hand side of the equation, giving her the number of gallons of drinking water she will need for 4 weeks:
+
+$gallons = 11$
+
+Kiara thinks it might be good to go over some additional terminology before they move into the actual modeling. She explains that each part of the model can be referred to in several ways:
+
+* The y variable on the left-hand side of the equation is called the _dependent_ or _outcome_ variable. 
+
+* The x variable(s) on the right-hand side of the equation is/are called the _independent_ or _predictor_ variable(s). 
+
+The equation can be rewritten with these terms instead:
+
+$$
+\begin{equation}
+outcome = b_0 + b_1*predictor
+ (\#eq:practiceline3)
+\end{equation}
+$$
+
+So, in the previous example, `weeks` was the _predictor_ variable and `gallons of water` was the *outcome* variable. 
+
+### The distinction between deterministic and stochastic
+
+Nancy is ready to move on but Kiara has one more term to add to the discussion. She suggests the relationships between $y$ and $x$ in all of the equations presented so far are *deterministic*. A deterministic equation has one precise value for $y$ for each value of $x$. This is true for some relationships. For example, many people have heard of the equation from physics $e = mc^2$. In this equation, $e$ represents *energy*, $m$ represents *mass* and $c$ represents the *speed of light*. The laws of physics dictate that this equation will give an exact value for energy given a specific mass traveling at the speed of light squared. 
+
+Kiara explains that social science is not deterministic; it is **stochastic**. It is unusual in social science to be able to predict something exactly. Most of the time there is some variability in an outcome that the predictor variable (or variables) cannot explain. Stochastic models include some randomness or variability that cannot be explained. This unexplained variability in the outcome is represented by adding an *error* term to the equation, like this: 
+
+$$
+\begin{equation}
+outcome = b_0 + b_1*predictor + error
+ (\#eq:stoch)
+\end{equation}
+$$
+Consider the water example. It is unlikely that every human would drink exactly 11 gallons over 4 weeks. If a person is larger or smaller or active or inactive they may need to drink a different amount of water. This *error* or $e$ in the equation accounts for the variability in the outcome that is not explained by the predictor. Equation \@ref(e1:stoch) is the **simple linear regression** equation or *model*.
+
+### Achievement 2: Check your understanding
+
+Write out the equation for a line where income is the outcome and years of education is the predictor. Include an error term if it makes sense for the equation. Write out an explanation of each part of the model. 
+
+## Achievement 3: Computing the slope and intercept in a simple linear regression
+
+Kiara goes on to explain that, in the case of simple linear regression, _simple_ does not mean _easy_, instead it is the term used for a regression model with only _one predictor_. For example, Kiara suggests that a simple linear regression model could be used to examine the relationship between the percentage of people without insurance and the distance to a syringe program for a county. To understand this relationship between one predictor and an outcome, she would use a _simple linear regression model_. 
+
+### Sampling from a data frame 
+
+Kiara explains that, like the $t$-test and $\chi^2$, linear regression is appropriate for examining relationships in a sample to understand what is happening in the population that the sample came from. 
+
+### Exploring the relationship with a scatterplot
+
+Leslie looks back at Figure \@ref(fig:needleins), which contains the line added with the `method = "lm"` layer. This is the simple linear regression line that they will be estimating and interpreting. She thinks the graph looks good but wants to add a key so that it is more clear what all the colors and parts 
+
+```{r needleins2, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678"), name = "")
+```
+
+### Understanding residuals 
+
+The linear regression line in Figure \@ref(fig:needleins2) is based on the values of the intercept and slope that are the best at minimizing the distances between all the points and the regression line. These distances are called _residuals_ and are the leftover information that the line does not explain. Nancy has not graphed residuals before, so she looks online for some guidance. She finds a good tutorial [@VisualisingResiduals] and modifies some of the instructions to come up with Figure \@ref(fig:needleins3). The basic idea of the tutorial is to add a layer with `geom_segment()` that creates line segments between each observed value (the dots) and the value predicted by the fit line. Nancy goes ahead with the graph and Kiara says they will talk more about predicted values after they estimate the model.
+
+```{r needleins3, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties with residuals (data source: amFAR)."}
+# add predicted values to the data
+dist.ssp.cleaned$predicted <- predict(lm(dist_SSP ~ pctunins, 
+                                 data = dist.ssp.cleaned,
+                                 na.action = na.exclude))
+
+# use geom_segment to draw lines between observed (purple) and
+# predicted values for each county, these are residuals
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_segment(aes(xend = pctunins, yend = predicted, color = "Residual")) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678", "gray80"), name = "")
+```
+
+Leslie sees that the vertical lines show the information that the regression line is not explaining. 
+
+### Computing the slope of the line 
+
+The formula to compute the slope uses the difference between each observation and the mean values of $x$ and $y$, like this: 
+
+$$
+\begin{equation}
+b=\frac{{\sum_{i=1}^n}(x_i-\bar{x})(y_i-\bar{y})}{{\sum_{i=1}^n}(x_i-\bar{x})^2}
+ (\#eq:lrslope)
+\end{equation}
+$$
+
+Where: 
+
+* $i$ is an individual observation, in this case a county 
+* $n$ is the sample size, in this case 500 
+* ${x}_i$ is the value of `pctunins` for $i$ 
+* $\bar{x}$ is the mean value of `pctunins` for the sample 
+* ${y}_i$ is the value of `dist_SSP` for $i$ 
+* $\bar{y}$ is the mean value of `dist_SSP` for the sample 
+* $\sigma$ is the symbol for sum 
+* $b$ is the slope
+
+So, Kiara explains, the formula is adding up the product of differences between the observed and mean values of percent uninsured (`pctunins`) and the observed and mean values of distance to syringe program (`dist_SSP`) for each of the 500 counties. This value is divided by the summed squared differences between the observed and mean values of `pctunins` for each county. 
+
+Once the slope is computed, the intercept can be determined by plugging in the slope and values of $\overline{x}$ and $\overline{y}$ into the equation for the line: $\overline{y} = b_0 + b_1{\cdot}\overline{x}$ and solving it for the $y$-intercept, $b_0$. 
+
+Because this way of computing the slope and intercept relies on the squared differences and works to minimize the residuals overall, it is often called **Ordinary Least Squares** or **OLS** regression.
+
+### Estimating the linear regression model in R
+
+Kiara states that if the electricity went off the slope and intercept of a line could still be calculated by hand using the OLS method without too much trouble, depending on the sample size. Leslie is glad to have electricity and R to do the work for her, however, and asks Nancy what command works best to find the equation for the line. Nancy introduces the `lm()` command, which Leslie recognizes from plotting a line through the scatterplot. The `lm` stands for *linear model*. 
+
+Leslie looks up the help documentation for the `lm()` command and find that it takes two arguments, the `formula =` and the `data =`. There is also an `na.action =` option that Kiara recommends in order to deal with missing values even though these data do not have any. The `formula =` argument is where to put the regression model of interest, in this case unintend.rate explained by perc.poverty2010. The `data =` argument is the same as usual in requiring the name of the data frame for analysis. The `na.action =` argument is used to specify treatment of missing values with `na.exclude` being the option for excluding observations with missing values. Leslie uses `lm()` and fills in the two arguments to find the slope and the intercept of the line shown in the graphs:
+
+```{r}
+# linear regression of distance to syringe program by percent uninsured
+dist.by.unins <- lm(formula = dist_SSP ~ pctunins, 
+                data = dist.ssp.cleaned, na.action = na.exclude)
+summary(dist.by.unins)
+```
+
+### Navigating the linear regression output
+
+The output shows a lot of things! First Leslie sees what she believes to be a $y$-intercept of `r round(dist.by.unins$coefficients[1],2)`. Kiara confirms that it is the $y$-intercept and reminds Leslie that the $y$-intercept is the value of $y$ when $x$ is zero. So, the model would predict a county with 0% of people being uninsured would have a distance to the nearest syringe program of `r round(dist.by.unins$coefficients[1],2)` miles. The slope is `r round(dist.by.unins$coefficients[2],2)`. The slope is the change in $y$ for every one-unit increase in $x$. So, if percent uninsured goes up by 1% in a county, the distance in miles to a syringe program would change by `r round(dist.by.unins$coefficients[2],2)`. Kiara writes the regression equation: 
+
+distance to syringe program = `r round(dist.by.unins$coefficients[1],2)` + `r round(dist.by.unins$coefficients[2], 2)` * percent uninsured 
+
+Leslie uses the regression model to predict distance to syringe program for a county with 10% of the residents uninsured:
+
+distance to syringe program = `r dist.by.unins$coefficients[1]` + `r dist.by.unins$coefficients[2]` * 10
+
+Based on the linear regression model, a count with 10% of people uninsured would be `r round(dist.by.unins$coefficients[2]*10, 2)` miles from the nearest syringe program.
+
+### Achievement 3: Check your understanding
+
+Pick a county from the data frame and enter its observed value for percent uninsured into the regression equation. Compute the distance to the nearest syringe program. Compare it to the actual distance to the nearest syringe rate for the county. 
+
+## Achievement 4: Slope interpretation and significance (b, p-value, CI) 
+
+In addition to writing the regression model, there are three things to interpret for reporting the results of a linear regression analysis: model fit, model significance, and predictor value and significance. Kiara suggests they start with predictor value and significance since they have just been reviewing the model with the slope and intercept.
+
+### Interpreting the value of the slope 
+
+Kiara wants to start examining the slope by demonstrating how the slope and the value of the predictor work together to explain or predict the outcome. As shown in the regression model, the value of the independent variable, percent uninsured, would be substituted into the equation and multiplied by the slope in order to predict the value of the outcome for a county. In this case, the value of the slope is the percent of uninsured. So, for every 1% more uninsured in a county, the distance to the nearest syringe program goes up by 7.82 miles. Consider, for example, a county with 10% of people uninsured. Using the regression model, the distance to syringe program would be predicted to be: 
+
+* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * uninsured 
+
+* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * 10 
+
+* distance to syringe program = `r round(dist.by.unins$coefficients[1] + dist.by.unins$coefficients[2]*10, 2)` 
+
+Another state with 11% uninsured would have a predicted distance to syringe program  of: 
+
+* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * uninsured 
+
+* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * 11 
+
+* distance to syringe program = `r round(dist.by.unins$coefficients[1] + dist.by.unins$coefficients[2]*11, 2)`
+
+Because the slope is 7.82, the distance to the nearest syringe program increases by 7.82 miles for each 1% increase in people without insurance. Leslie thinks she has this concept figured out and they can move on to examining the statistical significance of the slope. 
+
+### Interpreting the statistical significance of the slope
+
+Leslie notices that the output for the linear model included a p-value for the slope and a p-value for the intercept. She asks Nancy about the p-value. Nancy explains that the statistical significance of the slope in linear regression is tested using a one-sample t-test where the hypothesized value of the slope is 0. So, the slope of `r round(dist.by.unins$coefficients[1], 1)` is compared to the hypothesized 0 with the null hypothesis of: _The slope of the line is equal to 0_. Leslie uses NHST to organize:
+
+#### NHST Step 1: Write the null and alternate hypothesis 
+
+Kiara explains that the null and alternate hypotheses for the slope can be written in several different ways. 
+
+H0: The slope is equal to zero.
+
+HA: The slope is not equal to zero. 
+
+#### NHST Step 2: Compute the test statistic
+
+The one sample t-test formula is the same as in Chapter 6, but with the slope instead of the mean in the numerator:
+
+$$
+\begin{equation}
+t=\frac{b_1-0}{se}
+ (\#eq:onest)
+\end{equation}
+$$
+
+The formula can be used by substituting in the slope and standard error from the model output: 
+
+$$
+\begin{equation}
+t=\frac{7.819-0}{.7734}=10.11
+ (\#eq:onestex)
+\end{equation}
+$$
+
+Or, the slope can be found in the model output:
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+summary(dist.by.unins)
+```
+
+#### NHST Steps 4 & 5: Reject or retain the null hypothesis based on the p-value
+
+Leslie finds the p-value for the slope to be `<2e-16`, which is very tiny, well below .05. So, there is a tiny chance that the t-statistic for the slope would be as big as it is (or bigger) if the null hypothesis were true. The null hypothesis is therfore rejected in favor of the alternate hypothesis and the slope is statistically significantly different from zero. Leslie writes an interpretation of what she knows about the slope so far:
+
+> The percent of uninsured residents in a county is a statistically significant predictor of the distance to the nearest syringe program (b = `r round(dist.by.unins$coefficients[2], 2)`; p = `r round(summary(dist.by.unins)$coefficients[2,4], 2)` in our sample. For every 1% increase in uninsured residents, the distance to the nearest syringe program increases by 7.82 miles.
+
+### Computing confidence intervals for the slope and intercept
+
+Leslie asks Kiara if they would also be reporting confidence intervals for slopes. Kiara explains that this is a great idea and they can compute confidence intervals using the standard error and the z-score of 1.96, like when they first examined confidence intervals in Section \@ref(confintmean). Nancy explains that they do not have to compute the confidence intervals by hand, they can use the `confint()` command:
+
+```{r}
+# confidence interval for regression parameters
+ci.dist.by.unins <- confint(dist.by.unins)
+ci.dist.by.unins
+```
+
+The output for `confint()` gives the confidence interval for the intercept and the slope. Leslie asks whether they should be paying attention to the intercept more? Kiara explains that the intercept is often reported but not interpreted because it is not really too interesting. This makes sense to Leslie. She adds the confidence interval to her interpretation of the slope: 
+
+> The percent of uninsured residents in a county is a statistically significant predictor of the distance to the nearest syringe program (b = `r round(dist.by.unins$coefficients[2], 2)`; p = `r round(summary(dist.by.unins)$coefficients[2,4], 2)`. For every 1% increase in uninsured residents, the distance to the nearest syringe program increases by 7.82 miles. The value of the slope is likely between 6.30 and 9.34 in the population that the sample came from (95% CI: 6.30-9.34). So, with every 1% increase in uninsured residents, there is likely a 6.30 to 9.34 increase in the miles to the nearest syringe program. These results suggest that communities with higher uninsurance rates are further from this resource, which may exacerbate existing health disparities.
+
+### Using the model to make predictions 
+
+Nancy suggests that they next look at **predicted values**, which are the values of $y$ predicted by the model for a given value of $x$. Nancy knows `predict()` can be used to find the predicted values for all observations, or for a specific value of the independent variable. For example, for a county with 10% uninsured, `predict()` can be used to get the predicted value and the confidence interval around it for distance to nearest syringe program. The `predict()` function takes three arguments. First, the `object = ` argument takes the value of the linear regression model, which the team named `dist.by.unins` in this case. Second, the name of a data frame with the observed value(s) of $x$ in it. In this case, instead of predicting values from the larger `dist.ssp.cleaned` data frame, Nancy creates a tiny data frame with a single value of $x$ in it, like this: `data.frame(pctunins = 10)`. Finally, the `interval = ` argument would use "confidence" to get the confidence interval around the prediction. Nancy puts together the code and runs it for the team.
+
+```{r}
+# use predict to find predicted value of distance for 10% uninsured
+pred.dist.ssp <- predict(object = dist.by.unins,
+                         newdata = data.frame(pctunins = 10),
+                         interval = "confidence") 
+pred.dist.ssp                          
+```
+
+So, the distance to a syringe program from a county with with 10% of people uninsured is `r round(pred.dist.ssp[1], 2)` with a confidence interval for the prediction (sometimes called a prediction interval) of `r round(pred.dist.ssp[2],2)` to `r round(pred.dist.ssp[3],2)`. The confidence interval shows where the true value of the statistic likely lies. In this case, the likely true distance to a syringe program from a county where 10% of people are uninsured is between `r pred.dist.ssp[2]` and `r pred.dist.ssp[3]`. Leslie thinks this is ridiculously far to travel for a syringe exchange, especially for people who tend to be in need of this service.
+
+Nancy agrees and wants to show Leslie how the `predict()` command predicts $y$ for all the observed values of $x$, so they can start to get some sense of how well the model fits the data. Since they are using the data that were used to create the model, there is no need to add the `newdata = ` argument this time, so Nancy tells Leslie to just include the linear regression object `dist.by.unins` and the argument to get confidence intervals with the predicted values. Nancy cautions Leslie that there are 500 observations in this data frame, so printing the predicted values would result in 500 rows of output. Leslie decides to use `head()` just to print out the first six so that she can see a few of the predicted values:
+
+```{r}
+# use predict to find predicted value for all observed x
+pred.dist.ssp.all <- predict(object = dist.by.unins,
+                             interval="confidence") 
+head(x = pred.dist.ssp.all)
+```
+
+Leslie looks at the data frame in the environment pane and sees the `dist_SSP` variable has the value of `r dist.ssp.cleaned$dist_SSP[1]` for the first observation. The `pred.dist.ssp.all` object predicted the value for this county as `r round(pred.dist.ssp.all[1,1],2)` with a confidence interval of `r round(pred.dist.ssp.all[1,2],2)` to `r round(pred.dist.ssp.all[1,3],2)`. The observed `dist_SSP` for this county is included in the confidence interval and the predicted value of distance seems fairly close, although not as close as Leslie had expected, to the actual value of distance. Kiara suggests they move on to model fit since it will give more information on how close the predicted values based on the model are getting to the observed values.
+
+### Achievement 4: Check your understanding
+
+Based on the linear model, how much closer to a syringe program is a county with 2% uninsured compared to a county with 12% uninsured? 
+
+## Achievement 5: Model significance and model fit
+
+Leslie notices that there is another p-value toward the bottom of the output for the linear regression that is not for the intercept or the slope. Kiara explains that this p-value is from a test-statistic that measures how much better the regression line is at getting close to the data points compared the mean value of the outcome. Essentially, is the regression line much better than the mean line at getting close to the data points?
+
+```{r needleins4, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear regression line"), method = "lm", se = FALSE) + 
+  geom_hline(aes(yintercept = mean(dist_SSP), color = "Mean distance to SSP")) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678", "deeppink"), name = "") 
+  
+```
+
+Kiara explains that, like the t-statistic is the test statistic for a t-test, the F-statistic is the test statistic for linear regression. Leslie remembers the F-statistic from ANOVA and asks if this is the same F? Kiara confirms that this is the same F with the same F-distribution. She explains that the F-statistic is used to determine whether the line showing the regression model is better overall at getting close to the data points than the line showing the mean of the outcome. 
+
+### Understanding the F-statistic
+
+The F-statistic is a ratio of explained information (in the numerator) to unexplained information (in the denominator). If a model explains more than it leaves unexplained, the numerator is larger and the F-statistic is greater than 1. F-statistics that are much greater than 1 are explaining much more of the variation in the outcome than they leave unexplained. Large F-statistics are more likely to be statistically significant. Kiara writes out how the F-statistic is computed for the linear regression in equation \@ref(eq:fforlinear).
+
+$$
+\begin{equation}
+F = \frac{\frac{\sum_{i=1}^n({\hat{y_i}-\bar{y}})^2}{k-1}}{\frac{\sum_{i=1}^n({y_i - \hat{y_i}})^2}{n-k}}
+ (\#eq:fforlinear)
+\end{equation}
+$$
+
+Leslie notices that the equation is similar but not exactly the same as in equation \@ref(eq:fstat) from the ANOVA chapter. Kiara explains that equation \@ref(eq:fforlinear) could be used for both situations while equation \@ref(eq:fstat) is useful when there are groups being compared since it uses group means in the calculation. Kiara explains the different parts of this $F$ equation:
+
+* $i$ is an individual observation, in this case a county 
+* $n$ is the sample size, or total number of counties 
+* $k$ is the number of parameters in the model; the slope and intercept are parameters 
+* $y_i$ is the outcome of distance to syringe program for county $i$ 
+* $\hat{y_i}$ is the predicted value of distance to syringe program for county $i$ 
+
+Kiara explains that the numerator of $F$ is essentially how much the predicted values differ from the mean observed value, _on average_. This is divided by how much the predicted values differ from the actual observed values, _on average_. Kiara repeats that the $F$-statistic is how much a predicted value differs from the mean value on average---which is explained variance, or how much better (or worse) the prediction is than the mean at explaining the outcome---divided by how much an observed value differs from the predicted value on average, which is the residual information or unexplained variance.
+
+Nancy notes that the $F$-statistic is always positive due to the squaring of the terms in the numerator and denominator. As a result, the $F$ distribution starts at zero (when the regression line is exactly the same as the mean) and goes to the right. The shape of the $F$ distribution depends on the the number of parameters in the statistical model and the sample size. Nancy finds a tutorial [@RPubsftest] with instructions for plotting examples of the $F$-distribution and she graphs a few different versions with different numbers of parameters and sample sizes. She explains that the $F$-statistic is usually written with two degrees of freedom numbers. The first number in the parentheses after the $F$ is the degrees of freedom for the numerator. This value is one less than the number of parameters, often written `k-1`. The second number in the parentheses after an F-statistic is the degrees of freedom for the denominator, or `n-k`. 
+
+```{r fstatsfig, echo=FALSE, fig.cap = "Examples of the distribution of probability density for F."}
+
+
+ggplot(data.frame(x=c(0,5)), aes(x=x)) +
+  stat_function(fun=match.fun(df), args=list(df1=1, df2=27), aes(color="F(1, 27)"), size = 1) +
+  stat_function(fun=match.fun(df), args=list(df1=2, df2=50), aes(color="F(2, 50)"), size = 1) +
+  stat_function(fun=match.fun(df), args=list(df1=5, df2=100), aes(color="F(5, 100)"), size = 1) +
+  stat_function(fun=match.fun(df), args=list(df1=10, df2=200), aes(color="F(10, 200)"), size = 1) +
+  scale_color_manual(values = c("#78A678", "#7463AC", "deeppink", "dodgerblue2"), name = "Distribution") +
+  labs(x = "F-statistic", y = "Probability density") +
+  theme_minimal() 
+```
+
+The more the model explains the variation in the outcome, the larger the F statistic gets. Like $t$-statistics and $\chi^2$ statistics, larger values of F are less likely to occur when there is no relationship. Leslie asks about graphing the $F$-distribution from the linear regression model for distance to syringe program. Nancy looks back at the ouput and sees there are two parameters, slope and intercept, so $k$ = 2 and the numerator degrees of freedom are $k-1 = 1$. For the denominator, the sample size of $n=500$ is used to determine the denominator degrees of freedom $n - k = 498$. Nancy uses the code from above and plots the $F$-distribution for the model.
+
+```{r fstats2fig, echo=FALSE, fig.cap = "F-distribution for model of distance to syringe program by uninsured."}
+
+
+ggplot(data.frame(x=c(0,5)), aes(x=x)) +
+  stat_function(fun=match.fun(df), args=list(df1=1, df2=498), aes(color="F(1, 498) distribution"), size = 1) +
+  geom_vline(aes(xintercept = summary(dist.by.unins)$fstatistic[1], color = "F(1, 498) = 102.2")) +
+  labs(x = "F-statistic", y = "Probability density") +
+  scale_color_manual(values = c("deeppink", "#7463AC"), name = "") +
+  xlim(0, 110) + 
+  theme_minimal() 
+```
+
+Just like with the $t$-statistic and $\chi^2$, the probability of an $F$-statistic this large or larger *if the null is true* is the area under the curve starting at the line and going right `r round(summary(dist.by.unins)$fstatistic[1], 2)`. There is really very little space under the curve from the value of $F$ to the right, which is consistent with the tiny p-value of `r round(1-pf(summary(dist.by.unins)$fstatistic[1], summary(dist.by.unins)$fstatistic[2], summary(dist.by.unins)$fstatistic[3]), 3)`. Leslie interprets this as nearly a `r round(100*(1-pf(summary(dist.by.unins)$fstatistic[1], summary(dist.by.unins)$fstatistic[2], summary(dist.by.unins)$fstatistic[3])), 1)`% (p < .001) chance that an F-statistic this large would occur if the null hypothesis that there is no relationship between percent uninsured and distance to syringe program. Essentially, the F-statistic and the associated p-value suggest a statistically significant association between percent uninsured and distance to syringe program at the county level.
+
+Leslie summarizes the model significance process they went through with NHST:
+
+#### NHST Step 1: Write the null and alternate hypotheses
+
+H0: A model including uninsurance percent is no better than the baseline at explaining the distance to syringe programs for people in a county. 
+
+H0: A model including uninsurance percent is better than the baseline at explaining the distance to syringe programs for people in a county. 
+
+#### NHST Step 2: Compute the test statistic
+
+The test statistic for this model is $F$ and its value is $F(1, 498)=102.2$.
+
+#### NHST Step 3: Calculate the probability that your test statistic is at least as big as it is if there is no relationship (i.e., the null is true) 
+
+There is a tiny probability (p < .001) that we would get an $F$ of 102.2 if the null hypothesis were true. 
+
+#### NHST Steps 4 & 5: Reject or retain the null hypothesis 
+
+Given the tiny p-value, Leslie decides to reject the null hypothesis in favor of the alternate hypothesis that uninsurance percent is helpful in explaining distance to syringe programs from a county. 
+
+While it felt a little repetitive, Leslie still finds it useful to go through the NHST process in order to solidify her understanding of what they are testing and why they are rejecting or retaining the null hypothesis. 
+
+### Understanding the $R^2$ measure of model fit
+
+Kiara suggests that they review one additional piece of information before writing a complete interpretation of the model. The measure that tells how well the model fits is the $R^2$ or R-squared. The $R^2$ is computed by squaring the value of the correlation between the 500 observed distances to syringe programs in the 500 counties and the values of distance to syringe program predicted for the 500 counties by the model. When the model predicts values that are close to the observed values, the correlation is high and the $R^2$ is high. 
+
+The $R^2$ is the percent of the variation in the outcome that the model explains and is reported as a measure of **model fit**. For the relationship between uninsured percent and distance to syringe program the $R^2$ is `r round(summary(dist.by.unins)$r.squared, 2)`. To get the percentage, multiply by 100 for `r round(100*summary(dist.by.unins)$r.squared, 2)`% of the variation in distance to syringe programs is explained by the percentage of uninsured people living in a county.
+
+Leslie sees another $R^2$ labeled **Adjusted R-squared**---or ${R}^2_{adj}$---in the output. Kiara explains that the value of $R^2$ tends to increase with each additional variable added to the model, whether the variable actually improves the prediction or explanation of the outcome or not. The ${R}^2_{adj}$ penalizes the value of ${R}^2_{adj}$ a small amount for each additional variable added to the model to ensure that the ${R}^2_{adj}$ only increases when the additional predictors in a model explain a notable amount of the variation in the outcome. Essentially, Kiara explains, the ${R}^2_{adj}$ keeps analysts from just adding all the variables they have in order to get the highest possible value for model fit. The ${R}^2_{adj}$ is more commonly reported than the $R^2$.
+
+### Reporting linear regression results 
+
+Now that they have been through the process, Kiara summarizes the things that should be reported following any simple linear regression analysis: 
+
+- an interpretation of the value of the slope (b)  
+- the significance of the slope (t and p)  
+- the significance of the model (F and p)  
+- the fit of the model ($R^2$ or ${R}^2_{adj}$)  
+
+Nancy prints the model results again to use for writing the interpretation:
+
+```{r echo = FALSE}
+summary(dist.by.unins)
+```
+
+Altogether, model interpretation would be:
+
+> A simple linear regression analysis found that the percent of uninsured residents in a county is a statistically significant predictor of the distance to the nearest syringe program (b = `r round(dist.by.unins$coefficients[2], 2)`; p = `r round(summary(dist.by.unins)$coefficients[2,4], 2)`. For every 1% increase in uninsured residents, the distance to the nearest syringe program increases by 7.82 miles. The value of the slope is likely between 6.30 and 9.34 in the population that the sample came from (95% CI: 6.30-9.34). So, with every 1% increase in uninsured residents, there is likely a 6.30 to 9.34 increase in the miles to the nearest syringe program. The model was statistically significantly better than the baseline at explaining distance to syringe program ($F(1, 498)=102.2$; p < .001) and explained 16.9% of the variance in the outcome. These results suggest that communities with lower insurance rates are further from this resources, which may exacerbate existing health disparities.
+
+### Achievement 5: Check your understanding 
+
+Instead of `pctunins`, create a model using `lm()` with the predictor of `opioid_RxRate` and the outcome of `dist_SSP`. Find and interpret the model significance and model fit in the output.
+
+## Achievement 6: Checking assumptions and conducting diagnostics
+
+### The six assumptions of simple linear regression
+
+The calculations underlying the simple linear regression model are based on several assumptions about the data:
+
+* Observations are independent 
+* Both variables are continuous 
+* Both variables are normally distributed 
+* The relationship between the two variables is linear (linearity) 
+* The variance is constant with the points distributed equally around the line (homoscedasticity) 
+* The residuals are independent 
+* The residuals are normally distributed 
+
+### Checking the independent observations assumption 
+
+The R-team talks about this for a few minutes. While it seems like the data have been collected in a reasonable way, it may be the case that one could argue that counties in the same state are not really independent because, like siblings in the same household, they may have many of the same experiences and characteristics and therefore may not vary as much from each other as truly independent areas would. This assumption is often seen as a possible problem for geographic data, Kiara comments, but researchers continue to use linear regression and other similar models to work this type of data. They decide that this is a definite limitation and move on to the next assumption.
+
+### Checking the normality assumption 
+
+Leslie recognizes the first four assumptions from correlation analyses and gets to work checking them. Both variables are continuous, so the first assumption is met. She uses histograms to check the normality assumption: 
+
+```{r distsyringe, fig.cap = "Distribution of distance to syringe program in 500 counties in 2018 (data source: amFAR)."}
+# check normality of distance variable
+dist.ssp.cleaned %>%
+  ggplot(aes(x = dist_SSP)) + 
+  geom_histogram(fill = "#7463AC", color = "white") + 
+  theme_minimal() + 
+  labs(x = "Miles to syringe program",
+       y = "Number of counties")
+
+```
+
+That does not look normally distributed. The distribution is skewed to the right. She checks the distribution of uninsurance percent.
+
+```{r distunins, fig.cap = "Distribution of percent uninsured in 500 counties in 2017 (data source: amFAR)."}
+# check normality of uninsured variable
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins)) + 
+  geom_histogram(fill = "#7463AC", color = "white") + 
+  theme_minimal() + 
+  labs(x = "Percent uninsured",
+       y = "Number of counties")
+
+```
+
+The uninsured data seem very close to normal with a few counties that have very high percents of uninsured residents making the tail on right hand side of the distribution longer than it would be in a perfectly normal distribution.  
+
+Leslie wants to double check with some QQ-plots to see how far these two variables are from being normally distributed:
+
+```{r fig.cap="Distribution of distance to syringe program in 500 counties in 2018 (data source: amFAR)."}
+# QQ-plot of distance variable to check normality
+dist.ssp.cleaned %>%
+  ggplot(aes(sample = dist_SSP)) + 
+  stat_qq(color = "#7463AC") + 
+  geom_abline(aes(intercept = mean(dist_SSP), slope = sd(dist_SSP))) +
+  theme_minimal() + 
+  labs(x = "Theoretical normal distribution",
+       y = "Observed miles to syringe program") 
+```
+
+
+```{r fig.cap="Distribution of percent uninsured in 500 counties in 2017 (data source: amFAR)."}
+# QQ-plot of uninsured variable to check normality
+dist.ssp.cleaned %>%
+  ggplot(aes(sample = pctunins)) + 
+  stat_qq(color = "#7463AC") + 
+  geom_abline(aes(intercept = mean(pctunins), slope = sd(pctunins))) +
+  theme_minimal() + 
+  labs(x = "Theoretical normal distribution",
+       y = "Observed percent uninsured") 
+```
+
+The QQ-plots show some deviation from normality, but are not nearly as non-normal as the plots of water access from the previous chapter. Leslie thinks they might need to be transformed, but Kiara suggests checking the other assumptions first. 
+
+### Checking the linearity assumption 
+
+The *linearity* assumption is met if a scatterplot of the two variables shows a relationship that falls along a line. The earlier plot showing purple points and a green straight line drawn through the data suggests that this assumption may be met. When graphed, the points fall generally the straight line. However, unlike the graph of water access and and female education in the previous chapter, the data points seem to not follow the line as well. Using a _Loess curve_, we can see the actual relationship between the two variables without constraining the line to be straight. In this case, a gray Loess curve shows deviation from a linear relationship. 
+
+```{r loessreg, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  geom_smooth(aes(color = "Loess curve"), se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678", "deeppink"), name = "")
+```
+
+Well, it is not terrible. The Loess curve does not fit well at the lower values of uninsured, but starting around seven or eight percent the Loess curve stays pretty close to the regression line.  
+
+### Checking the homoscedasticity assumption 
+
+Kiara explains the next assumption, which is the equal distribution of points around the line, demonstrating equal variation in the outcome across the range of the predictor variable. This is often called the assumption of homoscedasticity. In a plot, homoscedasticity would look like all the points were relatively evenly spread out around the line from the left side of the graph to the right side. In Figure \@ref(fig:loessreg), the points seem closer to the line on the far left and then are maybe a little more spread out around the line starting at the higher values of percent uninsured. 
+
+Kiara reminds Leslie that the Breusch-Pagan can be used to test the null hypothesis that the variance is constant. Nancy shows them the `bptest()` function from the <span style="font-family:Lucida Console, monospace;font-weight:bold">lmtest</span> package:
+
+```{r}
+# testing for equal variance
+const.var.test <- lmtest::bptest(formula = dist.by.unins)
+const.var.test
+```
+
+The Breusch-Pagan test statistic has a tiny p-value associated with it ($BP$ = `r round(const.var.test$statistic, 2)`; $p$ = `r round(const.var.test$p.value, 2)`), indicating that the null hypothesis that the variance is constant would be rejected. Leslie concludes that the assumption of constant variance is not met. 
+
+### Testing the independence of residuals assumption 
+
+The final assumptions to test were not tested in correlation analysis and so are new for linear regression. Kiara explains that both of the last two assumptions are about residuals and reminds Leslie that residuals are the distances between each data point and the regression line. Conceptually, residuals are the variation in the data that the regression line does not explain. 
+
+The first assumption for residuals is that the residuals are independent or unrelated to each other. Residuals that are independent are residuals that do not follow a pattern. Kiara explains that a pattern in the residuals suggests that the regression model is doing better for certain types of observations and worse for others. 
+
+Kiara introduces the **Durbin-Watson** test, which can be used to determine whether the model violates the assumption of independent residuals. The null hypothesis for the Durbin-Watson test is that the residuals are independent; the alternative hypothesis is that the residuals are not independent. A Durbin-Watson or D-W statistic of 2 indicates perfectly independent residuals.
+
+There are a few packages that contain a Durbin-Watson test function Nancy suggests using `dwtest()` from the lmtest package that they used for the Breusch-Pagan test. Nancy writes the code. 
+
+```{r}
+# test independence of residuals
+lmtest::dwtest(formula = dist.by.unins)
+```
+
+The $D-W$ statistic is near 2 and the $p-value$ is high, so Leslie concludes that the null hypothesis is retained. Since the null hypothesis is that the residuals are independent, she finds that this assumption is met. 
+
+### Testing the normality of residuals assumption 
+
+The last assumption to check is normality of residuals. Kiara explains that, if the residuals are normally distributed, this means that the regression line is far above a few points, far below a few others, and relatively near most of the points. If the residuals are skewed, that would mean that the regression line is either far above observations more often than it is far below observations or vice-versa. That is, it does a better job at explaining either the higher values of the outcome or the lower values of the outcome. 
+
+Leslie checks normality using a histogram and QQ-plot as usual. Nancy lets her know that the `dist.by.unins` model object includes residuals to use in the plot: 
+
+```{r fig.cap="Distribution of residuals for model of uninsured percent and distance to syringe program for 500 counties (data source: amFAR)"}
+# check residual plot of uninsured percent and distance to syringe program
+data.frame(dist.by.unins$residuals) %>%
+  ggplot(aes(x = dist.by.unins.residuals)) + 
+  geom_histogram(fill = "#7463AC", col = "white") + 
+  theme_minimal() + 
+  labs(x = "Residuals",
+       y = "Number of counties") 
+```
+
+
+```{r fig.cap="Distribution of residuals for model of uninsured percent and distance to syringe program for 500 counties (data source: amFAR)"}
+# check residual plot of uninsured percent and distance to syringe program
+data.frame(dist.by.unins$residuals) %>%
+  ggplot(aes(sample = dist.by.unins.residuals)) + 
+  geom_abline(aes(intercept = mean(dist.by.unins.residuals), 
+                  slope = sd(dist.by.unins.residuals))) +
+  stat_qq(color = "#7463AC") + 
+  theme_minimal() + 
+  labs(x="Theoretical normal distribution",
+       y="Observed residuals") 
+```
+
+
+Both graphs suggest some minor non-normality in the distribution of residuals. The histogram suggests the residuals are a little bit right skewed. The QQ-plot suggests residuals are above the values you'd expect from a normal distribution at both ends, but below in the middle. 
+
+### Interpreting the results of the assumption checking
+
+Leslie notes that the linear regression analysis meets some and fails some of the assumptions. The assumptions it meets are: continuous variables and independence of residuals. The model fails the assumptions of linearity, independence of residuals, and normally distributed residuals. They also think it may violate independence of observations, but this is not as clear. Because it does not meet all the assumptions, Leslie knows that the model is considered biased and should be interpreted with caution. Specifically, the results of a biased model are not usually considered generalizable to other observations outside the sample. 
+
+Leslie suggests they transform the variables like they did in Section \@ref(transformers), but Kiara says there is one more step before they are done with the modeling process. 
+
+### Using model diagnostics to find outliers and influential values
+
+Kiara explains that they are not quite done checking model quality. In addition to testing *assumptions*, she says that model **diagnostics** are useful for determining whether there are any observations that are outliers or influential observations that may be having some impact on the model. An **outlier** is an observation with unusual values. A **regression outlier** has an unusual value of the outcome given its value(s) of predictor(s). An **influential observation** changes the slope of the regression line. 
+
+There are several measures to help identify outliers and influential observations: **standardized residuals**, **df-betas**, **Cook's distance**, and **leverage.** One good strategy for identifying the truly problematic observations is to identify those that observations that are outliers or influential observations by on two or more of these four measures. 
+
+#### Using standardized residuals to find outliers 
+
+Kiara says that *standardized residuals* are $z$-scores for the residual values. Leslie reminds herself that the residuals are the distances between the observed and predicted values of the outcome and that z-scores over 1.96 or below -1.96 (often rounded to 2 for ease) are two standard deviations or more away from the mean of the measure (see Section \@ref(zscore)). Nancy chimes in to mention that standardized residuals can be computed using the `rstandard()` command on the model object and then added to the data frame as a new variable. 
+
+```{r}
+# add standardized residuals to data frame
+dist.ssp.cleaned.diag <- dist.ssp.cleaned %>%
+  mutate(rstd.dist.by.unins = rstandard(model = dist.by.unins))
+```
+
+Once the standardized residuals are added to the data, the counties with his standardized residuals can be examined.
+
+```{r}
+# get a subset of counties with standardized residuals > 2
+dist.ssp.cleaned.diag %>%
+  filter(abs(rstd.dist.by.unins)>2) %>%
+  select(county, STATEABBREVIATION, dist_SSP, pctunins, predicted, rstd.dist.by.unins)
+```
+
+After adding standardized residuals to the data frame, Nancy suggests that Leslie find the states with large standardized residuals by examining the subset of states where the absolute value (`abs()`) of the residuals is greater than 2. Leslie finds that 22 states out of the 500 in the sample have large standardized residuals. Scrolling through the 22 counties, Leslie finds that 21 of the 22 have distance to syringe program further away than predicted, with only one that is closer than predicted . Sixteen of the counties are in Texas, including the one where the exchange is closer than predicted. It makes sense that things would be further away in Texas because it is a very large state. It is also one of 19 states in the country where syringe exchange programs are not legal [@OpioidHealthIndicatorsDatabase]. One county was in Nebraska and two were in Kansas, also states with policy against syringe exchanges, however, three of the counties were in Maine where exchanges are legal. Fifteen of the 22 were in non-metro areas, suggesting that rural areas might be further from syringe programs. Nancy is ready to look at some other measures of outlying and influential values, so they move on. 
+
+#### Using df-betas to find influential values
+
+Nancy explains that the next measure, *df-beta*, removes each observation from the data frame, conducts the analysis again, and compares the intercept and slope for the models with and without the observation. Observations with high df-beta values, usually with a cutoff of greater than two, may be influencing the model. Using the same strategy as with the standardized residuals, Leslie starts to identify states with high df-betas. Nancy reminds here that the df-beta are different for slope and intercept, so she will have to use subsetting and choose the part of the `dist.by.unins` object with the intercept and slope separately. Kiara helps her out with the coding: 
+
+```{r}
+# get dfbetas and add to data frame
+# there will be one new variable per parameter
+dist.ssp.cleaned.diag <- dist.ssp.cleaned %>%
+  mutate(rstd.dist.by.unins = rstandard(model = dist.by.unins)) %>%
+  mutate(dfbeta.int.dist.by.unins = dfbeta(dist.by.unins)[ , 1]) %>%
+  mutate(dfbeta.pov.dist.by.unins = dfbeta(dist.by.unins)[ , 2])
+  
+# get subset of states with dfbetas > 2 for intercept and slope
+dist.ssp.cleaned.diag %>%
+  filter(abs(dfbeta.int.dist.by.unins) > 2 | abs(dfbeta.pov.dist.by.unins) > 2) %>%
+  select(county, STATEABBREVIATION, dist_SSP, pctunins, predicted, 
+         dfbeta.int.dist.by.unins, dfbeta.pov.dist.by.unins)
+
+```
+
+Leslie finds that the df-betas for the intercept show seven counties with values greater than two, six of them in Texas and one in Florida.
+
+#### Using Cook's Distance to find influential values 
+
+Leslie asks Nancy about the next measure of influence, Cook's Distance. Nancy says it is often shortened to Cook's D and is computed in a very similar way to the df-beta. That is, each observation is removed and the model is re-estimated without it. Cook's D then combines the differences between the models with and without an observation for *all the parameters* together instead of one at a time like the df-betas. Nancy explains that cutoff for a high Cook's D value is usually 4/n. 
+
+```{r}
+# cooks distance
+# greater than 4/n is some influence
+dist.ssp.cleaned.diag <- dist.ssp.cleaned %>%
+  mutate(rstd.dist.by.unins = rstandard(model = dist.by.unins)) %>%
+  mutate(dfbeta.int.dist.by.unins = dfbeta(dist.by.unins)[ , 1]) %>%
+  mutate(dfbeta.pov.dist.by.unins = dfbeta(dist.by.unins)[ , 2]) %>%
+  mutate(cooks.dist.by.unins = cooks.distance(dist.by.unins))
+
+# find counties with some influence
+dist.ssp.cleaned.diag %>%
+  filter(cooks.dist.by.unins > 4/n()) %>%
+  select(county, STATEABBREVIATION, dist_SSP, pctunins, predicted, 
+         cooks.dist.by.unins)
+```
+
+Thirty-two counties show up as having high Cook's D. Most are in Texas, but a few are in Maine, Vermont, and Massachusetts. 
+
+#### Using Leverage to find influential values 
+
+Finally, Nancy says, leverage is the influence that the observed value of the outcome has on the predicted value of the outcome. Specifically, leverage is the amount the predicted value of the outcome would change if the observed value of the outcome was changed by one unit. Leverage values range between 0 and 1. To determine which leverage values indicate influential observations, a cutoff of 2*(k+1)/n is often used. Nancy says the leverage values to find influential states are computed by using the `hatvalues` command. She explains that the predicted value of $y$ is often depicted as $\hat{y}$, which looks like a $y$ wearing a little hat.
+
+```{r}
+# leverage values
+# identify those that are greater than 2(k+1)/n 
+dist.ssp.cleaned.diag <- dist.ssp.cleaned %>%
+  mutate(rstd.dist.by.unins = rstandard(model = dist.by.unins)) %>%
+  mutate(dfbeta.int.dist.by.unins = dfbeta(dist.by.unins)[ , 1]) %>%
+  mutate(dfbeta.pov.dist.by.unins = dfbeta(dist.by.unins)[ , 2]) %>%
+  mutate(cooks.dist.by.unins = cooks.distance(dist.by.unins)) %>%
+  mutate(lev.dist.by.unins = hatvalues(dist.by.unins))
+
+# 2(k+1)/n = 2(2+1)/500 
+dist.ssp.cleaned.diag %>%
+  filter(lev.dist.by.unins > 2*3/n()) %>%
+  select(county, STATEABBREVIATION, dist_SSP, pctunins, predicted, 
+         lev.dist.by.unins)
+
+```
+
+Leslie finds that those with high leverage are all states in the south. She notes that Texas came up a lot for all measures, but she isn't sure if it was the same counties.  
+
+### Summarizing outliers and influential values
+
+Kiara thinks it would be useful to have all the counties identified by these four measures in a single list or table to more easily see all the states that seem to be problematic. Nancy writes some code to pull them all into a single subset. Leslie asks Nancy to explain the code since it looks a little strange. Nancy says using the cutoffs for the four measures like `lev.dist.by.unins > 2*3/n()` results in a values of `TRUE` when it is true and `FALSE` when it is false. When `TRUE` is converted to a number with `as.numeric()`, it becomes a 1 and false becomes a 0. Adding up the 1 and 0 values for each statement will result in a measure from 0 to 4 and anything that is 2 or higher is problematic.
+
+```{r}
+# sum the number of times observations were outliers/influential
+dist.ssp.cleaned.diag <- dist.ssp.cleaned %>%
+  mutate(rstd.dist.by.unins = rstandard(model = dist.by.unins)) %>%
+  mutate(dfbeta.int.dist.by.unins = dfbeta(dist.by.unins)[ , 1]) %>%
+  mutate(dfbeta.pov.dist.by.unins = dfbeta(dist.by.unins)[ , 2]) %>%
+  mutate(cooks.dist.by.unins = cooks.distance(dist.by.unins)) %>%
+  mutate(lev.dist.by.unins = hatvalues(dist.by.unins)) %>%
+  mutate(outlier.infl = as.numeric(lev.dist.by.unins > 2*3/n()) +
+           as.numeric(cooks.dist.by.unins > 4/n()) +
+           as.numeric(abs(dfbeta.int.dist.by.unins) > 2) +
+           as.numeric(abs(dfbeta.pov.dist.by.unins) > 2) +
+           as.numeric(abs(rstd.dist.by.unins) > 2))
+
+# subset those with 2 or more measures indicating outlier/influential
+dist.ssp.cleaned.diag %>%
+  filter(outlier.infl >= 2)
+```
+
+Leslie finds that there are 22 counties that show up more than once among the measures of outlying and influential observations. When an observation is identified as an outlier or influential value, it is worth looking at the data to see if there is anything that seems unusual. Sometimes the observations are just different from the rest of the data, other times there is a clear data entry or coding error. 
+
+Kiara suggests they look at the 22 observations and see what they find. Leslie reminds the team that the mean value for `dist_SSP` is `r round(mean(dist.ssp.cleaned.diag$dist_SSP), 2)` 107.74 miles and the mean of `pctunins` is `r round(mean(dist.ssp.cleaned.diag$pctunins))` is 12.0 percent uninsured. In looking at the 22 outliers, Leslie notices that most of them are much further from a syringe program than the mean, with counties like Starr County in Texas being 510 miles away. Some counties, like Webb County in Texas have very high uninsurance percent with 30.2% compared to the mean of 12.0 percent in the sample. There are also counties where the syringe program is closer than predicted by the model, like in Presidio County, TX, which is 86.9 miles from a syringe program but the model predicted 245.48 miles. None of the counties look like data entry errors. Had the review of the data revealed a suspicious number like 99% of people uninsured or 6000 miles to the syringe program, this could signify a data collection, data entry, or data management error. In the case of some sort of error, the observation could either be corrected or removed from the data frame and the model would then be re-estimated (with all the assumptions and diagnostics checked again!). 
+
+Kiara wants to emphasize that removing data from a data frame should be a last resort when other options for correcting the data have been exhausted. Data should definitely not be removed just to make a model fit better. A great fitting model that does not represent the true population has the potential to result in ineffective programs and policies, depending on what the model is being used for. Kiara steps down off of her soapbox. Leslie and Nancy agree that this is an important point to consider. Sometimes it feels like getting a small p-value is the goal, but really the goal is to find the truth in order to accurately inform whoever is relying on your research.
+
+Leslie adds the assumption checking and diagnostics to the interpretation:
+
+> A simple linear regression analysis found that the percent of uninsured residents in a county is a statistically significant predictor of the distance to the nearest syringe program (b = `r round(dist.by.unins$coefficients[2], 2)`; p = `r round(summary(dist.by.unins)$coefficients[2,4], 2)`. For every 1% increase in uninsured residents, the distance to the nearest syringe program increases by 7.82 miles. The value of the slope is likely between 6.30 and 9.34 in the population that the sample came from (95% CI: 6.30-9.34). So, with every 1% increase in uninsured residents, there is likely a 6.30 to 9.34 increase in the miles to the nearest syringe program. The model was statistically significantly better than the baseline at explaining distance to syringe program ($F(1, 498)=102.2$; p < .001) and explained 16.9% of the variance in the outcome. These results suggest that communities with lower insurance rates are further from this resources, which may exacerbate existing health disparities. 
+
+> An examination of the underlying assumptions found that the data fail several of the assumptions for linear regression and so the model should be intepreted with caution; the results do not necessarily generalize to other counties beyond the sample. In addition, regression diagnostics found a number of counties that were problematic. Many of these counties were in Texas, which may suggest that counties in Texas are unlike the rest of the sample and might be considered separately. 
+
+### Achievement 6: Check your understanding  
+
+Look at the observed values of `dist_SSP` and the predicted distances for the 22 observations that are problematic. Find the county where the distance predicted by the model is furthest from the observed value of `dist_SSP` and find the county where the distance predicted by the model is closest to the observed value of `dist_SSP`. Name the two counties and report how much different the predicted value is from the observed value of `dist_SSP`. 
+
+## Achievement 7: Adding variables to the model and using transformation
+
+### Adding a binary variable to the model 
+
+Kiara notes that uninsured percent accounted for `r round(100*summary(dist.by.unins)$r.squared, 1)`% of the variation in distance to syringe program for counties, leaving `r round(100*(1-summary(dist.by.unins)$r.squared), 1)`% to explain. Kiara thinks it is time to add in additional variables to see if they account for some of the variation in distance to syringe program. She thinks that bigger cities are more likely to have these programs, so the `metro` variable seems like it might help to explain how far away a county is from a syringe program. Certainly Figure \@ref(fig:boxmetro) and Figure \@ref(fig:violinmetro) indicated that the distance to syringe programs was further in non-metro areas.
+
+Nancy shows Leslie that adding a variable requires changing the formula, but everything else remains the same. Kiara suggests naming the new regression object something different since it includes different variables now. Leslie adds metro onto the end of the regression object name, for a new regression object called `dist.by.unins.metro`. Leslie thinks she could probably do a better job at naming, but leaves it for now.
+
+```{r}
+# linear regression distance to syringe program by
+# uninsured percent and metro status in 500 counties
+dist.by.unins.metro <- lm(formula = dist_SSP ~ pctunins +
+                        metro, data = dist.ssp.cleaned)
+summary(dist.by.unins.metro)
+```
+
+#### Interpreting the multiple regression model results
+
+Kiara looks at the results of this new model. She sees low p-values on the rows for `pctunins` and `metro`, which indicates that percent uninsured and metro status both significantly help to explain the distance to a syringe program. She suggests that Leslie use NHST to walk through the results, they will need one NHST for the model significance ($F$) and one NHST for the predictor significance. Leslie starts with the model significance test. Kiara suggest that they skip the NHST for a few minutes and just explore the model. She thinks they may want to add a couple more variables and do NHST on a big final model. Leslie thinks that sounds good and they start reviewing the results. 
+
+It looks to Leslie like the model is statistically significant, with an $F$ statistic of $F(2, 497)=58.88$ and a p-value of $< .001$. The $R^2_{adj}=.1883$ indicates that 18.83% of the variation in distance to syringe program is accounted for by this model that has uninsured percent and metro status in it. This is higher than the $R^2_{adj}$ from the simple linear model with just uninsurance in it. Finally, Leslie sees that the coefficient for `pctunins` is 7.30, so for every 1% more uninsured in a county, the distance to a syringe program is 7.30 miles further. The row with `metronon-metro` is confusing to Leslie, so Kiara explains that this is showing the variable name `metro` and the name of the category within `metro` that this coefficient is for. In this case, the coefficient refers to the `non-metro` counties and the `metro` counties are the reference group. So, the non-metro counties are 28.05 miles away from the nearest syringe program compared to the metro counties. This sounds completely plausible to Leslie. 
+
+Nancy thinks this would be a great time to visualize the regression model with this binary variable. What happens with a binary variable, Nancy explains, is that the slope of the line does not change for each group, but the $y$-intercept changes. This is super confusing to Leslie, so Nancy makes a graph to show what she means. Since there is more than one regression line now, she uses a new package called <span style="font-family:Lucida Console, monospace;font-weight:bold">broom</span> that has the `augment()` function for accessing the predicted (or "fitted") values. Leslie sees this new function in the code along with `.fitted` in the aesthetics of the `geom_line()` layer, everything else looks pretty much like all the other graphs. 
+
+```{r linearregex, fig.cap="Miles to nearest syringe program based on uninsured percent and metro statues for 500 counties (data source: amFAR)"}
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP, color = metro)) +
+  geom_point() + 
+  geom_line(data = broom::augment(dist.by.unins.metro), 
+            aes(y = .fitted, color = metro)) +
+  geom_point(size = 2) + 
+  theme_minimal() + 
+  scale_color_manual(values = c("#78A678", "#7463AC"), name = "Metro status") +
+  ylab("Miles to nearest syringe program") + 
+  xlab("County uninsurance percent")
+```
+
+Leslie sees now that the two slopes are the same, but that the $y$-intercept is lower for the `metro` group compared to the `non-metro` group. Because the slope is the same, this means that, given a certain uninsurance percent, a resident of a metro county will have 28.05 fewer miles to drive to a syringe program. So, a person in a metro county with 20% uninsured will have to drive 28.05 fewer miles to the syringe exchange compared to a person in a non-metro county with 20% uninsured.
+
+#### Using the multiple regression model 
+
+Leslie is a little confused, so Kiara shows her the regression model: 
+
+distance to syringe program = `r round(dist.by.unins.metro$coefficients[1], 2)` + `r round(dist.by.unins.metro$coefficients[2], 2)` \* percent uninsured + `r round(dist.by.unins.metro$coefficients[3], 2)` \* non-metro)
+
+
+Then she substitutes in values for an example county with 10% uninsured in a **non**-metro area: 
+
+distance to syringe program = `r round(dist.by.unins.metro$coefficients[1], 2)` + `r round(dist.by.unins.metro$coefficients[2], 2)` \* 10 + `r round(dist.by.unins.metro$coefficients[3], 2)` \* 1)
+
+distance to syringe program = `r round(dist.by.unins.metro$coefficients[1] + dist.by.unins.metro$coefficients[2]*10 + dist.by.unins.metro$coefficients[3]*1, 2)`
+
+
+She also substitutes in the values for an example county with 10% uninsured in a **metro** area: 
+
+distance to syringe program = `r round(dist.by.unins.metro$coefficients[1], 2)` + `r round(dist.by.unins.metro$coefficients[2], 2)` \* 10 + `r round(dist.by.unins.metro$coefficients[3], 2)` \* 0)
+
+distance to syringe program = `r round(dist.by.unins.metro$coefficients[1] + dist.by.unins.metro$coefficients[2]*10 + dist.by.unins.metro$coefficients[3]*0, 2)`
+
+Kiara explains that a county with 10% uninsured in a metro area would have to travel 28.05 fewer miles to a syringe program given the coefficient in the model. Looking at Figure \@ref(linearregex), Leslie thinks this makes sense. Kiara wants to build the  model a little more before they finish up. Since syringe exchanges are arguably important for HIV prevention, Kiara thinks they should also add HIV rate to the model. 
+
+### Adding more variables to the model
+
+Before they add variables to the model, Kiara wants to check the distributions for all the continuous variables and transform them if needed. She suggests they review Section \@ref(transformers) before they begin. Everyone takes a few minutes to read through that section and then they get started.
+
+#### Checking the distribution of the continuous variables 
+
+The model will now include three continuous variables, `dist_SSP`, `pctunins`, and `HIVprevalence`. The normality assumption checking found the `pctunins` to be relatively normally distributed (Figure \@ref(distunins)), while `dist_SSP` was right skewed (Figure \@ref(distsyringe)). Earlier in the day they also checked `HIVprevalence` and found that it was right skewed (Figure \@ref(disthiv)). 
+
+#### Identifying a transformation for distance and HIV prevalence
+
+Both variables were right skewed, so Kiara looks online to remind herself which transformations work best to make right skewed data more normal. She finds that square root, cube root, reciprocal, and log transformations are all recommended for right skewed data [@field2013discovering]. Leslie remembers some of the transformation process from Section \@ref(transformers) and wants to give the coding a try. Nancy slides the laptop over to her and Leslie writes some code to plot the square root and cube root of `dist_SSP` and `HIVprevalence`.
+
+```{r fig.cap = "Distribution of transformed distance to syringe program in 2018 for 500 counties (data source: amFAR)"}
+# histogram of square root of dist_SSP
+cube.root.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = (dist_SSP)^(1/3))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Cube root of distance", y = "Number of counties") +
+  theme_minimal()
+sq.root.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = sqrt(dist_SSP))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Square root of distance", y = "Number of counties")+
+  theme_minimal()
+inverse.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = 1/(dist_SSP))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Inverse of distance", y = "Number of counties")+
+  theme_minimal()
+log.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = log(dist_SSP))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Log of distance", y = "Number of counties")+
+  theme_minimal()
+
+# view options for transformation
+gridExtra::grid.arrange(cube.root.dist, sq.root.dist,
+                        inverse.dist, log.dist)
+
+```
+
+Leslie thinks the cube root looks the best of all the transformation options. She re-uses her code to check which transformation works best for `HIVprevalence`.
+
+```{r fig.cap = "Distribution of transformed HIV prevalence in 2018 for 500 counties (data source: amFAR)"}
+# histogram of transformed dist_SSP
+# cube root
+cube.root.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = (HIVprevalence)^(1/3))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Cube root of HIV prevalence", y = "Number of counties")+
+  theme_minimal()
+# square root
+sq.root.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = sqrt(HIVprevalence))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Square root of HIV prevalence", y = "Number of counties")+
+  theme_minimal()
+# inverse
+inverse.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = 1/(HIVprevalence))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Inverse of HIV prevalence", y = "Number of counties")+
+  theme_minimal()
+# log
+log.dist <- dist.ssp.cleaned %>%
+  ggplot(aes(x = log(HIVprevalence))) +
+  geom_histogram(fill = "#7463AC", col = "white") +
+  labs(x = "Log of HIV prevalence", y = "Number of counties")+
+  theme_minimal()
+
+# view options for transformation
+gridExtra::grid.arrange(cube.root.dist, sq.root.dist,
+                        inverse.dist, log.dist)
+
+```
+
+The log of HIV prevalence looks the most normally distributed of the options. Leslie suggests they use the cube root of `dist_SSP` for the outcome and the log of `HIVprevalence` as a predictor. Kiara thinks this sounds good, although the interpretation of the results will not be straightforward to interpret.
+
+```{r}
+# linear regression of distance by percent uninsured, HIV prevalence,
+# metro status, and opioid_RxRate
+dist.full.model <- lm(formula = (dist_SSP)^(1/3) ~ pctunins +
+                        log(HIVprevalence) + metro,
+                      data = dist.ssp.cleaned,
+                      na.action = na.exclude)
+summary(dist.full.model)
+```
+
+Leslie reports that the model is statistically significant, with an $F$ statistic of $F(3, 426)=44.16$ and a p-value of $< .001$. The $R^2_{adj}=.2318$ indicates that 23.18% of the variation in distance to syringe program is accounted for by this model that has HIV prevalence, uninsured percent, and metro status in it. This is higher than the $R^2_{adj}$ from the previous two models. Finally, Leslie sees that the coefficient for `pctunins` is .1127, so for every 1% more uninsured in a county, the *cube root* of the distance to a syringe program is .1127 miles further. The row with `metronon-metro` suggests that non-metro areas are further from syringe programs. The log of HIV prevalence is not statistically significantly associated with distance from syringe program.
+
+### No multicollinearity assumption for multiple regression 
+
+Since they are nearly finished with linear regression modeling, Kiara stops Leslie for a short detour to tell her about one additional assumption that must be checked when there are multiple *continuous* predictor variables in a model. There are three continuous predictors in `dist.full.model`, so they can check this assumption for that model. 
+
+Kiara explains that, in addition to the assumptions checked with the earlier model, when a model has more than one continuous predictor, there is an assumption of **no perfect multicollinearity**. Multicollinearity is when two variables are highly correlated and therefore are very similar to one another. When two variables are similar to one another, they are both bringing the same information into the regression model. This redundancy can be a problem for model estimation, so variables that are too similar should not be in a model together. 
+
+#### Using correlation to check multicollinearity
+
+There are several ways to check for multicollinearity. The first is to examine correlations between any continuous variables in a model before estimating the model. In this case, percent living in poverty and percent opposite-sex couples cohabitating are continuous. The correlation between these is computed using the `cor()` command:
+
+```{r}
+# correlations among continuous variables in the full model
+dist.ssp.cleaned %>%
+  summarize(cor.hiv.unins = cor(x = HIVprevalence, y = pctunins))
+```
+
+The two predictors are highly correlated with one another. If the absolute value of the correlation coefficient were .7 or higher, this would indicate a strong relationship with a large amount of shared variance between the two variables and therefore a problem with multicollinearity.
+
+#### Using variance inflation factors (VIF) to check multicollinearity 
+
+The other way to identify problems with multicollinearity is through the use of **Variance Inflation Factor** or **VIF** statistics. The **VIF** statistics are calculated by running a separate regression model for each of the predictors where the predictor is the outcome and everything else in the model stays a predictor. With this model, for example, the VIF for the `pctunins` variable would be computed by running this model:
+
+`pctunins = log(HIVprevalence) + metro` 
+
+The $R^2$ from this linear regression model would be used to determine the VIF by substituting it into this formula: 
+
+$$
+\begin{equation}
+VIF_{pctunins}=\frac{1}{1-R^2}
+ (\#eq:vifeq)
+\end{equation}
+$$
+
+
+The result will be `1` if there is no shared variance at all. If there is any shared variance, the VIF will be greater than one. If the VIF is large, this indicates that `pctunins` shares a lot of variance with the `opioid_RxRate` and `log(HIVprevalence)` variables. A VIF of 2.5, for example, would indicate that the $R^2$ was .60 and so 60% of the variation in `pctunins` was explained by `opioid_RxRate` and `log(HIVprevalence)`. While there is no consistent cutoff recommended for the size of a VIF that indicates too much multicollinearity, 2.5 is often used. 
+
+Kiara shows Leslie the `vif()` command to check VIF values for the model above:
+
+```{r}
+# VIF for model with poverty 
+car::vif(dist.full.model)
+```
+
+The VIF values are small, especially given that the lower limit of the VIF is one. There is no problem with multicollinearity with this model. The model meets the assumption of no perfect multicollinearity. Kiara explains to Leslie that the rest of the assumption checking and diagnostics are conducted and interpreted in the same way as they were for the simple linear regression model. 
+
+Leslie is interested in checking some of the other assumptions since they now have transformed variables in the model. She starts with linearity.
+
+### Checking linearity for multiple regression
+
+Linearity is checked in the same way, but it is checked for each of the continuous predictors in a multiple regression. Leslie borrows the code from Figure \@ref(fig:loessreg) and modifies it to check each of the predictors for a linear relationship with the outcome, which is now the cube root of `dist_SSP`. 
+
+
+```{r fig.cap = "Relationship between the log of HIV prevalence in 2017 and transformed distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# log of HIV prevalence and cube root of distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = log(HIVprevalence), y = (dist_SSP)^(1/3))) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  geom_smooth(aes(color = "Loess curve"), se = FALSE) +
+  theme_minimal() +
+  labs(y = "Cube root of miles to syringe program", x = "Log of HIV prevalence") +
+  scale_color_manual(values = c("#7463AC", "#78A678", "deeppink"), name = "")
+```
+
+This one is not linearly related. There seems to be little relationship, if any, between the transformed distance and HIV prevalence variables.
+
+```{r fig.cap = "Relationship between percent uninsured in 2017 and transformed distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent uninsured and cube root of distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = (dist_SSP)^(1/3))) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  geom_smooth(aes(color = "Loess curve"), se = FALSE) +
+  theme_minimal() +
+  labs(y = "Cube root of miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678", "deeppink"), name = "")
+```
+
+This one is the closest of the three. There appears to be a relatively linear and positive relationship with some deviation from linearity, especially at the lowest and highest values of percent uninsured.
+
+### Checking the homoscedasticity assumption for multiple regression
+
+Leslie remembers that the Breusch-Pagan can be used to test the null hypothesis that the variance is constant and writes the code:
+
+```{r}
+# testing for equal variance
+const.var.test.full <- lmtest::bptest(formula = dist.full.model)
+const.var.test.full
+```
+
+The Breusch-Pagan test statistic has a tiny p-value associated with it ($BP$ = `r round(const.var.test.full$statistic, 2)`; $p$ = `r round(const.var.test.full$p.value, 2)`), indicating that the null hypothesis would be rejected. Leslie concludes that the assumption of constant variance is *not* met. 
+
+### Testing the independence of residuals assumption 
+
+Leslie writes the code to test the null hypothesis that the residuals are independent: 
+
+```{r}
+# test independence of residuals
+lmtest::dwtest(formula = dist.full.model)
+```
+
+The $D-W$ statistic is near 2 and the $p-value$ is high, so Leslie concludes that the null hypothesis is retained. Since the null hypothesis is that the residuals are independent, she finds that this assumption is met. 
+
+### Testing the normality of residuals assumption 
+
+The last assumption to check is normality of residuals. Kiara explains that, if the residuals are normally distributed, this means that the regression line is far above a few points, far below a few others, and relatively near most of the points. If the residuals are skewed, that would mean that the regression line is either far above observations more often than it is far below observations or vice-versa. That is, it does a better job at explaining either the higher values of the outcome or the lower values of the outcome. 
+
+```{r fig.cap="Distribution of residuals for model explaining distance to syringe program for 500 counties (data source: amFAR)"}
+# check residual plot of uninsured percent and distance to syringe program
+data.frame(dist.full.model$residuals) %>%
+  ggplot(aes(x = dist.full.model.residuals)) + 
+  geom_histogram(fill = "#7463AC", col = "white") + 
+  theme_minimal() + 
+  labs(x = "Residuals",
+       y = "Number of counties") 
+```
+
+
+```{r fig.cap="Distribution of residuals for model explaining distance to syringe program for 500 counties (data source: amFAR)"}
+# check residual plot of uninsured percent and distance to syringe program
+data.frame(dist.full.model$residuals) %>%
+  ggplot(aes(sample = dist.full.model.residuals)) + 
+  geom_abline(aes(intercept = mean(dist.full.model.residuals), 
+                  slope = sd(dist.full.model.residuals))) +
+  stat_qq(color = "#7463AC") + 
+  theme_minimal() + 
+  labs(x="Theoretical normal distribution",
+       y="Observed residuals") 
+```
+
+
+Both graphs suggest the distribution of residuals is pretty close to normal. 
+
+The new HIV prevalence variable is not statistically significant and the model fails the assumptions of linearity and homoscedasticity, however, the model fit statistic ($R^2_{adj}$) is higher than the previous models and the normality assumption is now met.  
+
+### Using the Partial-F test to choose a model 
+
+Now that the R-team has estimated three models, Leslie is not sure which one she would choose to report if she were writing a paper or a policy brief about syringe programs. The HIV and opioid variables were not significant predictors in the full model and both failed the linearity assumption, so it seems like either the simple linear regression just including percent uninsured or the regression including percent uninsured and metro status would be good. Kiara reminds Leslie that the simple linear regression did not meet all the assumptions, so it may not be the best option. 
+
+Kiara says that there are also a couple of things to think about in selecting a model before thinking about how it performed. First, the model should answer whatever question is being asked and second, the model should include variables that have been demonstrated important in the past to help explain the outcome if they are available. For example, a statistical model explaining lung cancer should include smoking status since it has been demonstrated by many studies to have a strong relationship to lung cancer. 
+
+After answering the question at hand and including variables demonstrated important in the past, choosing a model can still be complicated. One tool for choosing between two linear regression models is a statistical test called the Partial-$F$ test. The Partial-$F$ test compares the fit of two **nested** models to determine if the additional variables in the larger model improved the model fit enough to warrant keeping the variables and interpreting the more complex model. The Partial-$F$ test can be conducted by hand using the Partial-$F$ equation:
+
+$$
+\begin{equation}
+F_{partial}=\frac{\frac{R^2_{full}-R^2_{reduced}}{q}}{\frac{1-R^2_{full}}{n-p}}
+ (\#eq:partialf)
+\end{equation}
+$$
+
+Where:
+
+* $R^2_{full}$ is the $R^2$ for the larger model 
+* $R^2_{reduced}$ is the $R^2$ for the smaller nested model 
+* $n$ is the sample size 
+* $q$ is difference in the number of parameters for the two models 
+* $p$ is the number of parameters in the larger model
+
+The $F_{partial}$ statistic has $q$ and $n-p$ degrees of freedom. To compare the `dist.by.unins` model with the `dist.by.unins.metro` model, substitute their values into the equation:
+
+```{r echo = FALSE}
+summary(dist.by.unins)
+summary(dist.by.unins.metro)
+```
+
+
+$$
+\begin{equation}
+F_{partial}=\frac{\frac{.1915-.1703}{1}}{\frac{1-.1915}{500-2}}=13.06
+ (\#eq:partialf)
+\end{equation}
+$$
+
+Nancy says there is a way to do this using R code instead of by hand using `anova()`. Enter the name of the smaller model first and then the larger model and `anova()` will compare the two with a Partial-$F$ test:
+
+```{r}
+# partial F test for dist.by.unins and dist.by.unins.metro
+anova(object = dist.by.unins, dist.by.unins.metro)
+```
+
+The Partial-$F$ is 13.03 and the p-value is .0003. Leslie thinks this might be a good place to use NHST to understand this result. Kiara helps her walk through the steps.
+
+#### NHST Step 1: Write the null and alternate hypotheses
+
+H0: The larger model is no better than the smaller model at explaining the outcome 
+
+HA: The larger model is better than the smaller model at explaining the outcome 
+
+#### NHST Step 2: Compute the test statistic 
+
+The Partial-$F$ is 13.063 with 1 and 497 degrees of freedom. 
+
+#### NHST Step 3: Calculate the probability that your test statistic is at least as big as it is if there is no relationship (i.e., the null is true) 
+
+The p-value is very small (p = .0003), so the probability that the test statistic is this big is tiny.
+
+#### NHST Step 4 & 5: Reject or retain the null hypothesis bNased on the probability
+
+The null hypothesis is rejected; it is unlikely that the null hypothesis is true. Instead, we retain the alternate hypothesis that the larger model is better than the smaller model at explaining the outcome. This suggests to Leslie that the model with uninsured percent and metro status is a better model to report than the simple linear model. Leslie is about to write the final interpretation of the model when Kiara reminds her that she needs to check the assumptions first and that she may need to transform the outcome variable since it is not normally distributed. Leslie feels like she is done for the day and finalizing the model will be her activity before their next meeting.
+
+### Achievement 7: Check your understanding
+
+Write out the NHST process for model significance and for the significance of at least one of the predictors for the model `dist.full.model`.
+
+## Chapter summary
+
+### Achievements unlocked in this chapter: Recap
+
+After reading this chapter and following along, Leslie (and you) learned and practiced: 
+
+#### Achievement 1 recap: Exploratory data analysis before developing a linear regression model 
+
+Prior to conducting a regression analysis, it is useful to examine how the two variables are related to one another using correlation analysis and a scatterplot for continuous predictors and comparing means and box plots for categorical predictors. These *exploratory data analysis* tools provide some early indication of whether the relationship appears to linear, how strong it might be, and whether it looks like a positive or negative relationship.
+
+#### Achievement 2 recap: The statistical model for a line 
+
+A linear regression model is based on the equation for a line: 
+
+$$
+\begin{equation}
+y = mx + b
+ (\#eq:basicline)
+\end{equation}
+$$
+
+Where:
+
+* $m$ is the slope of the line 
+* $b$ is the $y$-intercept of the line, or the value of $y$ when $x$ = 0 
+* $x$ and $y$ are the coordinates of each point along the line 
+
+In statistics, the intercept is often represented by $c$ or $b_0$ and the slope is often represented by $b_1$. Rewriting the equation for a line with these options would look like one of these two options:
+
+$$
+\begin{equation}
+y = b_0 + b_1x
+ (\#eq:basiclinewb)
+\end{equation}
+$$
+
+
+
+$$
+\begin{equation}
+y = c + b_1x
+ (\#eq:basiclinewc)
+\end{equation}
+$$
+
+#### Achievement 3 recap: Computing the slope and intercept in a simple linear regression 
+
+The slope and the intercept for the regression line are computed using the `lm()` command.  
+
+#### Achievement 4 recap: Slope interpretation and significance (b, p-value, CI) 
+
+The value of the slope indicates how much the outcome goes up or down with a one unit increase in the predictor variable. The p-value for the slope is the result of a one-sample t-test comparing the slope to zero; if the p-value is below some threshold (usually .05), the slope is considered statistically significantly different from zero. 
+
+The confidence interval for the slope indicates where the slope likely lies in the population. 
+
+#### Achievement 5 recap: Model significance and model fit 
+
+The coefficient of determination, or $R^2$, is interpreted as the percentage of variance in the outcome that is explained by the model. The ${R}^2_{adj}$ penalizes the $R^2$ for each variable in the model, resulting in a lower value that is considered a more accurate reflection of how well the model explains the variability in the outcome. 
+
+Model significance is determined using the F-statistic, which is a ratio of explained variance to unexplained variance. When the F-statistic is large, that indicates there is more explained variance relative to unexplained and the model is likely reflecting a true relationship. 
+
+#### Achievement 6 recap: Checking assumptions and conducting diagnostics  
+
+Statistical tests rely on underlying assumptions about the characteristics of the data. When these assumptions are not met, the results may not reflect the true relationships among the variables. The variable type can be checked by examining the two variables to be sure they are continuous. Histograms and QQ-Plots can be used to determine if the variables are normally distributed. A scatterplot with a Loess curve is useful for examining linearity. A scatterplot and Breusch-Pagan test can aid in identifying problems with constant variance. Residual independence is tested using the Durbin-Watson statistic and residual normality can be examined with the histogram and QQ-plot. Outliers and influential values can be identified using standardized residuals, df-betas, Cook's D, and Leverage values. Observations that are identified as problematic by more than one measure should be examined and, if the data appear unreliable for the observation, the observation can be fixed or dropped before re-estimating and testing the model.
+
+#### Achievement 7 recap: Adding variables to the model 
+
+Continuous and categorical variables can be added to a regression model. A sample size of at least 10 observations per coefficient is recommended. Categorical variables added to a model will influence the y-intercept, while continuous variables will influence the slope. If two or more continuous variables are in the model, there is an additional assumption of no perfect multicollinearity which can be checked with correlation coefficients or VIF statistics.
+
+### Chapter exercises
+
+The coder and hacker exercises are an opportunity to apply the skills from this chapter to a new scenario or a new data set. The coder edition will evaluate your application of the commands learned in this chapter (and earlier chapters) to similar scenarios to those in the chapter; the hacker edition will evaluate your use of the procedures from this chapter in new scenarios, usually going a step beyond what was explicitly explained. 
+
+Before picking the coder or hacker version, check your knowledge. We recommend the coder edition if you answer all 5 multiple choice questions correctly by your third try and the hacker edition if you answer at least 3 of the 5 multiple choice questions correctly on your first try the rest correctly on your first or second try.
+
+Q1: Which of the follow is not an assumption for simple linear regression? 
+
+a. Normally distributed variables 
+b. Multicollinearity 
+c. Linear relationship 
+d. Constant variance 
+e. Normally distributed residuals 
+
+Q2: Continuous predictors influence the ______ of the regression line, while categorical predictors influence the _____________?
+
+a. slope, intercept 
+b. intercept, slope 
+c. $R^2$, p-value 
+d. p-value, $R^2$ 
+
+Q3: Which of the following is true about the adjusted $R^2$? 
+
+a. It is usually larger than the $R^2$ 
+b. It is only used when there is just one predictor  
+c. It is usually smaller than the $R^2$ 
+d. It is used to determine whether residuals are normally distributed   
+
+Q4: Significance for the coefficients (b) is determined by... 
+
+a. An F-test 
+b. An $R^2$ test 
+c. A correlation coefficient 
+d. A t-test 
+
+Q5: The $R^2$ is the squared correlation of which two values? 
+
+a. y and the predicted values of y 
+b. y and each continuous x 
+c. b and t 
+d. b and se 
+
+#### Chapter exercises: Coder edition 
+
+Depending on your score in the knowledge check, choose either the coder or hacker edition of the chapter exercises. Use the data from this chapter and the appropriate tests to examine male and female education and water access. 
+
+1) Import the cleaned data set **dist_ssp_amfar_ch9.csv** from [edge.sagepub.com/harris1e](edge.sagepub.com/harris1e) 
+2) Conduct the data cleaning tasks shown in this chapter  
+3) Create a model with uninsured percent as the predictor variable and the distance to syringe program variable transformed using a cube root transformation as the outcome variable 
+4) Check the model assumptions 
+7) Interpret the model results
+8) Add the log transformed HIV variable and the metro variable to the model 
+9) Interpret the model results
+9) Compare the larger and smaller models using the Partial-$F$ test
+10) Interpret and report the results of the Partial-$F$ test 
+
+#### Chapter exercises: Hacker edition
+
+Complete #1 and #2 of the coder edition, then complete the following:
+
+3) Check the distribution of the opioid prescription variable 
+4) Try at least three transformations to transfor the opioid prescription variable to a more normally distributed variable; choose the transformation that works the best to normalize the variable 
+5) Create a model with uninsured percent as the predictor variable and the distance to syringe program variable transformed using a cube root transformation as the outcome variable 
+6) Check the model assumptions 
+7) Interpret the model results
+8) Add the transformed opioid prescription variable and the metro variable to the model 
+9) Interpret the model results
+9) Compare the larger and smaller models using the Partial-$F$ test
+10) Interpret and report the results of the Partial-$F$ test 
+
+#### Instructor note
+
+Solutions to exercises can be found on the book website, along with *Ideas for Gamification* for those who want to *take it further*.
+
+### BOXES
+
+#### Leslie's stats stuff: Order of operations {#ch9leslie}
+
+<img align = "left" src = "graphics/leslie.gif" style="PADDING-RIGHT: 10px"> 
+
+Leslie remembers back to algebra class and how they had to learn the order for solving equations. There were several mneumonic devices used to help remember, the one she learned in her class was:
+
+* Please 
+* Excuse 
+* My 
+* Dear 
+* Aunt 
+* Sally 
+
+Which represents the order of operations, or the order in which to solve an equation:
+
+* Parentheses 
+* Exponents 
+* Multiplication and 
+* Division 
+* Addition and 
+* Subtraction 
+
+So, for any set of calculations, do what is inside parentheses first, followed by any exponents, the multiplication and division, then addition and subtraction. 
+
+#### Kiara's reproducibility resource: Merging data from multiple csv files {#ch9kiara}
+
+<img align = "left" src = "graphics/kiara.gif" style="PADDING-RIGHT: 10px">
+
+In order to make the data frame for today, Kiara downloaded several comma separated values files from amFAR [@OpioidHealthIndicatorsDatabase] and merged them by the state and county they were in. Some of the files had data from multiple years, so Kiara chose the most recent year. All of the files used in this merge, along with the codebook describing the contents of each file, are saved at [edge.sagepub.com/harris1e](edge.sagepub.com/harris1e).
+
+```{r eval = FALSE}
+# read in all the data
+op.dist <- read.csv("data/opioid_dist_to_needle_exchange_2018.csv")
+hiv.prev <- read.csv("data/hiv_prevalence_amfar_ch9.csv")
+op.scripts <- read.csv("data/opioid_script_rate_amfar_ch9.csv")
+unins <- read.csv("data/percent_unins_amfar_2016_ch9.csv")
+metro <- read.csv("data/metro_nonmetro_usda_ers_2015_ch9.csv")
+```
+
+Once the data were all imported into R, Kiara opened and checked each file to makes sure that the county and state variables she would use to merge the files together were named the exact same thing for every file. For each file she did the following: 
+
+* Changed the name of the county variable to `county` 
+* Changed the `county` variable to a character variable 
+* Changed the names of the counties saved in the `county` variable to all lower case 
+* Changed the name of the variable of interest from `VALUE` in most of the files to whatever it was named in the codebook (e.g., `dist_SSP` or `HIVprevalence`) 
+* Limited each file to the `county` variable, the `STATEABBREVIATION` variable, and the variable of interest from each file
+
+```{r eval = FALSE}
+# open tidyverse
+library(tidyverse)
+
+# clean distance variable
+op.dist.cleaned <- op.dist %>%
+  rename(county = COUNTY) %>%
+  mutate(county = tolower(as.character(county))) %>%
+  rename(dist_SSP = VALUE) %>%
+  select(county, dist_SSP, STATEABBREVIATION)
+# clean HIV prevalence variable
+hiv.prev.cleaned <- hiv.prev %>%
+  filter(YEAR == 2016) %>%
+  rename(county = COUNTY) %>%
+  mutate(county = tolower(as.character(county))) %>%
+  rename(HIVprevalence = VALUE) %>% 
+  select(county, HIVprevalence, STATEABBREVIATION)
+# clean opioid prescriptions variable
+op.scripts.cleaned <- op.scripts %>%
+  filter(YEAR == 2017) %>%
+  rename(county = COUNTY) %>%
+  mutate(county = tolower(as.character(county))) %>%
+  rename(opioid_RxRate = VALUE) %>%
+  select(county, opioid_RxRate, STATEABBREVIATION)
+# clean percent uninsured variable
+unins.cleaned <- unins %>%
+  filter(YEAR == 2016) %>%
+  rename(county = COUNTY) %>%
+  rename(pctunins = VALUE) %>%
+  mutate(county = tolower(as.character(county))) %>%
+  select(county, pctunins, STATEABBREVIATION)
+# clean metro status variable
+metro.cleaned <- metro %>%
+  rename(metro = Metro.nonmetro.status..2013.0.Nonmetro.1.Metro) %>% 
+  mutate(metro = recode(metro, `0` = "non-metro", `1` = "metro")) %>%
+  rename(county = County_name) %>%
+  rename(STATEABBREVIATION = State) %>%
+  mutate(county = tolower(as.character(county))) %>%
+  select(county, metro, STATEABBREVIATION)
+```
+
+Once the data were cleaned and managed, Kiara uses `merge()` to combine the data frames based on variables that are named the same across the data sets, in this case `county` and `STATEABBREVIATION`. The state variable is needed because many counties are named the same but are in different states.
+
+```{r eval = FALSE}
+# merge the data frames
+dist.data <- op.dist.cleaned %>%
+  merge(hiv.prev.cleaned) %>%
+  merge(op.scripts.cleaned) %>%
+  merge(unins.cleaned) %>%
+  merge(metro.cleaned)
+
+# summary of data 
+summary(object = dist.data)
+```
+
+The `dist.data` object includes all the counties in the U.S., so it is a population. Samples are used for the purposes of modeling, so Kiara took a sample of 500 counties to work with and saved the data for use.
+
+```{r eval = FALSE}
+# sample 500 counties 
+set.seed(seed = 42)
+dist.data.samp <- dist.data %>%
+  drop_na(HIVprevalence) %>%
+  drop_na(opioid_RxRate) %>%
+  sample_n(size = 500, replace = FALSE) 
+
+# check sample
+summary(object = dist.data.samp)
+
+# save data
+write.csv(dist.data.samp, "data/dist_ssp_amfar_ch9.csv")
+```
+
+#### Nancy's fancy code: Using aesthetics to add figure legend elements {#ch9nancy}
+
+Some figures are more complicated than others and it is useful to have a complete legend to be able to distinguish the different parts. The only things that show up in the legend are those things that are added to the graph inside of aesthetics, `aes()`, functions. For example, color can be added to this graph without using aesthetics, but it will not be included in the legend:
+
+```{r fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(color = "#7463AC", size = 2) + 
+  geom_smooth(color = "#78A678", method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") 
+```
+
+The same graph using the same colors for the same elements can have a legend explaining what the colors represent, but only if the colors are included in `aes()` functions: 
+
+```{r fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties (data source: amFAR)."}
+# percent without health insurance and distance to needle exchange
+dist.ssp.cleaned %>%
+  ggplot(aes(x = pctunins, y = dist_SSP)) +
+  geom_point(aes(color = "County"), size = 2) + 
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Miles to syringe program", x = "Percent uninsured") +
+  scale_color_manual(values = c("#7463AC", "#78A678"), name = "")
+```
+
+Leslie sees the difference now and will remember to add anything that should be in the legend to `aes()` for whatever layer it is in.
