@@ -381,7 +381,7 @@ outcome = b_0 + b_1\cdot predictor + e
 \end{equation}
 $$
 
-This equation looks *nearly* identical to the ones we have been working with, however it includes *error* or $e$. Error ($e$) in the equation accounts for the variability in the outcome that is not explained by the predictor, and Equation \@ref(e1:stoch) is the **simple linear regression** equation or *model*. Consider the water example. It is unlikely that every human would drink exactly 11 gallons over 4 weeks. If a person is larger or smaller or active or inactive they may need to drink a different amount of water. For example, the following graph is something that is much more likely to happen in real life:
+This equation looks *nearly* identical to the ones shown earlier, however this one includes *error* or $e$. Error ($e$) in the equation accounts for the variability in the outcome that is *not* explained by the predictor, and Equation \@ref(e1:stoch) is the **simple linear regression** equation or *model*. Consider the water example. It is unlikely that every human would drink exactly 11 gallons over 4 weeks. If a person is larger or smaller or active or inactive they may need to drink a different amount of water. For example, the following graph is something that is much more likely to happen in real life:
 
 ```{r echo=FALSE}
 set.seed(1234)
@@ -438,13 +438,13 @@ So, Kiara explains, the formula is adding up the product of differences between 
 
 Once the slope is computed, the intercept can be determined by plugging in the slope and values of $\overline{x}$ and $\overline{y}$ into the equation for the line: $\overline{y} = b_0 + b_1{\cdot}\overline{x}$ and solving it for the $y$-intercept, $b_0$. 
 
-Because this way of computing the slope and intercept relies on the squared differences and works to minimize the residuals overall, it is often called **Ordinary Least Squares** or **OLS** regression.
+Because this way of computing the slope and intercept relies on the squared differences and works to minimize the distances between the predicted values and observed values, it is often called **Ordinary Least Squares** or **OLS** regression. Nancy still seems a little confused, so Leslie and Kiara go into more detail. 
 
 ### Understanding residuals 
 
-Leslie explains that after getting the slope and the intercept, the result is an equation. You can plot this equation as a line, which is called a "best fit line" or simply a "fit line". However, Leslie points out that earlier in the water example, she said that the equation does a good job, but it's not perfect. Well, she says, it's the same idea here. The equation the R-Team just solved for using OLS regression gave a slope and an intercept. You use that equation to plug in different values of $x$, and as a result, get a *predicted* value for $y$ (sometimes shown as $\hat{y}$). This predicted $y$ or $\hat{y}$ is *not* the same as the actual $y$ because there is error! 
+Leslie explains that after getting the slope and the intercept, the result is an equation. You can plot this equation as a line, which is called a "best fit line" or simply a "fit line". However, Leslie points out that earlier in the water example, she said that the equation does a good job, but it's not perfect. Well, she says, it's the same idea here. The R-Team just used OLS to solve for a slope and an intercept. Leslie goes on that you use that equation to plug in different values of $x$, and as a result, get a *predicted* value for $y$ (sometimes shown as $\hat{y}$). This predicted $y$ or $\hat{y}$ is *not* the same as the actual $y$ because there is error!
 
-To hit this point home, Leslie goes through a thought exercise in comparing 4 graphs from the water data side-by-side. First graph is if there is no error at all. The second is one where the error is minimized such that the predicted $y$ ($\hat{y}$) values are closest to the actual observed $y$ values. The third is what happens if the slope of the fit line changed (here, gets more shallow). And the last is what happens if there is no relationship at all (correlation of 0), or simply a flat horizontal line. 
+To hit this point home, Kiara goes through a thought exercise in comparing 4 graphs from the water data side-by-side. The first graph is if there is no error at all. The second is one where the error is minimized such that the predicted $y$ ($\hat{y}$) values are closest to the actual observed $y$ values. The third is what happens if the slope of the fit line changes (here, gets more shallow). And the last is what happens if there is no relationship at all (correlation of 0), or simply a flat horizontal line. 
 
 ```{r echo=FALSE}
 # get the new slope line values for plot 3
@@ -492,9 +492,9 @@ gridExtra::grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 ```
 
-The top left graph is the ideal, but Nancy realizes this never happens in real research where there are lots of potential sources of error. In the remaining three graphs, all the points stay in the same place, but the green line between them is at different angles. The graph on the top right is the best one because it minimizes the length of the gray bars (which indicate distances from the actual point to the predicted value of $y$ for that particular $x$). Leslie reiterates that this is the best part of using OLS -- it minimizes those distances, which are known as **residuals**. 
+The top left graph is the ideal, but Nancy realizes this never happens in real research where there are lots of potential sources of error. In the remaining three graphs, all the points stay in the same place, but the green fit line is at different angles. The graph on the top right is the best one because it minimizes the length of the gray bars (which indicate distances from the actual point to the predicted value of $y$ for that particular $x$). Kiara reiterates that this is the best part of using OLS -- it minimizes those distances, which are known as **residuals**. The graphs in the bottom row are worse because the distances between the observed values and the predicted values of $y$ are quite large. 
 
-The linear regression line in Figure \@ref(fig:needleins2) is based on the values of the intercept and slope that are the best at minimizing the distances between all the points and the regression line (OLS regression). These distances are called _residuals_ and they are the leftover information that the line does *not* explain. Put differently, residuals are the difference between the observed value and the predicted value.
+The linear regression line in Figure \@ref(fig:needleins2) is based on the values of the intercept and slope that are the best at minimizing the distances between all the points and the regression line (OLS regression). These distances are called _residuals_ and they are the leftover information that the line does *not* explain (kind of like leaving a "residue"). Put differently, residuals are the difference between the observed value and the predicted value.
 
 Nancy has not graphed residuals before, so she looks online for some guidance in creating the same type of plots as just shown (with the bars between the points and the line). She finds a good tutorial [@VisualisingResiduals] and modifies some of the instructions to come up with Figure \@ref(fig:needleins3). The basic idea of the tutorial is to add a layer with `geom_segment()` that creates line segments between each observed value (the dots) and the value *predicted* by the fit line. Nancy goes ahead with the graph and Kiara says they will talk more about predicted values after they estimate the model.
 
@@ -522,7 +522,7 @@ Leslie sees that the vertical lines show the information that the regression lin
 
 Kiara states that if the electricity went off the slope and intercept of a line could still be calculated by hand using the OLS method without too much trouble, depending on the sample size. Leslie is glad to have electricity and R to do the work for her, however, and asks Nancy what command works best to find the equation for the line. Nancy introduces the `lm()` command, which Leslie recognizes from plotting a line through the scatterplot. The `lm` stands for *linear model*. 
 
-Leslie looks up the help documentation for the `lm()` command and find that it takes two arguments, the `formula =` and the `data =`. There is also an `na.action =` option that Kiara recommends in order to deal with missing values even though these data do not have any. The `formula =` argument is where to put the regression model of interest, in this case unintend.rate explained by perc.poverty2010. The `data =` argument is the same as usual in requiring the name of the data frame for analysis. The `na.action =` argument is used to specify treatment of missing values with `na.exclude` being the option for excluding observations with missing values. Leslie uses `lm()` and fills in the two arguments to find the slope and the intercept of the line shown in the graphs:
+Leslie looks up the help documentation for the `lm()` command and find that it takes two arguments, the `formula =` and the `data =`. There is also an `na.action =` option that Kiara recommends in order to deal with missing values even though these data do not have any. The `formula =` argument is where to put the regression model of interest, in this case `dist_SSP` explained by `pctunins`. The `data =` argument is the same as usual in requiring the name of the data frame for analysis. The `na.action =` argument is used to specify treatment of missing values with `na.exclude` being the option for excluding observations with missing values. Leslie uses `lm()` and fills in the two arguments to find the slope and the intercept of the line shown in the graphs:
 
 ```{r}
 # linear regression of distance to syringe program by percent uninsured
@@ -533,17 +533,17 @@ summary(dist.by.unins)
 
 ### Navigating the linear regression output
 
-The output shows a lot of things! First Leslie sees what she believes to be a $y$-intercept of `r round(dist.by.unins$coefficients[1],2)`. Kiara confirms that it is the $y$-intercept and reminds Leslie that the $y$-intercept is the value of $y$ when $x$ is zero. So, the model would predict a county with 0% of people being uninsured would have a distance to the nearest syringe program of `r round(dist.by.unins$coefficients[1],2)` miles. The slope is `r round(dist.by.unins$coefficients[2],2)`. The slope is the change in $y$ for every one-unit increase in $x$. So, if percent uninsured goes up by 1% in a county, the distance in miles to a syringe program would change by `r round(dist.by.unins$coefficients[2],2)`. Kiara writes the regression equation: 
+The output shows a lot of things! First Leslie sees what she believes to be a $y$-intercept of `r round(dist.by.unins$coefficients[1],2)`. Kiara confirms that it is the $y$-intercept and reminds Leslie that the $y$-intercept is the value of $y$ when $x$ is zero. So, the model would predict that a county with 0% of people being uninsured would have a distance to the nearest syringe program of `r round(dist.by.unins$coefficients[1],2)` miles. The slope is `r round(dist.by.unins$coefficients[2],2)`. The slope is the change in $y$ for every one-unit increase in $x$. So, if percent uninsured goes up by 1% in a county, the distance in miles to a syringe program would change by `r round(dist.by.unins$coefficients[2],2)`. Kiara writes the regression equation: 
 
-distance to syringe program = `r round(dist.by.unins$coefficients[1],2)` + `r round(dist.by.unins$coefficients[2], 2)` * percent uninsured 
+$distance to syringe program = `r round(dist.by.unins$coefficients[1],2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot percent uninsured$ 
 
 Leslie uses the regression model to predict distance to syringe program for a county with 10% of the residents uninsured:
 
-distance to syringe program = `r dist.by.unins$coefficients[1]` + `r dist.by.unins$coefficients[2]` * 10
+$distance to syringe program = `r dist.by.unins$coefficients[1]` + `r dist.by.unins$coefficients[2]` \cdot 10$
 
-Based on the linear regression model, a count with 10% of people uninsured would be `r round(dist.by.unins$coefficients[2]*10, 2)` miles from the nearest syringe program.
+Based on the linear regression model, a county with 10% of people uninsured would be `r round(dist.by.unins$coefficients[2]*10, 2)` miles from the nearest syringe program.
 
-### Achievement 3: Check your understanding
+### Unlock achievement 3: Check your understanding
 
 Pick a county from the data frame and enter its observed value for percent uninsured into the regression equation. Compute the distance to the nearest syringe program. Compare it to the actual distance to the nearest syringe rate for the county. 
 
@@ -555,21 +555,21 @@ In addition to writing the regression model, there are three things to interpret
 
 Kiara wants to start examining the slope by demonstrating how the slope and the value of the predictor work together to explain or predict the outcome. As shown in the regression model, the value of the independent variable, percent uninsured, would be substituted into the equation and multiplied by the slope in order to predict the value of the outcome for a county. In this case, the value of the slope is the percent of uninsured. So, for every 1% more uninsured in a county, the distance to the nearest syringe program goes up by 7.82 miles. Consider, for example, a county with 10% of people uninsured. Using the regression model, the distance to syringe program would be predicted to be: 
 
-* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * uninsured 
+* $distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot uninsured$ 
 
-* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * 10 
+* $distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot 10$ 
 
-* distance to syringe program = `r round(dist.by.unins$coefficients[1] + dist.by.unins$coefficients[2]*10, 2)` 
+* $distance to syringe program = `r round(dist.by.unins$coefficients[1] + dist.by.unins$coefficients[2]*10, 2)`$ 
 
-Another state with 11% uninsured would have a predicted distance to syringe program  of: 
+Another state with 11% uninsured would have a predicted distance to syringe program of: 
 
-* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * uninsured 
+* $distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot uninsured$ 
 
-* distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` * 11 
+* $distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot 11$ 
 
-* distance to syringe program = `r round(dist.by.unins$coefficients[1] + dist.by.unins$coefficients[2]*11, 2)`
+* $distance to syringe program = `r round(dist.by.unins$coefficients[1] + dist.by.unins$coefficients[2]*11, 2)`$
 
-Because the slope is 7.82, the distance to the nearest syringe program increases by 7.82 miles for each 1% increase in people without insurance. Leslie thinks she has this concept figured out and they can move on to examining the statistical significance of the slope. 
+Because the slope is 7.82, the model-predicted distance to the nearest syringe program increases by 7.82 miles for each 1% increase in people without insurance. Leslie thinks she has this concept figured out and they can move on to examining the statistical significance of the slope. 
 
 ### Interpreting the statistical significance of the slope
 
