@@ -501,8 +501,8 @@ Nancy has not graphed residuals before, so she looks online for some guidance in
 ```{r needleins3, fig.cap = "Relationship between percent without health insurance 2016 and distance to needle exchange 2018 in 500 counties with residuals (data source: amFAR)."}
 # add predicted values to the data
 dist.ssp.cleaned$predicted <- predict(lm(dist_SSP ~ pctunins, 
-                                 data = dist.ssp.cleaned,
-                                 na.action = na.exclude))
+                                         data = dist.ssp.cleaned,
+                                         na.action = na.exclude))
 
 # use geom_segment to draw lines between observed (purple) and
 # predicted values for each county, these are residuals
@@ -522,18 +522,19 @@ Leslie sees that the vertical lines show the information that the regression lin
 
 Kiara states that if the electricity went off the slope and intercept of a line could still be calculated by hand using the OLS method without too much trouble, depending on the sample size. Leslie is glad to have electricity and R to do the work for her, however, and asks Nancy what command works best to find the equation for the line. Nancy introduces the `lm()` command, which Leslie recognizes from plotting a line through the scatterplot. The `lm` stands for *linear model*. 
 
-Leslie looks up the help documentation for the `lm()` command and find that it takes two arguments, the `formula =` and the `data =`. There is also an `na.action =` option that Kiara recommends in order to deal with missing values even though these data do not have any. The `formula =` argument is where to put the regression model of interest, in this case `dist_SSP` explained by `pctunins`. The `data =` argument is the same as usual in requiring the name of the data frame for analysis. The `na.action =` argument is used to specify treatment of missing values with `na.exclude` being the option for excluding observations with missing values. Leslie uses `lm()` and fills in the two arguments to find the slope and the intercept of the line shown in the graphs:
+Leslie looks up the help documentation for the `lm()` command and find that it takes two arguments, the `formula =` and the `data =`. There is also an `na.action =` option that Kiara recommends in order to deal with missing values even though these data do not have any. The `formula =` argument is where to put the regression model of interest, in this case `dist_SSP` explained by `pctunins`. The `data =` argument is the same as usual in requiring the name of the data frame for analysis. The `na.action =` argument is used to specify treatment of missing values with `na.exclude` being the option for excluding observations with missing values. Leslie uses `lm()` and fills in three two arguments to find the slope and the intercept of the line shown in the graphs:
 
 ```{r}
 # linear regression of distance to syringe program by percent uninsured
 dist.by.unins <- lm(formula = dist_SSP ~ pctunins, 
-                data = dist.ssp.cleaned, na.action = na.exclude)
+                    data = dist.ssp.cleaned,
+                    na.action = na.exclude)
 summary(dist.by.unins)
 ```
 
 ### Navigating the linear regression output
 
-The output shows a lot of things! First Leslie sees what she believes to be a $y$-intercept of `r round(dist.by.unins$coefficients[1],2)`. Kiara confirms that it is the $y$-intercept and reminds Leslie that the $y$-intercept is the value of $y$ when $x$ is zero. So, the model would predict that a county with 0% of people being uninsured would have a distance to the nearest syringe program of `r round(dist.by.unins$coefficients[1],2)` miles. The slope is `r round(dist.by.unins$coefficients[2],2)`. The slope is the change in $y$ for every one-unit increase in $x$. So, if percent uninsured goes up by 1% in a county, the distance in miles to a syringe program would change by `r round(dist.by.unins$coefficients[2],2)`. Kiara writes the regression equation: 
+The output shows a lot of things! First Leslie sees what she believes to be a $y$-intercept of `r round(dist.by.unins$coefficients[1],2)`. Kiara confirms that it is the $y$-intercept and reminds Leslie that the $y$-intercept is the value of $y$ when $x$ is zero. So, the model would predict that a county with 0% of people being uninsured would have a distance to the nearest syringe program of `r round(dist.by.unins$coefficients[1],2)` miles. The slope is `r round(dist.by.unins$coefficients[2],2)`. The slope is the predicted change in $y$ for every one-unit increase in $x$. So, if percent uninsured goes up by 1% in a county, the model would predict that the distance in miles to a syringe program would change by `r round(dist.by.unins$coefficients[2],2)`. Kiara writes the regression equation: 
 
 $distance to syringe program = `r round(dist.by.unins$coefficients[1],2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot percent uninsured$ 
 
@@ -545,7 +546,7 @@ Based on the linear regression model, a county with 10% of people uninsured woul
 
 ### Unlock achievement 3: Check your understanding
 
-Pick a county from the data frame and enter its observed value for percent uninsured into the regression equation. Compute the distance to the nearest syringe program. Compare it to the actual distance to the nearest syringe rate for the county. 
+Pick a county from the data frame and enter its observed value for percent uninsured into the regression equation. Compute the predicted distance to the nearest syringe program. Compare it to the actual distance to the nearest syringe rate for the county. *BONUS: what is the difference between these two values called?*
 
 ## Achievement 4: Slope interpretation and significance (b, p-value, CI) 
 
@@ -553,7 +554,7 @@ In addition to writing the regression model, there are three things to interpret
 
 ### Interpreting the value of the slope 
 
-Kiara wants to start examining the slope by demonstrating how the slope and the value of the predictor work together to explain or predict the outcome. As shown in the regression model, the value of the independent variable, percent uninsured, would be substituted into the equation and multiplied by the slope in order to predict the value of the outcome for a county. In this case, the value of the slope is the percent of uninsured. So, for every 1% more uninsured in a county, the distance to the nearest syringe program goes up by 7.82 miles. Consider, for example, a county with 10% of people uninsured. Using the regression model, the distance to syringe program would be predicted to be: 
+Kiara wants to start examining the slope by demonstrating how the slope and the value of the predictor work together to explain or predict the outcome. As shown in the regression model, the value of the independent variable, percent uninsured, would be substituted into the equation and multiplied by the slope in order to predict the value of the outcome for a county. In this case, the value of the slope is the percent of uninsured. So, for every 1% more uninsured in a county, the expected distance to the nearest syringe program goes up by 7.82 miles. Consider, for example, a county with 10% of people uninsured. Using the regression model, the predicted distance to syringe program would be: 
 
 * $distance to syringe program = `r round(dist.by.unins$coefficients[1], 2)` + `r round(dist.by.unins$coefficients[2], 2)` \cdot uninsured$ 
 
@@ -594,7 +595,13 @@ t=\frac{b_1-0}{se}
 \end{equation}
 $$
 
-The formula can be used by substituting in the slope and standard error from the model output: 
+The formula can be used by substituting in the slope and standard error from the model output. As a reminder, the model output is:
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+summary(dist.by.unins)
+```
+
+And so the formula with the values of $b_1$ and $se$ substituted in looks like:
 
 $$
 \begin{equation}
@@ -602,12 +609,6 @@ t=\frac{7.819-0}{.7734}=10.11
  (\#eq:onestex)
 \end{equation}
 $$
-
-Or, the slope can be found in the model output:
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-summary(dist.by.unins)
-```
 
 #### NHST Steps 4 & 5: Reject or retain the null hypothesis based on the p-value
 
