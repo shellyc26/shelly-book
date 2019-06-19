@@ -602,7 +602,7 @@ conts <- cbind(c1, c2, c3, c4)
 conts
 ```
 
-Leslie looks at the matrix and notices that her vectors are now columns rather than rows. She starts to check the values. The first column is the first contrast. When she adds up 2 + -1 + -1 + 0 + 0 it equals zero. She adds up each of the other three columns and they are all equal to zero. The first requirement is met. The second requirement is more complicated. She has to multiply each value across the four contrasts. The first value for the first contrast is 2, the first value of the second contrast is 0, the first value of the third contrast is 0, and the first value of the fourth contrast is also 0. Multiplying $2 * 0 * 0 * 0 = 0$. The product of the second values across the four contrasts is $-1 * 3 * 0 * 0 = 0$. The product of the third values is $-1*-1*2*0=0$, the fourth values multiply to $0*-1*-1*-1=0$, and finally the product across the fifth values in the contrasts is $0*-1*-1*1=0$. Adding all these products together results in $0*0*0*0*0=0$. So, the second requirement is met. The set of contrasts is independent and ready to use:
+Leslie looks at the matrix and notices that her vectors are now columns rather than rows. She starts to check the values. The first column is the first contrast. When she adds up 2 + -1 + -1 + 0 + 0 it equals zero. She adds up each of the other three columns and they are all equal to zero. The first requirement is met. The second requirement is more complicated. She has to multiply each value across the four contrasts. The first value for the first contrast is 2, the first value of the second contrast is 0, the first value of the third contrast is 0, and the first value of the fourth contrast is also 0. Multiplying $2 * 0 * 0 * 0 = 0$. The product of the second values across the four contrasts is $-1 * 3 * 0 * 0 = 0$. The product of the third values is $-1 * -1 * 2 * 0 = 0$, the fourth values multiply to $0 * -1 * -1 * -1 = 0$, and finally the product across the fifth values in the contrasts is $0 *-1 * -1 * 1 = 0$. Adding all these products together results in $0 * 0 * 0 * 0 * 0 = 0$. So, the second requirement is met. The set of contrasts is independent and ready to use:
 
 ```{r}
 # connect the matrix with the factor variable
@@ -617,9 +617,9 @@ tech.by.deg.contr <- summary.aov(object = techuse.by.deg.aov,
 tech.by.deg.contr
 ```
 
-Leslie is excited that it worked! The code felt a little confusing so it is nice to see the result. She is wondering now whether the p-values should be adjusted to account for the multiple testing. Kiara has done some reading on this and there does not seem to be consistent guidance, but since multiple statistical tests inflate the probability of a Type I error, she decides it is a good idea to apply some sort of correction. While this is not an option available in the `aov()` or `summary.aov()` commands, there is a `p.adjust()` command that adjusts p-values using one of several types of adjustments. Since Bonferroni is familiar and used in the post-hoc pairwise comparisons, Kiara thinks it is a good place to start.
+Leslie is excited that it worked! The code felt a little confusing so it is nice to see the result. She is wondering now whether the $p$-values should be adjusted to account for the multiple testing. Kiara has done some reading on this and there does not seem to be consistent guidance, but since multiple statistical tests inflate the probability of a Type I error, she decides it is a good idea to apply some sort of correction. While this is not an option available in the `aov()` or `summary.aov()` commands, there is a `p.adjust()` command that adjusts $p$-values using one of several types of adjustments. Since Bonferroni is familiar and used in the post-hoc pairwise comparisons, Kiara thinks it is a good place to start.
 
-The first argument in the `p.adjust()` command is `p =`, which takes a p-value or a vector of p-values. The second argument is `method =`, which is where to specify "bonferroni." Nancy gives it a try, entering the vector `Pr(>F)` from the tech.by.deg.contr object since this is the vector which holds all the p-values: 
+The first argument in the `p.adjust()` command is `p =`, which takes a $p$-value or a vector of $p$-values. The second argument is `method =`, which is where to specify "bonferroni." Nancy gives it a try, entering the vector `Pr(>F)` from the `tech.by.deg.contr` object since this is the vector which holds all the $p$-values: 
 
 ```{r}
 # adjust p-values for multiple comparisons 
@@ -628,11 +628,11 @@ adj.p.vals
 
 ```
 
-The adjusted p-values are still very small, so the conclusions about statistical significance have not changed, even when using a conservative adjustment like Bonferroni. 
+The adjusted $p$-values are still very small, so the conclusions about statistical significance have not changed, even when using a conservative adjustment like Bonferroni. 
 
 Leslie wants one last visualization showing all the different comparison groups. It takes Nancy a few minutes given how complicated this is, but she ends up with a nice set of graphs demonstrating the differences among the various groups. She decides to try a violin plot instead of a boxplot this time. Violin plots are a combination of ideas from density plots and boxplots. They show the probability density of the data along the range of values and so might more clearly show some of the patterns in the data. Kiara suggests that the difference between the violin plot and the boxplot is similar to the difference between a density plot and a histogram. The violin plot shows more subtle variations in the distribution of observations.
 
-```{r echo = FALSE, fig.cap = "Visualizing the distribution of use by degree for four planned comparisons."}
+```{r echo = FALSE, warning = FALSE, message = FALSE, fig.cap = "Visualizing the distribution of use by degree for four planned comparisons."}
 
 c1graph <- gss.2018.cleaned %>% 
   mutate(DEGREE = factor(DEGREE, labels = c("< high school",
@@ -644,7 +644,7 @@ c1graph <- gss.2018.cleaned %>%
     geom_jitter(aes(color = DEGREE), alpha = .3) +
     scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
     scale_color_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
-    theme_minimal() + xlab("") + ylab("Percent of time using tech")
+    theme_minimal() + xlab("") + ylab("Percent of time\nusing tech")
 
 c2graph <- gss.2018.cleaned %>% 
   mutate(DEGREE = factor(DEGREE, labels = c(NA,
@@ -668,7 +668,7 @@ c3graph <- gss.2018.cleaned %>%
     geom_jitter(aes(color = DEGREE), alpha = .3) +
     scale_fill_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
     scale_color_manual(values = c("#78A678", "#7463AC"), guide = FALSE) +
-    theme_minimal() + xlab("Degree")+ ylab("Percent of time using tech")
+    theme_minimal() + xlab("Degree")+ ylab("Percent of time\nusing tech")
 
 c4graph <- gss.2018.cleaned %>% 
   mutate(DEGREE = factor(DEGREE, labels = c(NA,
@@ -731,22 +731,22 @@ gss.2018.cleaned %>%
 ```
 
 
-> The mean time spent on technology use was significantly different across degree groups [F(`r techuse.by.deg$parameter[1]`,`r techuse.by.deg$parameter[2]`) = `r round(techuse.by.deg$statistic)`; p < .05] indicating these groups likely came from populations with different mean time spent on technology use. The highest mean was `r use.stats[5,1]`% of time used for technology for those with graduate degrees. The lowest mean was `r use.stats[1,1]`% of the time for those with less than a high school diploma. A set of planned comparisons found that the mean time spent using technology was statistically significantly (p < .05) lower for (1) those with *< high school* education (m = 24.8) compared to those with *high school or junior college* (m = 51.7), (2) those with a high school education (m = 49.61) compared to those with any college (m = 67.0), (3) those with a junior college degree (m = 62.4) compared to those with more college than that (m = 68.2), and (4) those with a bachelor's (m = 67.9) compared to those with a master's degree (m = 68.7). Overall the patterns show statistically significant increases in time spent using technology for those with more education.
+> The mean time spent on technology use was significantly different across degree groups [$F$(`r techuse.by.deg$parameter[1]`,`r techuse.by.deg$parameter[2]`) = `r round(techuse.by.deg$statistic)`; $p$ < .05] indicating these groups likely came from populations with different mean time spent on technology use. The highest mean was `r use.stats[5,1]`% of time used for technology for those with graduate degrees. The lowest mean was `r use.stats[1,1]`% of the time for those with less than a high school diploma. A set of planned comparisons found that the mean time spent using technology was statistically significantly ($p$ < .05) lower for (1) those with *< high school* education (m = 24.8) compared to those with *high school or junior college* (m = 51.7), (2) those with a high school education (m = 49.61) compared to those with any college (m = 67.0), (3) those with a junior college degree (m = 62.4) compared to those with more college than that (m = 68.2), and (4) those with a bachelor's (m = 67.9) compared to those with a master's degree (m = 68.7). Overall the patterns show statistically significant increases in time spent using technology for those with more education.
 
-### Achievement 3: Check your understanding
+### Unlock achievement 3: Check your understanding
 
 Why is a post-hoc or planned comparison test useful after a statistically significant ANOVA result? 
 
 * There is no other way to know what the means are for each group   
 * They confirm whether or not your ANOVA is statistically significant  
 * Post-hoc and planned comparison tests help identify which groups means are different from each other   
-* Post-hoc and planned comparison  tests ensure that both variables have minimal missing data for ANOVA  
+* Post-hoc and planned comparison tests ensure that both variables have minimal missing data for ANOVA  
 
 Create a different set of planned comparisons that follows the rules, write and run the code, and interpret your results.
 
 ## Achievement 4: Computing and interpreting effect sizes for ANOVA 
 
-After learning about Cramer's V for $\chi^2$ (see Section \@ref(cramersv)) and Cohen's D for $t$-tests (see Section \@ref(cohensd)), Leslie asks Kiara what the effect sizes are to report for ANOVA. Kiara explains that eta-squared, $\eta^2$, is the proportion of variability in the outcome variable that is explained by the statistical model and this is the commonly used effect size for ANOVA [@etasq]. Nancy is not so sure! She recently read a paper by Susan Skidmore and Bruce Thompson [@skidmore2013bias] that recommends $\omega^2$ instead. The $\eta^2$ has a known positive bias and been used widely mainly because it is the effect size that is available in some statistical software programs [@skidmore2013bias]. The $\omega^2$ effect size has the same general meaning, is adjusted to account for the positive bias, and is more stable when assumptions are not completely met. Kiara writes out the formula for $\eta^2$ to help her explain how it works:
+After learning about Cramer's V for $\chi^2$ (see Section \@ref(cramersv)) and Cohen's D for $t$-tests (see Section \@ref(cohensd)), Leslie asks Kiara what the effect sizes are to report for ANOVA. Kiara explains that eta-squared, $\eta^2$, is the proportion of variability in the outcome variable that is explained by the statistical model and this is the commonly used effect size for ANOVA [@etasq]. Nancy is not so sure! She recently read a paper by Susan Skidmore and Bruce Thompson [@skidmore2013bias] that recommends $\omega^2$ instead. The $\eta^2$ has a known positive bias and been used widely mainly because it is the effect size that is available in some statistical software programs [@skidmore2013bias]. The $\omega^2$ effect size has the same general meaning, is adjusted to account for the positive bias, and is more stable when assumptions are not completely met. Kiara writes out the formula for $\omega^2$ to help her explain how it works:
 
 $$
 \begin{equation}
@@ -755,9 +755,9 @@ $$
 \end{equation}
 $$
 
-Where $n$ is the number of observations and $k$ is the number of groups. 
+Where $n$ is the number of observations, $F$ is the $F$ statistic, and $k$ is the number of groups. 
 
-Nancy jumps in with some R code to compute the $\omega^2$ for the technology use analyses. First she explains that the two functions they have used so far, `oneway.test()` and `aov()`, do not compute $\omega^2$ as part of the output. However, there are R packages that do compute it. Even so, Nancy recommends sticking with `aov()` and using the output from `aov()` to compute $\omega^2$. She shows the team how by examining the output from the earlier `aov()`:
+Nancy jumps in with some R code to compute the $\omega^2$ for the technology use analyses. First she explains that the two functions they have used so far, `oneway.test()` and `aov()`, do not compute $\omega^2$ as part of the output. However, there are R packages that do compute it. Even so, Nancy recommends sticking with `aov()` and using the output from `aov()` to compute $\omega^2$ "by hand" rather than using a specific function. She shows the team how by examining the output from the earlier `aov()`:
 
 ```{r}
 # ANOVA model from earlier
@@ -775,7 +775,7 @@ $$
 
 Kiara is a little uneasy with Nancy's solution here and asks, for the sake of reproducibility, if there is any way to do this calculation directly in R without retyping the numbers. Nancy says there is, but it requires some fancy coding to access the values in the output. Kiara thinks that sounds better than typing out the values, so she and Nancy work on a set of instructions for Leslie to use if she is so inclined (see Box \@ref(ch7kiara)).
 
-The final thing Leslie wants to know is the cutoffs for small, medium, and large effects. Are they the same as for the other effect sizes? Kiara says unfortunately they are not, here are the cutoffs for $\eta^$ effect size:
+The final thing Leslie wants to know is the cutoffs for small, medium, and large effects. Are they the same as for the other effect sizes? Kiara says unfortunately they are not, here are the cutoffs for $\omega^2$ effect size:
 
 * $\omega^2$ = .01 to $\omega^2$ < .06 is a small effect 
 * $\omega^2$ = .06 to $\omega^2$ < .14 is a medium effect 
@@ -783,7 +783,11 @@ The final thing Leslie wants to know is the cutoffs for small, medium, and large
 
 In this case, the effect size is medium. There is a medium strength relationship between degree and time using technology. Leslie copies her interpretation from above and adds effect size:
 
-> The mean time spent on technology use was significantly different across degree groups [F(`r techuse.by.deg$parameter[1]`,`r techuse.by.deg$parameter[2]`) = `r round(techuse.by.deg$statistic)`; p < .05] indicating these groups likely came from populations with different mean time spent on technology use. The highest mean was `r use.stats[5,1]`% of time used for technology for those with graduate degrees. The lowest mean was `r use.stats[1,1]`% of the time for those with less than a high school diploma. A set of planned comparisons found that the mean time spent using technology was statistically significantly (p < .05) lower for (1) those with *< high school* education (m = 24.8) compared to those with *high school or junior college* (m = 51.7), (2) those with a high school education (m = 49.61) compared to those with any college (m = 67.0), (3) those with a junior college degree (m = 62.4) compared to those with more college than that (m = 68.2), and (4) those with a bachelor's (m = 67.9) compared to those with a master's degree (m = 68.7). Overall the patterns show statistically significant increases in time spent using technology for those with more education. The strength of the relationship between degree and time using technology was medium $\omega^2$ = .11.
+> The mean time spent on technology use was significantly different across degree groups [$F$(`r techuse.by.deg$parameter[1]`,`r techuse.by.deg$parameter[2]`) = `r round(techuse.by.deg$statistic)`; $p$ < .05] indicating these groups likely came from populations with different mean time spent on technology use. The highest mean was `r use.stats[5,1]`% of time used for technology for those with graduate degrees. The lowest mean was `r use.stats[1,1]`% of the time for those with less than a high school diploma. A set of planned comparisons found that the mean time spent using technology was statistically significantly ($p$ < .05) lower for (1) those with *< high school* education (m = 24.8) compared to those with *high school or junior college* (m = 51.7), (2) those with a high school education (m = 49.61) compared to those with any college (m = 67.0), (3) those with a junior college degree (m = 62.4) compared to those with more college than that (m = 68.2), and (4) those with a bachelor's (m = 67.9) compared to those with a master's degree (m = 68.7). Overall the patterns show statistically significant increases in time spent using technology for those with more education. The strength of the relationship between degree and time using technology was medium $\omega^2$ = .11.
+
+### Unlock Achievement 4: Check your understanding
+
+Describe how the interpretation of these findings might change if $\omega^2 = .04$. 
 
 ## Achievement 5: Testing ANOVA assumptions {#assumptanova}
 
@@ -827,7 +831,7 @@ gss.2018.cleaned %>%
 
 ```
 
-Leslie notes that none of the groups appear to be normally distributed based on either qq-plot. She also notices that the floor and ceiling values appear to be driving some of the non-normality. The Shapiro-Wilk test does not seem necessary in this case given the big deviations from normal in the histograms and qq-plots, however, Nancy suggests that they try it just to confirm. Leslie reminds herself that the Shapiro-Wilk test is testing the null hypothesis that the data are normally distributed. Nancy remembers that she had trouble before with using this test for multiple groups. She tries something new with the R code, which is to use the usual `summarize()` after `group_by()` but just print the p-value for the tests:
+Leslie notes that none of the groups appear to be normally distributed based on their density plots and qq-plots. She also notices that the floor and ceiling values appear to be driving some of the non-normality. The Shapiro-Wilk test does not seem necessary in this case given the big deviations from normal in the density plots and qq-plots, however, Nancy suggests that they try it just to confirm. Leslie reminds herself that the Shapiro-Wilk test is testing the null hypothesis that the data are normally distributed. Nancy remembers that she had trouble before with using this test for multiple groups. She tries something new with the R code, which is to use the usual `summarize()` after `group_by()` but just print the $p$-value for the tests:
 
 ```{r}
 # statistical test of normality for groups
@@ -837,20 +841,20 @@ gss.2018.cleaned %>%
   summarize(shap.pval = shapiro.test(x = USETECH)$p.value)
 ```
 
-Based on the p-values, all five of the Shapiro-Wilk tests were statistically significant, indicating that the null hypothesis for this test (i.e., the data are normally distributed) was rejected in each group. The team feels they have plenty of evidence that the data are not normally distributed. They move on to the next assumption.
+Based on the $p$-values, all five of the Shapiro-Wilk tests were statistically significant, indicating that the null hypothesis for this test (i.e., the data are normally distributed) was rejected in each group. The team feels they have plenty of evidence that the data are not normally distributed. They move on to the next assumption.
 
 ### Homogeneity of variances assumption
 
 The second assumption for ANOVA is the assumption of _homogeneity of variances_ or _equal variances across groups_. So, not only do the data need to be normally distributed, but the data should be equally spread out in each group. Leslie reviews the graphs thinks this might actually be an easier assumption to meet.
 
-Nancy mentions that the _Levene's Test_ is widely used to test the assumption of equal variances. The null hypothesis is that _the variances are equal_ while the alternate is that at least two of the variances are different. The **car** package in R has a Levene's test command that can be used to test for equal variances:
+Nancy mentions that the _Levene's Test_ is widely used to test the assumption of equal variances. The null hypothesis is that _the variances are equal_ while the alternate is that at least two of the variances are different. The <span style="font-family:Lucida Console, monospace;font-weight:bold">car</span> package has a Levene's test command that can be used to test for equal variances:
 
 ```{r}
 # equal variances for systolic by sex
 car::leveneTest(y = USETECH ~ DEGREE, data = gss.2018.cleaned)
 ```
 
-The p-value for the Levene's test suggests rejecting the null hypothesis; the variances of USETECH are statistically significantly different across groups (p < .05). So, the ANOVA fails the assumption of _homogeneity of variances_.
+The $p$-value for the Levene's test suggests rejecting the null hypothesis; the variances of `USETECH` are statistically significantly different across groups ($p$ < .05). So, the ANOVA fails the assumption of _homogeneity of variances_.
 
 Nancy summarizes the assumptions for the tests to make sure Leslie has them all:
 
@@ -863,13 +867,13 @@ Nancy summarizes the assumptions for the tests to make sure Leslie has them all:
 
 Leslie asks Nancy what the difference is between independent observations and independent groups. Nancy explains that independent observations is the assumption that the people in your data are not related to one another in any important way. Things that might violate this assumption are having siblings or spouses in a data set or measuring the same person multiple times. Independent groups is the assumption that two groups are not related to one another. If one group was made up of all the spouses of another group, the two groups would not be independent.
 
-Leslie expresses some disappointment that ANOVA failed its assumptions. Kiara explains that, like with the t-tests, there is an alternate statistical test to use when ANOVA assumptions are not met.
+Leslie expresses some disappointment that ANOVA failed its assumptions. Kiara explains that, like with the $t$-tests, there is an alternate statistical test to use when ANOVA assumptions are not met.
 
-### Achievement 4: Check your understanding
+### Unlock achievement 5: Check your understanding
 
-Which ANOVA assumption(s) appear(s) to be violated by the data in the graph shown? 
+Which ANOVA assumption(s) appear(s) to be violated by the data in the graph shown?
 
-```{r echo = FALSE, fig.cap="Distribution of data violating an ANOVA assumption."}
+```{r echo = FALSE, warning = FALSE, message = FALSE,fig.cap="Distribution of data violating an ANOVA assumption."}
 ggplot(data = subset(gss.2018.cleaned, !is.na(HAPPY)), aes(x = USETECH)) + 
   geom_density(fill = "#78A678") + 
   facet_grid(HAPPY ~ .) +
@@ -881,13 +885,13 @@ ggplot(data = subset(gss.2018.cleaned, !is.na(HAPPY)), aes(x = USETECH)) +
 * normal distribution in each group 
 * equal variances for each group 
 
-## Achievement 5: Choosing and using alternative tests when ANOVA assumptions are not met
+## Achievement 6: Choosing and using alternative tests when ANOVA assumptions are not met
 
 Kiara explains to Leslie that the two main assumptions for ANOVA, normality and homogeneity of variances, have different alternatives when each assumption is not met. 
 
 ### Calculating an alternate $F$-statistic for failing the homogeneity assumption
 
-The first option Kiara brings up is for when the normality assumption is met but the homogeneity of variances assumption fails, the standard approach is to use ANOVA but compute an alternate F statistic that does not rely on equal variances. There are two alternate $F$-statistics that are widely used for this purpose:
+The first option Kiara brings up is for when the normality assumption is met but the homogeneity of variances assumption fails, the standard approach is to use ANOVA but compute an alternate $F$-statistic that does not rely on equal variances. There are two alternate $F$-statistics that are widely used for this purpose:
 
 * Brown-Forsythe 
 * Welch 
@@ -912,7 +916,7 @@ F_{BF}=\frac{\frac{\sum{n_{i.}(\overline{t}_{i.}-\overline{t})^2}}{k-1}}{\frac{\
 \end{equation}
 $$
 
-While there are R packages that can be used to compute the Brown-Forsythe directly, another option is to transform the outcome variable and use the `aov()` command used for ANOVA. Nancy shows the team how to create this new variable using `abs()` to get the absolute value of the difference between each value of USETECH and the median of USETECH, making sure to remove the NA in the `median()` function so it works.
+While there are R packages that can be used to compute the Brown-Forsythe directly, another option is to transform the outcome variable and use the `aov()` command used for ANOVA. Nancy shows the team how to create this new variable using `abs()` to get the absolute value of the difference between each value of `USETECH` and the median of `USETECH`, making sure to remove the `NA` values in the `median()` function so it works.
 
 ```{r}
 # add new variable to data management
@@ -943,7 +947,7 @@ summary(object = gss.2018.cleaned$usetech.t)
 
 ```
 
-The new variable looks good, Leslie copies the `oneway.test()` from earlier, changes it to use usetech.t instead, and starts the NHST process.
+The new variable looks good, Leslie copies the `oneway.test()` from earlier, changes it to use `usetech.t` instead, and starts the NHST process.
 
 #### NHST Step 1: Write the null and alternate hypotheses
 
@@ -964,13 +968,13 @@ usetech.t.by.degree
 
 #### NHST Step 3: Compute the probability for the test statistic (p-value) 
 
-The p-value in this case is `r format(usetech.t.by.degree$p.value, scientific = FALSE)`. The value of an $F_{BF}$-statistic being this large or larger happens a tiny percent of the time when the null hypothesis is true. 
+The $p$-value in this case is `r format(usetech.t.by.degree$p.value, scientific = FALSE)`. The value of an $F_{BF}$-statistic being this large or larger happens a tiny percent of the time when the null hypothesis is true. 
 
 #### NHST Steps 4 & 5: Interpret the probability and write a conclusion 
 
 Leslie writes her conclusion:
 
-> The results show a statistically significant difference in the mean of the transformed usetech variable by degree group [F(`r usetech.t.by.degree$parameter[1]`, `r usetech.t.by.degree$parameter[2]`) = `r round(usetech.t.by.degree$statistic, 2)`; p < .05]. 
+> The results show a statistically significant difference in the mean of the transformed usetech variable by degree group [$F$(`r usetech.t.by.degree$parameter[1]`, `r usetech.t.by.degree$parameter[2]`) = `r round(usetech.t.by.degree$statistic, 2)`; $p$ < .05]. 
 
 Leslie is interested in how the transformed data used in these calculations looks; she decides to compute the descriptive statistics and examine a graph of the transformed variable to better understand the results.
 
@@ -983,7 +987,7 @@ usetech.t.stats <- gss.2018.cleaned %>%
 usetech.t.stats
 ```
 
-The mean of the transformed usetech variable, which were the difference between participant usetech value and the median value of usetech, was `r round(usetech.t.stats$m.usetech.t[1], 2)` for the **< high school** group and `r round(usetech.t.stats$m.usetech.t[2], 2)` for the high school group. The rest of the means were smaller. The transformation made the differences somewhat smaller and the means higher in the lower education groups. A boxplot shows the differences across the groups:
+The mean of the transformed usetech variable, which were the difference between participant usetech value and the median value of usetech, was `r round(usetech.t.stats$m.usetech.t[1], 2)` for the *< high school* group and `r round(usetech.t.stats$m.usetech.t[2], 2)` for the *high school* group. The rest of the means were smaller. The transformation made the differences somewhat smaller and the means higher in the lower education groups. A boxplot shows the differences across the groups:
 
 ```{r}
 # graph transformed USETCH variable
@@ -1015,7 +1019,7 @@ Where $n_k$ is the sample size in group k and $s^2_k$ is the variance in group k
 
 $$
 \begin{equation}
-\overline{y}_{welch} = \frac{\sum_{j=1}^k{w_k \overline{y}_{k}}}{\sum_{j=1}^k{w_k}}
+\overline{y}_{welch} = \frac{\sum\limits_{j=1}^k{w_k \overline{y}_{k}}}{\sum\limits_{j=1}^k{w_k}}
  (\#eq:weightwelch2)
 \end{equation}
 $$
@@ -1024,12 +1028,12 @@ Where $w_k$ is the weight for group $k$, $\overline{y}_k$ is the mean of the con
 
 $$
 \begin{equation}
-F_{welch}=\frac{\frac{\sum_{j=1}^k{w_k(\overline{y}_k-\overline{y}_{welch})^2}}{r-1}}{1+\frac{2}{3}\Bigg(\frac{\frac{3\sum_{j=1}^k\bigg(1-\frac{w_k}{\sum_{j=1}^k{w_k}}\bigg)^2}{n_k-1}}{k^2-1}\Bigg)(k-2)}
+F_{welch}=\frac{\frac{\sum\limits_{j=1}^k{w_k(\overline{y}_k-\overline{y}_{welch})^2}}{r-1}}{1+\frac{2}{3}\Bigg(\frac{\frac{3\sum\limits_{j=1}^k\bigg(1-\frac{w_k}{\sum\limits_{j=1}^k{w_k}}\bigg)^2}{n_k-1}}{k^2-1}\Bigg)(k-2)}
  (\#eq:cov)
 \end{equation}
 $$
 
-Leslie takes one look at the formula and asks if there is an R command to compute the value. Nancy explains that the `oneway.test()` command computes Welch's F when the option `var.equal =` is set to be false. Leslie gets her NHST process started:
+Leslie takes one look at the formula and asks if there is an R command to compute the value. Nancy explains that the `oneway.test()` command computes Welch's $F$ when the option `var.equal =` is set to be `FALSE` Leslie gets her NHST process started:
 
 #### NHST Step 1: Write the null and alternate hypotheses
 
@@ -1051,22 +1055,22 @@ welch.usetech.by.degree
 
 #### NHST Step 3: Compute the probability for the test statistic (p-value) 
 
-The p-value in this case is `r format(welch.usetech.by.degree$p.value, scientific = FALSE)`. The value of an $F_{W}$-statistic being this large or larger happens a tiny percent of the time when the null hypothesis is true. 
+The $p$-value in this case is `r format(welch.usetech.by.degree$p.value, scientific = FALSE)`. The value of an $F_{W}$-statistic being this large or larger happens a tiny percent of the time when the null hypothesis is true. 
 
 #### NHST Steps 4 & 5: Interpret the probability and write a conclusion 
 
-The results show another statistically significant difference in the mean of the usetech variable by degree group [F(`r welch.usetech.by.degree$parameter[1]`, `r welch.usetech.by.degree$parameter[2]`) = `r round(welch.usetech.by.degree$statistic, 2)`; p = `r format(welch.usetech.by.degree$p.value, scientific = FALSE)`]. Leslie notices that the $F$-statistic is a little larger and the degrees of freedom for the denominator is a smaller number. Kiara explains that the weighting is also used in the calculation of the denominator degrees of freedom [@field2013discovering]:
+>The results show another statistically significant difference in the mean of the usetech variable by degree group [$F$(`r welch.usetech.by.degree$parameter[1]`, `r welch.usetech.by.degree$parameter[2]`) = `r round(welch.usetech.by.degree$statistic, 2)`; $p$ = `r format(welch.usetech.by.degree$p.value, scientific = FALSE)`]. Leslie notices that the $F$-statistic is a little larger and the degrees of freedom for the denominator is a smaller number. Kiara explains that the weighting is also used in the calculation of the denominator degrees of freedom [@field2013discovering]:
 
 $$
 \begin{equation}
-df_{denom}=\frac{1}{\frac{3\sum_{j=1}^k\bigg(1-\frac{w_k}{\sum_{j=1}^k{w_k}}\bigg)^2}{n_k-1}}
+df_{denom}=\frac{1}{\frac{3\sum\limits_{j=1}^k\bigg(1-\frac{w_k}{\sum\limits_{j=1}^k{w_k}}\bigg)^2}{n_k-1}}
  (\#eq:cov)
 \end{equation}
 $$
 
-With fewer degrees of freedom, the $F$-statistic has to be a larger number to reach statistical significance. Examine a few F-distributions to see how this works:
+With fewer degrees of freedom, the $F$-statistic has to be a larger number to reach statistical significance. The R-Team examine a few $F$-distributions to see how this works:
 
-```{r echo = FALSE, fig.cap="F-distributions with 4 degrees of freedom in the numerator."}
+```{r echo = FALSE, warning = FALSE, message = FALSE, fig.cap="F-distributions with 4 degrees of freedom in the numerator."}
 x <- seq(0,20,length=10000)
 db2 <- df(x, 4, 2000)
 db3 <- df(x, 4, 25)
@@ -1079,29 +1083,29 @@ dat4 <- data.frame(x, db4, "10")
 names(dat4) <- c("x","db", "df")
 dats <- rbind(dat2, dat3)
 dats <- rbind(dats, dat4)
-dats$df <- as.factor(dats$df)
-levels(dats)
+dats$df <- factor(x = dats$df, levels = c(10, 25, 2000))
+#levels(dats$df)
 ggplot(data = dats, aes(x = x, y = db, color = df)) +
   geom_line() +
   theme_minimal() +
   ylim(0,.8) + xlim(0, 5) +
-  xlab("F statistic") + ylab("Probability") + 
+  xlab("F-statistic") + ylab("Probability") + 
   guides(color = guide_legend("Denominator\nd.f.")) +
   scale_color_manual(values = c("dodgerblue2","#88398a", "deeppink"))
 
 ```
 
-Leslie reviews the plot and notices that, while different, the distributions do not seem to be **very** different. Nancy notes that while it is true that there isn't much difference between the distributions, the area under the curves is what matters for the p-value cutoff. When the line is just slightly closer to the x-axis, this changes things quickly for the area under the curve. The thresholds for statistical significance (p < .05) for these three lines are `r qf(.95, 4, 2000)` for the 2000 degrees of freedom, `r qf(.95, 4, 25)` for the 25 degrees of freedom, and `r qf(.95, 4, 10)` for the 10 degrees of freedom. Nancy reminds Leslie that the numerator degrees of freedom has a bigger impact on the significance threshold. For example, an ANOVA with 2 degrees of freedom and the same 2000 degrees of freedom in the denominator would have a threshold for significance of `r qf(.95, 2, 2000)` instead of `r qf(.95, 4, 2000)` for the 4 and 2000 threshold.
+Leslie reviews the plot and notices that, while different, the distributions do not seem to be *very* different. Nancy notes that while it is true that there isn't much difference between the distributions, the area under the curves is what matters for the $p$-value cutoff. When the line is just slightly closer to the x-axis, this changes things quickly for the area under the curve. The thresholds for statistical significance ($p$ < .05) for these three lines are `r qf(.95, 4, 2000)` for the 2000 degrees of freedom, `r qf(.95, 4, 25)` for the 25 degrees of freedom, and `r qf(.95, 4, 10)` for the 10 degrees of freedom. Nancy reminds Leslie that the numerator degrees of freedom has a bigger impact on the significance threshold. For example, an ANOVA with 2 degrees of freedom and the same 2000 degrees of freedom in the denominator would have a threshold for significance of `r qf(.95, 2, 2000)` instead of `r qf(.95, 4, 2000)` for the 4 and 2000 threshold.
 
-Leslie asks if the $\omega^2$ can be used to determine effect size for Welch $F$ and Brown-Forsythe $F$. Kiara has not seen any resources that explicitly show this as an option, but the Skidmore & Thompson paper suggests it may be biased, especially when groups being compared are different sizes and the homogeneity of variances assumption fails [@skidmore2013bias]. At this point, Kiara suggests using descriptive statistics and graphs to demonstrate differences until the statistical theory catches up. 
+Leslie asks if $\omega^2$ can be used to determine effect size for Welch $F$ and Brown-Forsythe $F$. Kiara has not seen any resources that explicitly show this as an option, but the Skidmore & Thompson paper suggests it may be biased, especially when groups being compared are different sizes and the homogeneity of variances assumption fails [@skidmore2013bias]. At this point, Kiara suggests using descriptive statistics and graphs to demonstrate differences until the statistical theory catches up. 
 
 ### The Kruskal-Wallis test for failing the normality assumption
 
-The Kruskal-Wallis test is used to compare three or more groups when the normal distribution assumption fails for ANOVA. Like several of the tests used when the the outcome is not normally distributed for a t-test, the Kruskal-Wallis test compares ranks among groups. Specifically, the observations are put in order by size and each is assigned a rank. The mean rank for each group is then computed and used to calculate the KW test statistic, $H$:
+The Kruskal-Wallis (KW) test is used to compare three or more groups when the normal distribution assumption fails for ANOVA. Like several of the tests used when the the outcome is not normally distributed for a $t$-test, the Kruskal-Wallis test compares ranks among groups. Specifically, the observations are put in order by size and each is assigned a rank. The mean rank for each group is then computed and used to calculate the KW test statistic, $H$:
 
 $$
 \begin{equation}
-H=\frac{12}{n(n+1)}\sum_{j=1}^k{n_j(\overline{r}_j-\frac{n+1}{2})^2}
+H=\frac{12}{n(n+1)}\sum\limits_{j=1}^k{n_j(\overline{r}_j-\frac{n+1}{2})^2}
  (\#eq:kwtest)
 \end{equation}
 $$
@@ -1127,15 +1131,15 @@ kw.usetech.by.degree
 
 #### NHST Step 3: Compute the probability for the test statistic (p-value) 
 
-The p-value in this case is `r format(kw.usetech.by.degree$p.value, scientific = FALSE)`. The value of an $H$-statistic being this large or larger happens a tiny percent of the time when the null hypothesis is true. 
+The $p$-value in this case is `r format(kw.usetech.by.degree$p.value, scientific = FALSE)`. The value of an $H$-statistic being this large or larger happens a tiny percent of the time when the null hypothesis is true. 
 
 #### NHST Steps 4 & 5: Interpret the probability and write a conclusion 
 
-The conclusion is that there is a difference in the mean rank for technology use by degree group (H(`r kw.usetech.by.degree$parameter`) = `r kw.usetech.by.degree$parameter`; p < .05). Like the ANOVA results, the KW test identifies if there is a difference somewhere among the means but does not identify which groups are different from one another. A post-hoc test like _Bonferroni_ or _Tukey_ could help. For KW, _Dunn's test_ of multiple comparisons is useful for identifying which groups are _statistically significantly_ different from which other groups.
+The conclusion is that there is a difference in the mean rank for technology use by degree group ($H$(`r kw.usetech.by.degree$parameter`) = `r kw.usetech.by.degree$parameter`; $p$ < .05). Like the ANOVA results, the KW test identifies if there is a difference somewhere among the means but does not identify which groups are different from one another. A post-hoc test like _Bonferroni_ or _Tukey_ could help. For KW, _Dunn's test_ of multiple comparisons is useful for identifying which groups are _statistically significantly_ different from which other groups.
 
 #### Post-hoc test for Kruskal-Wallis
 
-Dunn's test command `dunn.test()` is available in the <span style="font-family:Lucida Console, monospace;font-weight:bold">dunn.test</span> package. After installing the package, the command requires a method be selected for adjusting the p-value to account for the multiple comparisons. Nancy suggests Bonferroni since that is one of the methods commonly used with ANOVA. She shows Leslie that `dunn.test()` takes three arguments. The `x =` argument is the continuous variable, the `g = ` argument is for the groups, and the `method =` argument suggests the p-value adjustment method.
+Dunn's test command `dunn.test()` is available in the <span style="font-family:Lucida Console, monospace;font-weight:bold">dunn.test</span> package. After installing the package, the command requires a method be selected for adjusting the $p$-value to account for the multiple comparisons. Nancy suggests Bonferroni since that is one of the methods commonly used with ANOVA. She shows Leslie that `dunn.test()` takes three arguments. The `x =` argument is the continuous variable, the `g = ` argument is for the groups, and the `method =` argument suggests the $p$-value adjustment method.
 
 ```{r}
 # post-hoc test for usetech by degree
@@ -1144,9 +1148,9 @@ dunn.usetech.by.degree <- dunn.test::dunn.test(x = gss.2018.cleaned$USETECH,
                                                method = "bonferroni")
 ```
 
-Note that the Dunn's test is a rank-sum test just like the Mann-Whitney U and can be interpreted in the same way. In this case it appears that there is _no difference_ in technology use for _graduate vs. bachelor_, _junior college vs. bachelor_, or _junior college vs. graduate_. All other pairings have statistically significant differences. The table shows a z-statistic for each pair computed from the sum of the ranks for the pair. Below the z-statistic is a p-value associated with the z-statistic. The p-value is adjusted using a Bonferroni adjustment, which means it was multiplied by the number of comparisons. In this case, the number of comparisons was $\frac{5\cdot(5-1)}{2}$ = 10.
+Note that the Dunn's test is a rank-sum test just like the Mann-Whitney U and can be interpreted in the same way. In this case it appears that there is _no difference_ in technology use for _graduate vs. bachelor_, _junior college vs. bachelor_, or _junior college vs. graduate_. All other pairings have statistically significant differences. The table shows a $z$-statistic for each pair computed from the sum of the ranks for the pair. Below the $z$-statistic is a $p$-value associated with the $z$-statistic. The $p$-value is adjusted using a Bonferroni adjustment, which means it was multiplied by the number of comparisons. In this case, the number of comparisons was $\frac{5\cdot(5-1)}{2} = 10$.
 
-Leslie thinks it would be good to visualize the differences in order to better understand the results. Nancy knows some code to recode a variable into rank creates a rank variable. Leslie sees she has an argument for this variable that is new and asks what `na.last = "keep"` means. Nancy explains that the default for `rank()` is to give the NA values a rank; since it makes more sense to leave them as NA, she adds the "keep" option to the argument. She shows Leslie the help documentation where she found this information after noticing that the NA values had been given ranks in an earlier project. 
+Leslie thinks it would be good to visualize the differences in order to better understand the results. Nancy knows some code to recode a variable into rank creates a rank variable. Leslie sees she has an argument for this variable that is new and asks what `na.last = "keep"` means. Nancy explains that the default for `rank()` is to give the `NA` values a rank; since it makes more sense to leave them as `NA`, she adds the "keep" option to the argument. She shows Leslie the help documentation where she found this information after noticing that the `NA` values had been given ranks in an earlier project. 
 
 ```{r}
 # add new variable to data management
@@ -1177,7 +1181,7 @@ summary(object = gss.2018.cleaned$usetech.rank)
 
 The new variable looks good and Leslie goes ahead with a graph:
 
-```{r fig.cap="Ranks of technology use by degree groups."}
+```{r warning = FALSE, message = FALSE,fig.cap="Ranks of technology use by degree groups."}
 # graph the ranks
 gss.2018.cleaned %>%
   ggplot(aes(y = usetech.rank, x = DEGREE)) + 
@@ -1205,7 +1209,7 @@ $$
 \end{equation}
 $$
 
-For the Kruskal-Wallis test of technology use by degree, there are 936 NA values out of 2345 observations in the data frame, so $n=2345-936=1409$.
+For the Kruskal-Wallis test of technology use by degree, there are 936 `NA` values out of 2345 observations in the data frame, so $n=2345-936=1409$.
 
 $$
 \begin{equation}
@@ -1222,9 +1226,9 @@ The cutoff values are the same as for the $\omega^2$:
 
 In this case, consistent with the ANOVA results, the effect size for the Kruskal-Wallis test is medium. There is a medium strength relationship between degree and time using technology. Leslie writes her interpretation:
 
-> A Kruskal-Wallis test found a statistically significant difference in technology use time across degree groups ($H$ = 142.21; p < .05). Based on post-hoc tests, those with less than a high school education had statistically significantly lower ranked times than all of the other groups (p < .05), people with a bachelor's degree, a master's degree, or a junior college degree also had significantly higher ranks than those with a high school diploma. There were no significant differences among the three college groups. There was a medium effect size for the relationship between degree and ranked values of technology use ($\eta^2 = .098$).
+> A Kruskal-Wallis test found a statistically significant difference in technology use time across degree groups ($H$ = 142.21; $p$ < .05). Based on post-hoc tests, those with less than a high school education had statistically significantly lower ranked times than all of the other groups ($p$ < .05), people with a bachelor's degree, a master's degree, or a junior college degree also had significantly higher ranks than those with a high school diploma. There were no significant differences among the three college groups. There was a medium effect size for the relationship between degree and ranked values of technology use ($\eta^2 = .098$).
 
-### Achievement 5: Check your understanding
+### Achievement 6: Check your understanding
 
 Next to each test, put the ANOVA assumption violation it addresses.
 
@@ -1232,9 +1236,9 @@ Next to each test, put the ANOVA assumption violation it addresses.
 * Welch
 * Kruskal-Wallis
 
-## Achievement 6: Understanding and conducting two-way ANOVA {#twowayanova}
+## Achievement 7: Understanding and conducting two-way ANOVA {#twowayanova}
 
-One-way ANOVA is useful when there is a single categorical variable (with 3+ categories) and a continuous variable being compared across the categories. What happens when there there are two categorical variables that may both be useful in explaining a continuous outcome? For example, Leslie has read that technology use varies by sex and age. Kiara says that both of those predictors are available in the data set and they can use ANOVA methods to answer the question. Specifically, two-way ANOVA is useful for situations where means are compared across the categories of two variables. ANCOVA (analysis of covariance) is useful for comparing means across groups while accounting for, or controlling for, some other continuous variable.
+One-way ANOVA is useful when there is a single categorical variable (with 3+ categories) and a continuous variable being compared across the categories. What happens when there there are two categorical variables that may both be useful in explaining a continuous outcome? For example, Leslie has read that technology use varies by sex *and* age. Kiara says that both of those predictors are available in the data set and they can use ANOVA methods to answer the question. Specifically, two-way ANOVA is useful for situations where means are compared across the categories of two variables. ANCOVA (analysis of covariance) is useful for comparing means across groups while accounting for, or controlling for, some other continuous variable.
 
 ### Exploratory data analysis for two-way ANOVA
 
