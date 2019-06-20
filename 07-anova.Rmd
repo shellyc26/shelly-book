@@ -1244,7 +1244,7 @@ One-way ANOVA is useful when there is a single categorical variable (with 3+ cat
 
 The boxplots for technology use by degree showed an increase in the percent of time using technology for those with higher educational attainment. Leslie suggests looking at the use of technology by sex:
 
-```{r fig.cap="Distribution of technology use by sex"}
+```{r warning = FALSE, message=FALSE,fig.cap="Distribution of technology use by sex"}
 # graph usetech by sex
 gss.2018.cleaned %>%
   ggplot(aes(y = USETECH, x = SEX)) + 
@@ -1258,7 +1258,7 @@ gss.2018.cleaned %>%
 
 It appears that sex does have some relationship to time spent on technology use. Nancy explains that two-way ANOVA can be used to determine if degree and sex both have relationships with technology use by themselves and whether they **interact** to explain technology use. That is, does technology use differ by degree differently for males and females. She suggests examining a boxplot with both categorical variables to help make a prediction:
 
-```{r fig.cap="Distribution of technology use by degree and sex"}
+```{r warning = FALSE, message = FALSE, fig.cap="Distribution of technology use by degree and sex"}
 # graph usetech by degree
 gss.2018.cleaned %>%
 ggplot(aes(y = USETECH, x = DEGREE, fill = SEX)) + 
@@ -1272,11 +1272,11 @@ Leslie notices that there appears to be a different pattern of technology use fo
 
 Nancy explains that this pattern of differences is consistent with an interaction. She suggests that they look at a traditional **means plot** to visualize the idea of an interaction. Although line graphs are ideally not used to display means by groups, they do aid in understanding what an interaction looks like. Nancy writes a little code so they can better understand any possible interaction:
 
-```{r fig.cap = "Means plot of technology use by degree and sex."}
+```{r warning = FALSE, message = FALSE, fig.cap = "Means plot of technology use by degree and sex."}
 # means plots graph 
 gss.2018.cleaned %>%
   ggplot(aes(y = USETECH, x = DEGREE, color = SEX)) + 
-  stat_summary(fun.y = mean, geom="point", size = 2) +
+  stat_summary(fun.y = mean, geom="point", size = 3) +
   stat_summary(fun.y = mean, geom="line", aes(group = SEX), size = 1) +
   scale_color_manual(values = c("dodgerblue2","deeppink")) +
   theme_minimal() + 
@@ -1320,19 +1320,17 @@ techuse.by.deg.sex <- aov(formula = USETECH ~ DEGREE * SEX, data = gss.2018.clea
 summary(techuse.by.deg.sex)
 ```
 
-Nancy explains that the statistic column in the output is a column of $F$-statistics. Leslie notices that there are three $F$-statistics for this ANOVA. One for each of the two individual variables, also called *main effects* and one for the interaction term. 
+Nancy explains that the statistic column in the output is a column of $F$-statistics. Leslie notices that there are three $F$-statistics for this ANOVA. One for each of the two individual variables, also called **main effects** and one for the interaction term. Nancy explains that a main effect is the relationship between only one of the independent variables and the dependent variable; that is, they ignore the impact of any additional independent variables or interaction effects. In the results above, the `SEX` $F$-statistic is significant ($p$ < .05), indicating that there is a relationship between sex and technology use, even when ignoring the impact of `DEGREE` or the impact of the `DEGREE:SEX` interaction. Nancy says that this type of relationship is sometimes written as: "there is a main effect of sex on technology use". 
 
 #### NHST Step 3: Compute the probability for the test statistic (p-value) 
 
-```{r echo = FALSE}
-library(broom)
-```
-
-The p-values in this case were `r tidy(techuse.by.deg.sex)$p.value[1]`, `r tidy(techuse.by.deg.sex)$p.value[2]`, and `r tidy(techuse.by.deg.sex)$p.value[3]`. These are very tiny p-values, for example, the value of an $F$-statistic being as large or larger than the $F$-statistic for the DEGREE main effect happens a tiny percent of the time when the null hypothesis is true. 
+The $p$-values in this case were `r tidy(techuse.by.deg.sex)$p.value[1]`, `r tidy(techuse.by.deg.sex)$p.value[2]`, and `r tidy(techuse.by.deg.sex)$p.value[3]`. These are very tiny $p$-values. For example, the value of an $F$-statistic being as large or larger than the $F$-statistic for the `DEGREE` main effect happens a tiny percent of the time when the null hypothesis is true. 
 
 #### NHST Steps 4 & 5: Interpret the probability and write a conclusion 
 
-The mean time spent on technology use was significantly different across degree groups [F(`r tidy(techuse.by.deg.sex)$df[1]`,`r tidy(techuse.by.deg.sex)$df[4]`) = `r tidy(techuse.by.deg.sex)$statistic[1]`; p = `r tidy(techuse.by.deg.sex)$p.value[1]`] indicating these groups likely came from populations with different mean time spent on technology use. Means were also statistically significant by sex [F(`r tidy(techuse.by.deg.sex)$df[2]`,`r tidy(techuse.by.deg.sex)$df[4]`) = `r tidy(techuse.by.deg.sex)$statistic[2]`; p = `r tidy(techuse.by.deg.sex)$p.value[2]`] and there was a statistically significant interaction between degree and sex on technology use [F(`r tidy(techuse.by.deg.sex)$df[3]`,`r tidy(techuse.by.deg.sex)$df[4]`) = `r tidy(techuse.by.deg.sex)$statistic[3]`; p = `r tidy(techuse.by.deg.sex)$p.value[3]`].  The highest mean was `r use.stats.2[9,3]`% of time used for technology for males with graduate degrees. The lowest mean was `r use.stats.2[2,3]`% of the time for females with less than a high school diploma. The interaction between degree and sex shows that time spent on technology use increases more quickly for females with both males and females eventually having high tech use in the top two education groups. 
+Leslie summarizes the findings:
+
+>The mean time spent on technology use was significantly different across degree groups [$F$(`r tidy(techuse.by.deg.sex)$df[1]`,`r tidy(techuse.by.deg.sex)$df[4]`) = `r tidy(techuse.by.deg.sex)$statistic[1]`; $p$ = `r tidy(techuse.by.deg.sex)$p.value[1]`] indicating these groups likely came from populations with different mean time spent on technology use. Means were also statistically significant by sex [$F$(`r tidy(techuse.by.deg.sex)$df[2]`,`r tidy(techuse.by.deg.sex)$df[4]`) = `r tidy(techuse.by.deg.sex)$statistic[2]`; $p$ = `r tidy(techuse.by.deg.sex)$p.value[2]`] and there was a statistically significant interaction between degree and sex on technology use [$F$(`r tidy(techuse.by.deg.sex)$df[3]`,`r tidy(techuse.by.deg.sex)$df[4]`) = `r tidy(techuse.by.deg.sex)$statistic[3]`; $p$ = `r tidy(techuse.by.deg.sex)$p.value[3]`].  The highest mean was `r use.stats.2[9,3]`% of time used for technology for males with graduate degrees. The lowest mean was `r use.stats.2[2,3]`% of the time for females with less than a high school diploma. The interaction between degree and sex shows that time spent on technology use increases more quickly for females with both males and females eventually having high tech use in the top two education groups. 
 
 ### Post-hoc test for two-way ANOVA
 
@@ -1343,9 +1341,9 @@ After a little searching, Leslie is disappointed to find that the Bonferroni pos
 TukeyHSD(techuse.by.deg.sex)
 ```
 
-Kiara explains that the output is showing one comparison per row. The first section is comparing groups of degree to each other. The second section is comparing males and females to each other. The third section is the interaction, comparing groups of degree+sex with each other. For example, the first row in this last section is **high school:male-< high school:male**, which compares **high school male** to **< high school male**. The numbers that follow are the difference between the means (diff = 17.8132060), the confidence interval around the difference (95% CI: 2.7275183 to 32.8988937), and the p-value for the difference between the means (p = 0.0072699). This indicates that there is a statistically significant (p < .05) difference of 17.81 between the means for these two groups *in the sample* and that the difference between the means is somewhere between 2.73 and 32.90 in the population this sample came from. 
+Kiara explains that the output is showing one comparison per row. The first section is comparing groups of degree to each other. The second section is comparing males and females to each other. The third section is the interaction, comparing groups of degree+sex with each other. For example, the first row in this last section is **high school:male-< high school:male**, which compares **high school male** to **< high school male**. The numbers that follow are the difference between the means (diff = 17.8132060), the confidence interval around the difference (95% CI: 2.7275183 to 32.8988937), and the $p$-value for the difference between the means ($p$ = 0.0072699). This indicates that there is a statistically significant ($p$ < .05) difference of 17.81 between the means for these two groups *in the sample* and that the difference between the means is somewhere between 2.73 and 32.90 in the population this sample came from. 
 
-Leslie finds that there are so many groups with significant differences that it seems more useful to just include the boxplot from the exploratory analysis or the means plot, a table of p-values for the comparisons, and mention any interesting overall patterns in the comparisons. Kiara and Nancy agree. Leslie finds that there are significant differences between males and females in the high school and junior college groups, but that males and females are not significantly different across the other educational groups. She also finds that the college groups spent significantly more time using technology than the two other groups, but were not statistically significantly different from each other. Overall it appears that higher education groups spend more time using technology for males and females and that high school and junior college educated females spend more time using technology than males with these same education levels.
+Leslie finds that there are so many groups with significant differences that it seems more useful to just include the boxplot from the exploratory analysis or the means plot, a table of $p$-values for the comparisons, and mention any interesting overall patterns in the comparisons. Kiara and Nancy agree. Leslie finds that there are significant differences between males and females in the high school and junior college groups, but that males and females are not significantly different across the other educational groups. She also finds that the college groups spent significantly more time using technology than the two other groups, but were not statistically significantly different from each other. Overall it appears that higher education groups spend more time using technology for males and females and that high school and junior college educated females spend more time using technology than males with these same education levels.
 
 ### Two-way ANOVA assumptions
 
@@ -1353,16 +1351,16 @@ Kiara mentions that the assumptions of homogeneity of variances and normality ar
 
 #### Testing the normality assumption
 
-Leslie looks at the `techuse.by.deg.sex` object in the environment pane sees the residuals. She uses a Shapiro-Wilk test to check normality statistically and then plots the residuals for a visual assessment:
+Leslie looks at the `techuse.by.deg.sex` object in the environment pane and sees the residuals. She uses a Shapiro-Wilk test to check normality statistically and then plots the residuals for a visual assessment:
 
 ```{r}
 # statistical test of normality for groups
 shapiro.test(techuse.by.deg.sex$residuals)
 ```
 
-Leslie reminds herself that the null hypthesis for the Shapiro-Wilk test is that the distribution is normal. By rejecting this null hypothesis with a tiny p-value, the assumption is failed. Leslie graphs the residuals to confirm. She finds that the `ggplot()` command does not work with the ANOVA object, so she converts the residuals to a new data frame first and then graphs them:
+Leslie reminds herself that the null hypthesis for the Shapiro-Wilk test is that the distribution is normal. By rejecting this null hypothesis with a tiny $p$-value, the assumption is failed. Leslie graphs the residuals to confirm. She finds that the `ggplot()` command does not work with the ANOVA object, so she converts the residuals to a new data frame first and then graphs them:
 
-```{r fig.cap = "Distribution of residuals from tech use by degree and sex ANOVA."}
+```{r warning = FALSE, message = FALSE, fig.cap = "Distribution of residuals from tech use by degree and sex ANOVA."}
 # make a data frame
 tech.deg.sex <- data.frame(techuse.by.deg.sex$residuals)
 
@@ -1411,7 +1409,7 @@ tech.by.deg.sex.f
 
 ```
 
-The team is surprised that the Friedman test finds no statistically significant difference in the ranks of technology use by degree and sex [$\chi^2$(`r tech.by.deg.sex.f$parameter`) = `r tech.by.deg.sex.f$statistic`; p = `r tech.by.deg.sex.f$p.value`]. Given the means plots and boxplots developed in the exploratory data analysis for two-way ANOVA, this seems like an unusual result. Kiara does a little digging and finds a number of manuscripts suggesting that the Friedman test is not a great option for addressing failed assumptions because of the way the ranks are computed [@zimmerman1993relative;@harwell1994monte]. 
+The team is surprised that the Friedman test finds no statistically significant difference in the ranks of technology use by degree and sex [$\chi^2$(`r tech.by.deg.sex.f$parameter`) = `r tech.by.deg.sex.f$statistic`; $p$ = `r tech.by.deg.sex.f$p.value`]. Given the means plots and boxplots developed in the exploratory data analysis for two-way ANOVA, this seems like an unusual result. Kiara does a little digging and finds a number of manuscripts suggesting that the Friedman test is not a great option for addressing failed assumptions because of the way the ranks are computed [@zimmerman1993relative;@harwell1994monte]. 
 
 Instead of using Friedman, another suggested method is to compute the ranks of the outcome and conduct the two-way ANOVA on the ranked outcome variable. Luckily, Leslie computed ranks already for the Dunn's test earlier and tries out the two-way ANOVA code with the transformed outcome variable:
 
@@ -1424,7 +1422,7 @@ summary(techuse.by.deg.sex.t)
 
 Nancy makes some plots of the ranks to add some context to the results:
 
-```{r echo = FALSE}
+```{r warning = FALSE, message = FALSE, echo = FALSE}
 # boxplot of usetech ranks
 ranks.box <- ggplot(data = subset(gss.2018.cleaned, !is.na(USETECH)), 
        aes(y = usetech.rank, x = DEGREE)) + 
@@ -1446,13 +1444,13 @@ ranks.means <- ggplot(data = subset(gss.2018.cleaned, !is.na(USETECH)),
   ylab("Ranked percent of time\nspent using technology")
 
 # both plots together
-gridExtra::grid.arrange(ranks.box, ranks.means)
+gridExtra::grid.arrange(ranks.box, ranks.means, )
 
 ```
 
 The plots show a the difference from one degree group to the other and between males and females. Leslie writes her interpretation of the ranked outcome ANOVA: 
 
-> A two-way ANOVA with ranked technology time use as the outcome found statistically significant main effects of degree and sex on technology use (p < .05) and a statistically significant interaction between degree and sex (p < .05). The overall pattern of results indicates that males and females with less than a high school education use technology the least, while those with a college degree use technology the most. Males and females differ a lot in use of technology for those with a junior college degree, with females having a junior college degree having the highest use of technology of all females. 
+> A two-way ANOVA with ranked technology time use as the outcome found statistically significant main effects of degree and sex on technology use ($p$ < .05) and a statistically significant interaction between degree and sex ($p$ < .05). The overall pattern of results indicates that males and females with less than a high school education use technology the least, while those with a college degree use technology the most. Males and females differ a lot in use of technology for those with a junior college degree, with females having a junior college degree having the highest use of technology of all females. 
 
 Another strategy sometimes used when two-way ANOVA assumptions are not met is a Box-Cox transformation on the outcome variable. The Box-Cox power transformations were developed to reduce the non-normality of residuals, so they may be useful here. The original paper by Box and Cox does a nice job of explaining the transformations [@box1964analysis] and there are numerous tutorials on the use of these transformations.
 
@@ -1466,23 +1464,27 @@ After reading this chapter and following along, Leslie (and you) has learned and
 
 Prior to conducting inferential statistical tests like $\chi^2$, it is useful to get some idea of the characteristics and relationships in your data. Descriptive statistics and graphs, or exploratory data analysis (EDA), can serve two purposes: (1) understand the people, things, or phenomena you are studying better, and (2) make an educated prediction about the likely results of a statistical test, which can help identify issues if (or when) the test is not properly conducted.
 
-#### Achievement 2 recap: One-way analysis of variance (ANOVA)
+#### Achievement 2 recap: Understanding and conducting one-way analysis of variance (ANOVA)
 
 One-way ANOVA compares the means of three or more groups. Significant results indicate that the differences among the means likely reflects a difference in means from the populations the samples came from. One-way ANOVA is an omnibus test (like $\chi^2$), identifying significant relationships but providing no measure of the strength of the association between variables. 
 
-#### Achievement 3 recap: Post-hoc testing and planned comparisons
+#### Achievement 3 recap: Choosing and using post-hoc tests and contrasts
 
 Following a significant ANOVA result, planned comparisons or a post-hoc test like Bonferroni or Tukey HSD can identify significant differences between pairs of means. Planned comparisons are typically used when there are hypothesized differences among the groups while post-hoc tests are used when there are no specific hypotheses about differences among group means. 
 
-#### Achievement 4 recap: ANOVA assumptions
+#### Achhievement 4 recap: Computing and interpreting effect sizes for ANOVA 
+
+$\omega^2$ and $\eta^2$ are the two most common types of effect sizes for ANOVA. $\eta^2$ is the proportion of variance explained by the model (sum of squares - effect) relative to the total variance (sum of squares - total). However, $\omega^2$ is generally recommended over $\eta^2$ because it gets at the same idea but is less biased than $\eta^2$.
+
+#### Achievement 5 recap: Testing ANOVA assumptions
 
 Statistical tests rely on underlying assumptions about the characteristics of the data. When these assumptions are not met, the results may not reflect the true relationships among the variables. For ANOVA, four assumptions need to be met: (1) continuous variable and three or more independent groups, (2) independent observations, (3) normal distribution in each group, and (4)  equal variances for each group. 
 
-#### Achievement 5 recap: Alternatives when ANOVA assumptions are not met
+#### Achievement 6 recap: Choosing and using alternative tests when ANOVA assumptions are not met
 
 When assumptions are not met for ANOVA, there are alternative tests that account for the data not meeting assumptions. When the homogeneity of variances assumption is not met, two alternative $F$-statistics are good options: Brown-Forsythe and Welch. When the normality assumption is not met, the Kruskal-Wallis test is an alternative test that compares the mean ranks across groups.
 
-#### Achievement 6 recap: Two-way ANOVA
+#### Achievement 7 recap: Understanding and conducting two-way ANOVA
 
 Two-way ANOVA is useful for comparing means across groups of two categorical variables separately and as an interaction. This type of statistical model can answer the question of how tech use varies by education and by sex and by the interaction of education and sex. Assumption checking and post-hoc tests apply in two-way ANOVA in similar ways as they did in one-way ANOVA.
 
@@ -1515,7 +1517,7 @@ b. 4
 c. 12 
 d. 6 
 
-Q4: Apply a Bonferroni adjustment to a p-value of .01 if the analyses included 6 pairwise comparisons. If the threshold for statistical significance were .05, would the adjusted p-value be significant? 
+Q4: Apply a Bonferroni adjustment to a $p$-value of .01 if the analyses included 6 pairwise comparisons. If the threshold for statistical significance were .05, would the adjusted $p$-value be significant? 
 
 a. Yes 
 b. No 
@@ -1565,7 +1567,7 @@ sometimes it is more efficient, although not always more clear, to nest R functi
 anova.for.Tukey <- aov(formula = USETECH ~ DEGREE,
                          data = gss.2018.cleaned)
 
-# use the ANOVA object in TukeyHSD
+# use the newly created ANOVA object in TukeyHSD
 tukey.tech.by.deg <- TukeyHSD(anova.for.Tukey )
 tukey.tech.by.deg
 ```
@@ -1587,7 +1589,7 @@ The nested version is less code overall, but if the ANOVA object is useful for o
 
 <img align = "left" src = "graphics\kiara.gif" style="PADDING-RIGHT: 30px">
 
-Kiara wants to demonstrate how working with R code is going to be more precise and therefore easier to reproduce than copying results and doing the math by hand, even if it does seem more efficient. She demonstrates by computing the $\omega^2$ for the ANOVA by hand and with R. To do this math in R from the `aov()` object **techuse.by.deg.aov**, some fancy code is needed to access the list that is created with `summary()`. The object created by `summary()` is a list.  
+Kiara wants to demonstrate how working with R code is going to be more precise and therefore easier to reproduce than copying results and doing the math by hand, even if it does seem more efficient. She demonstrates by computing the $\omega^2$ for the ANOVA by hand and with R. To do this math in R from the `aov()` object `techuse.by.deg.aov`, some fancy code is needed to access the list that is created with `summary()`. The object created by `summary()` is a list.  
 
 ```{r}
 # create a summary object
@@ -1600,7 +1602,7 @@ Looking at the list in the environment pane, there are several entries in the li
 knitr::include_graphics("graphics/chap7-summ.object.JPG")
 ```
 
-To access the parts of the list, square brackets are `[]` are used. A single element of the list requires double square brackets `[[]]` with the position of the element inside. So, for the **summ.tech.anova** object, use:
+To access the parts of the list, square brackets are `[]` are used. A single element of the list requires double square brackets `[[]]` with the position of the element inside. So, for the `summ.tech.anova` object, use:
 
 ```{r}
 # access first item in the summ.tech.anova list
@@ -1633,7 +1635,7 @@ omega.sq <- (summ.tech.anova[[1]][1, 4])/(summ.tech.anova[[1]][1, 4] + (n.om - k
 omega.sq
 ```
 
-The $\omega^2$ is a little larger, likely due to the rounding of the $F$ statistic in the by-hand version of the calculations. Kiara is satisfied that this has demonstrated the need to use R code for reproducibility. Leslie grudgingly agrees even though the code seems really long and complicated for a .002 difference. 
+The $\omega^2$ is a little larger, likely due to the rounding of the $F$-statistic in the by-hand version of the calculations. Kiara is satisfied that this has demonstrated the need to use R code for reproducibility. Leslie grudgingly agrees even though the code seems really long and complicated for a .002 difference. 
 
 #### Leslie's stats stuff: Type I and Type II errors {#ch7leslie}
 
@@ -1660,7 +1662,7 @@ htmlTable(row.col.vals,
 
 ```
 
-A Type II error, also called $\beta$, is when there is a relationship but the study did not detect it. A Type I error, also called $\alpha$, is when there is **no relationship** but the study detects one. The $\alpha$ for Type I error is also the threshold set for statistical significance. The threshold for statistical significance is the amount of uncertainty tolerated in concluding whether or not a result is _statistically significant_. If $\alpha$ is .05, this is a willingness to risk a 5% chance of making a Type I error of rejecting the null hypothesis when it should be retained. Increasing sample size and decreasing the threshold for _statistical significance_ ($\alpha$) can aid in decreasing Type I and II errors. 
+A Type II error, also called $\beta$, is when there is a relationship but the study did not detect it (false negative). A Type I error, also called $\alpha$, is when there is *no relationship* but the study detects one (false positive). The $\alpha$ for Type I error is also the threshold set for statistical significance. The threshold for statistical significance is the amount of uncertainty tolerated in concluding whether or not a result is _statistically significant_. If $\alpha$ is .05, this is a willingness to risk a 5% chance of making a Type I error of rejecting the null hypothesis when it should be retained, or a 5% chance of gettign a false positive. Increasing sample size and decreasing the threshold for _statistical significance_ ($\alpha$) can aid in decreasing Type I and II errors. 
 
 
 
