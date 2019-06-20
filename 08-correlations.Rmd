@@ -1,30 +1,30 @@
-# Correlation coefficients: The R-team and the clean water conundrum
+# Correlation coefficients: The R-Team and the clean water conundrum
 
-It had been a month since the last R-team meeting. Nancy had been travelling. Leslie was anxious to continue learning about R. They had all agreed to meet at their favorite café.
+It had been a month since the last R-Team meeting. Nancy had been travelling. Leslie was anxious to continue learning about R. They had all agreed to meet at their favorite café.
 
 Nancy and Leslie walked in at the same time. They saw that Kiara, early as always, had snagged the best booth.
 
-“Hello, R-team,” Kiara said.
+"Hello, R-Team," Kiara said.
 
-“Hey,” said Leslie.
+"Hey," said Leslie.
 
-“Hujambo,” Nancy said. “That’s Swahili for ‘hello’.”
+"Hujambo," Nancy said. "That’s Swahili for 'hello'."
 
-“Nice!” said Kiara.
+"Nice!" said Kiara.
 
-“How was your trip to Tanzania?” Leslie asked.
+"How was your trip to Tanzania?" Leslie asked.
 
-“It was amazing!” Nancy enthused. “...going to Serengeti National Park and later seeing Mount Kilamanjaro in the distance were everything I'd imagined. And, there is a group building an R community in the city of Dar es Salaam, which is on the coast of the Indian Ocean. I connected to the organizers through Twitter and at the end of my trip was lucky enough to meet a few of the people involved. I really enjoyed learning about what they are doing.”
+"It was amazing!" Nancy enthused. “...going to Serengeti National Park and later seeing Mount Kilamanjaro in the distance were everything I'd imagined. And, there is a group building an R community in the city of Dar es Salaam, which is on the coast of the Indian Ocean. I connected to the organizers through Twitter and at the end of my trip was lucky enough to meet a few of the people involved. I really enjoyed learning about what they are doing."
 
-“Very cool,” said Leslie.
+"Very cool," said Leslie.
 
-“Tell us more later,” said Kiara. “For now, let’s get down to some local R learning, right here.” Then Kiara summarized, “So far, we’ve discussed $\chi^2$ and its alternatives, t-tests and their alternatives, and ANOVA and its alternatives.”
+"Tell us more later," said Kiara. "For now, let's get down to some local R learning, right here." Then Kiara summarized, "So far, we’ve discussed $\chi^2$ and its alternatives, $t$-tests and their alternatives, and ANOVA and its alternatives."
 
-“Right,” Nancy said. “These methods are useful for when when you encounter a question that can be answered by examining the relationship between two categorical variables ($\chi^2$) or between a continuous variable and one or two categorical variables (t-tests, ANOVA). The goodness-of-fit $\chi^2$ and the one-sample t-test are versions of these tests for comparing one continuous variable or one categorical variable to a hypothesized or population value.”
+"Right," Nancy said. "These methods are useful for when when you encounter a question that can be answered by examining the relationship between two categorical variables ($\chi^2$) or between a continuous variable and one or two categorical variables ($t$-tests, ANOVA). The goodness-of-fit $\chi^2$ and the one-sample $t$-test are versions of these tests for comparing one continuous variable or one categorical variable to a hypothesized or population value."
 
 "Today we will be adding the correlation coefficient to the list," said Kiara. "The correlation coefficient is used to examine the relationship between two continuous variables. It has assumptions to meet and alternatives when assumptions aren't met, just like the other tests we've learned."
 
-“I didn’t realize we’d covered so much already!” Leslie exclaimed. Then she pointed out some patterns she noticed that were emerging for an analysis plan that works across all the statistical tests:
+"I didn't realize we'd covered so much already!" Leslie exclaimed. Then she pointed out some patterns she noticed that were emerging for an analysis plan that works across all the statistical tests:
 
 *	import and clean the data (e.g., check missing values, add labels to categories, rename variables for easier use) 
 * conduct descriptive and visual exploratory data analysis to get familiar with the data 
@@ -33,26 +33,26 @@ Nancy and Leslie walked in at the same time. They saw that Kiara, early as alway
 *	use the NHST process conduct the test or an alternative test if assumptions are not met 
 * if test results find a statistically significant relationship, follow up with post-hoc tests, effect size calculations, or other strategies for better understanding the relationship 
 
-“Excellent plan,” Kiara said. “Let’s use keep it in mind for organizing our next few meetings.”
+"Excellent plan," Kiara said. "Let's keep it in mind for organizing our next few meetings."
 
-“Great,” Leslie answered. “Now, who wants a few more fries?”
+"Great," Leslie answered. "Now, who wants more fries?"
 
 Nancy was ready to get started on correlation and had already created a list of achievements.
 
 ## Achievements to unlock
 
 * Achievement 1: Exploring the data using graphics and descriptive statistics 
-* Achievement 2: Computing and interpreting Pearson’s r correlation coefficient 
-* Achievement 3: Conducting an inferential statistical test for Pearson’s r correlation coefficient 
-* Achievement 4: Examining effect size for Pearson’s r with the coefficient of determination 
-* Achievement 5: Checking assumptions for Pearson’s r correlation analyses 
+* Achievement 2: Computing and interpreting Pearson's $r$ correlation coefficient 
+* Achievement 3: Conducting an inferential statistical test for Pearson's $r$ correlation coefficient 
+* Achievement 4: Examining effect size for Pearson's $r$ with the coefficient of determination 
+* Achievement 5: Checking assumptions for Pearson's $r$ correlation analyses 
 * Achievement 6: Transforming the variables as an alternative when Pearson's $r$ correlation assumptions are not met  
-* Achievement 7: Using Spearman's rho as an alternative when Pearson's $r$ correlation assumptions are not met 
+* Achievement 7: Using Spearman's rho ($\rho$) as an alternative when Pearson's $r$ correlation assumptions are not met 
 * Achievement 8: Introducing partial correlations 
 
 ## The clean water conundrum
 
-On one of Nancy’s day trips in Tanzania she had seen firsthand what she had been reading about: the lack of access to clean water and sanitation and how this impacts people living in poverty, poor women and girls in particular [@thompson2011fetching; @warrington2012makes]. Specifically, women and girls tend to be responsible for collecting water for their families, often walking long distances in unsafe areas and carrying heavy loads [@devnarain2011poor; @thompson2011fetching]. In some cultures lack of access to sanitation facilities also means that women can only defecate after dark, which can be physically uncomfortable and/or put them at greater risk for harassment and assault. In many places the world, including parts of Tanzania [@WASHinschoolsUNICEF], the lack of sanitation facilities can keep girls out of school when they are menstruating [@sommer2010education]. She was interested in exploring this problem further, and Leslie and Kiara came right on board. 
+On one of Nancy's day trips in Tanzania she had seen firsthand what she had been reading about: the lack of access to clean water and sanitation and how this impacts people living in poverty, poor women and girls in particular [@thompson2011fetching; @warrington2012makes]. Specifically, women and girls tend to be responsible for collecting water for their families, often walking long distances in unsafe areas and carrying heavy loads [@devnarain2011poor; @thompson2011fetching]. In some cultures lack of access to sanitation facilities also means that women can only defecate after dark, which can be physically uncomfortable and/or put them at greater risk for harassment and assault. In many places the world, including parts of Tanzania [@WASHinschoolsUNICEF], the lack of sanitation facilities can keep girls out of school when they are menstruating [@sommer2010education]. She was interested in exploring this problem further, and Leslie and Kiara came right on board. 
 
 Nancy shared a graph she had started working on when she was on the plane home using data from a few different sources to examine the relationship between the percent of people in a country with water access and the percent of school-aged girls who are in school (Figure \@ref(fig:posscatter)).
 
@@ -123,18 +123,18 @@ summary(object = water.educ)
 
 Since there was not a single codebook for these merged data sources, Kiara explained the variables:
 
-* country: the name of the country 
-* med.age: the median age of the citizens in the country 
-* perc.1dollar: percentage of citizens living on $1 per day or less 
-* perc.basic2015sani: percentage of citizens with basic sanitation access 
-* perc.safe2015sani: percentage of citizens with safe sanitation access 
-* perc.basic2015water: percentage of citizens with basic water access 
-* perc.safe2015water: percentage of citizens with safe water access 
-* perc.in.school: percentage of school-age people in primary and secondary school  
-* female.in.school: percentage of female school-age people in primary and secondary school 
-* male.in.school: percentage of female school-age people in primary and secondary school 
+* `country`: the name of the country 
+* `med.age`: the median age of the citizens in the country 
+* `perc.1dollar`: percentage of citizens living on \$1 per day or less 
+* `perc.basic2015sani`: percentage of citizens with basic sanitation access 
+* `perc.safe2015sani`: percentage of citizens with safe sanitation access 
+* `perc.basic2015water`: percentage of citizens with basic water access 
+* `perc.safe2015water`: percentage of citizens with safe water access 
+* `perc.in.school`: percentage of school-age people in primary and secondary school  
+* `female.in.school`: percentage of female school-age people in primary and secondary school 
+* `male.in.school`: percentage of male school-age people in primary and secondary school 
 
-The data were all from 2015. Leslie noticed that the data frame in the Environment pane shows `r nrow(water.educ)` countries and `r length(water.educ)` variables. Except for `country`, all of the variables appeared to be numeric. Leslie computed the mean and standard deviation for the two variables of interest `female.in.school` and `perc.basic2015water`.
+The data were all from 2015. Leslie noticed that the data frame in the Environment pane shows `r nrow(water.educ)` observations (here, countries) and `r length(water.educ)` variables. Except for `country`, all of the variables appeared to be numeric. Leslie computed the mean and standard deviation for the two variables of interest `female.in.school` and `perc.basic2015water`.
 
 ```{r}
 # descriptive statistics for female educ and water access
@@ -176,7 +176,7 @@ A positive correlation between two variables is when:
 * one variable increases when the other decreases 
 * a good result is obtained after some treatment or intervention 
 
-## Achievement 2: Computing and interpreting Pearson's r correlation coefficient {#corr}
+## Achievement 2: Computing and interpreting Pearson's $r$ correlation coefficient {#corr}
 
 ### Computing and interpreting the covariance between two variables 
 
@@ -184,19 +184,19 @@ Nancy said they were ready to start computing the correlation statistic now. She
 
 $$
 \begin{equation} 
-cov_{xy}=\frac{{\sum_{i=1}^n}(x_i-m_x)(y_i-m_y)}{n-1}
+cov_{xy}=\frac{{\sum\limits_{i=1}^n}(x_i-m_x)(y_i-m_y)}{n-1}
  (\#eq:cov)
 \end{equation}
 $$
 
-Leslie examined Equation \@ref(eq:cov). She saw the summation from the first observation in the data, i = 1, to the last observation in the data set, n. The sum is of the product of (1) the difference between each individual observation value for the first variable $x_i$ and the mean of that variable $m_x$ and the same thing for the second variable, y. The numerator essentially adds up how far each observation is away from the mean values of the two variables being examined, so this ends up being a very large number quantifying how far away all the observations are from the mean values. The denominator divides this by the Bessel correction (Section \@ref(CLT)) of n - 1, which is close to the sample size and essentially finds the average deviation from the means for one observation.
+Leslie examined Equation \@ref(eq:cov). She saw the summation from the first observation in the data, $i = 1$, to the last observation in the data set, $n$. The sum is of the product of (a) the difference between each individual observation value for the first variable $x_i$ and the mean of that variable $m_x$ and (b) the same thing for the second variable, $y$. The numerator essentially adds up how far each observation is away from the mean values of the two variables being examined, so this ends up being a very large number quantifying how far away all the observations are from the mean values. The denominator divides this by the Bessel correction (Section \@ref(CLT)) of $n - 1$, which is close to the sample size and essentially finds the average deviation from the means for one observation.
 
 If the numerator is positive, the covariance will be positive, representing a positive relationship between two variables. This happens when many of the observations have x and y values that are either:
 
 * both higher values than the mean, or 
 * both lower than the mean 
 
-When $x_i$ and $y_i$ are **both** greater than $m_x$ and $m_y$, respectively, the contribution of that observation to the numerator of Equation \@ref(eq:cov) is a positive amount. Likewise, when $x_i$ and $y_i$ are **both** less than $m_x$ and $m_y}$, respectively, the contribution of that observation to the numerator of Equation \@ref(eq:cov) is also a positive amount because multiplying two negatives results in a positive. Nancy thought a visual might help here and revised the graph to show the means of x and y and highlight the points that were either above or below $m_x$ and $m_y$. Leslie noticed that there were a lot more points above $m_x$ and $m_y$ than below in Figure \@ref(fig:poscor), which was consistent with the positive value of the covariance. The gray observations contribute positive amounts to the sum in the numerator, while the purple observations contribution negative amounts to the sum in the numerator. Since there were so many more gray than purple in the figure, the sum was positive and the covariance is positive. 
+When $x_i$ and $y_i$ are *both* greater than $m_x$ and $m_y$, respectively, the contribution of that observation to the numerator of Equation \@ref(eq:cov) is a positive amount. Likewise, when $x_i$ and $y_i$ are *both* less than $m_x$ and $m_y}$, respectively, the contribution of that observation to the numerator of Equation \@ref(eq:cov) is also a positive amount because multiplying two negatives results in a positive. Nancy thought a visual might help here and revised the graph to show the means of x and y and highlight the points that were either above or below $m_x$ and $m_y$.  
 
 ```{r poscor, warning = FALSE, message = FALSE, echo = FALSE, fig.cap = "Relationship of percent of females in school and percent of citizens with water access in countries worldwide (WHO & UNESCO, 2015)"}
 # explore plot of female education and water access
@@ -224,10 +224,12 @@ water.educ %>%
                      name = "x & y both above\nor below mean") +
   scale_linetype_manual(values = c(2,2),
                      name = "Mean",
-                     guide = guide_legend(override.aes = list(color = c("deeppink", "dodgerblue2"))))
+                     guide = guide_legend(override.aes = list(color = 
+                                                                c("dodgerblue2",
+                                                                  "deeppink"))))
 ```
 
-Likewise, if there were more purple dots, there were more negative values contributed to the numerator and the covariance is likely to be negative, like in Figure \@ref(fig:negcor).
+Leslie noticed that there were a lot more points above $m_x$ (to the right of the blue dashed line) and $m_y$ (above the pink dashed line) than below in Figure \@ref(fig:poscor), which was consistent with the positive value of the covariance. The gray observations contribute positive amounts to the sum in the numerator, while the purple observations contribution negative amounts to the sum in the numerator. Since there were so many more gray than purple in the figure, the sum was positive and the covariance is positive. Likewise, if there were more purple dots, there were more negative values contributed to the numerator and the covariance is likely to be negative, like in Figure \@ref(fig:negcor).
 
 ```{r negcor, echo = FALSE, warning=FALSE, message = FALSE, fig.cap = "Relationship of percent of females in school and percent of people living on less than $1 per day in countries worldwide (WHO & UNESCO, 2015)"}
 # explore plot of poverty and water access
@@ -235,30 +237,33 @@ water.educ %>%
   drop_na(female.in.school) %>%
   drop_na(perc.1dollar) %>% 
   mutate(abovebel = (female.in.school > mean(female.in.school) &
-                          perc.1dollar > mean(perc.1dollar)) |
-          (female.in.school < mean(female.in.school) &
-                          perc.1dollar < mean(perc.1dollar))) %>%
+                       perc.1dollar > mean(perc.1dollar)) |
+           (female.in.school < mean(female.in.school) &
+              perc.1dollar < mean(perc.1dollar))) %>%
   ggplot(aes(y = female.in.school/100, 
              x = perc.1dollar/100, color = abovebel)) + 
   geom_point(size = 2) + 
   geom_hline(aes(yintercept = mean(female.in.school/100), 
                  linetype = "% females in school"), color = "deeppink", size = 1) +
-    geom_vline(aes(xintercept = mean(perc.1dollar/100), 
-                   linetype = "% basic water access"), color = "dodgerblue2", show.legend = FALSE, size = 1) +
+  geom_vline(aes(xintercept = mean(perc.1dollar/100), 
+                 linetype = "% living on $1/day"), color = "dodgerblue2", show.legend = FALSE, size = 1) +
   theme_minimal() + 
   labs(y = "Percent of females in school (primary & secondary)",
-       x = "Percent with access to basic water") +
+       x = expression("Percent of citizens living on"<="$1/day")) +
   scale_x_continuous(labels = scales::percent) +
   scale_y_continuous(labels = scales::percent) +
   scale_color_manual(values = c("#7463AC","gray60"),
                      labels = c("No", "Yes"),
-                     name = "x & y both above\nor below mean") +
+                     name = "x & y both above\nor below mean",
+                     guide = guide_legend(order = 1)) +
   scale_linetype_manual(values = c(2,2),
-                     name = "Mean",
-                     guide = guide_legend(override.aes = list(color = c("deeppink", "dodgerblue2"))))
+                        name = "Mean",
+                        guide = guide_legend(override.aes = list(color = c("dodgerblue2", "deeppink")), 
+                                             order = 2),
+                        labels = c(expression("% living on"<="$1/day"), "% females in school"))
 ```
 
-Female education and basic water access appeared to have a positive relationship while poverty and basic water access had a negative relationship; the covariance can help quantify it. Note that the _covariance_ command is like the `mean()` command in that it needs to know how to handle missing values. In the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> style, using `drop_na()` for the variables used to compute covariance is one way to ensure that no missing values are included in the calculations. However, each `drop_na()` will drop all the observations with missing values for that variable. Since there were three variables to consider for these two correlations, `perc.basic2015water`, `perc.1dollar`, and `female.in.school`, Nancy thought this might be trouble.
+Female education and basic water access appeared to have a positive relationship while female education and poverty had a negative relationship; the covariance can help quantify it. Note that the _covariance_ command is like the `mean()` command in that it needs to know how to handle missing values. In the <span style="font-family:Lucida Console, monospace;font-weight:bold">tidyverse</span> style, using `drop_na()` for the variables used to compute covariance is one way to ensure that no missing values are included in the calculations. However, each `drop_na()` will drop all the observations with missing values for that variable. Since there were three variables to consider for these two correlations, `perc.basic2015water`, `perc.1dollar`, and `female.in.school`, Nancy thought this might be trouble.
 
 Nancy explained that it was important to think through how the missing values were being handled before they wrote the final code. To think it through, Nancy suggested they examine three different ways to compute the covariance in order to understand the missing data treatment. First, she demonstrated using `use = complete` as an argument for each `cov()` command, which worked to drop any observations missing values for either of the variables involved in the covariance. 
 
@@ -269,8 +274,8 @@ water.educ %>%
   summarize(cov.females.water = cov(x = perc.basic2015water,
                                     y = female.in.school, 
                                     use = "complete"),
-            cov.poverty.water = cov(x = perc.basic2015water,
-                                    y = perc.1dollar,
+            cov.females.poverty = cov(x = perc.1dollar,
+                                    y = female.in.school,
                                     use = "complete"))
 
 ```
@@ -286,13 +291,12 @@ water.educ %>%
   drop_na(perc.1dollar) %>%
   summarize(cov.females.water = cov(x = perc.basic2015water,
                                     y = female.in.school),
-            cov.poverty.water = cov(x = perc.basic2015water,
-                                    y = perc.1dollar))
+            cov.females.poverty = cov(x = perc.1dollar,
+                                    y = female.in.school))
 
 ```
 
-
-Leslie was puzzled by the result and asks Nancy why the two sets of covariances were different. Nancy explained that the `drop_na()` function dropped the `NA` *for all three variables* before computing the two covariances for the second coding option. The calculations using `use = "complete"` only dropped the `NA` from the two variables *in that specific calculation*. So, the version with the `drop_na()` is dropping some observations that could be used in each of the `cov()` calculations. Nancy suggested they try the `drop_na()` method, but use is in two separate code chunks instead.
+Leslie was puzzled by the result and asks Nancy why the two sets of covariances were different. Specifically, why they would be different for `cov.females.water` but not for `cov.females.poverty`. Nancy explained that the `drop_na()` function dropped the `NA` *for all three variables* before computing the two covariances for the second coding option. The calculations using `use = "complete"` only dropped the `NA` from the two variables *in that specific calculation*. So, the version with the `drop_na()` is dropping some observations that could be used in each of the `cov()` calculations. Nancy suggested they try the `drop_na()` method, but use is in two separate code chunks instead.
 
 ```{r}
 # covariance of females in school and 
@@ -305,26 +309,24 @@ water.educ %>%
 
 ```
 
-Leslie compared this to the results from the `use = "complete"` option and notices that it was the same as both of the previous coding options. So, the strategy mattered for the covariance between `female.in.school` and `perc.basic2015water` but not for the covariance between `perc.1dollar` and `perc.basic2015water`.
+Leslie notices that this one matches the results from the `use = "complete"` the first time around. So, the strategy mattered for the covariance between `female.in.school` and `perc.basic2015water` but not for the covariance between `female.in.school` and `perc.1dollar`.
 
 ```{r}
-# covariance of poverty and 
-# percent with basic access to drinking water
+# covariance of females in school and poverty
 water.educ %>%
-  drop_na(perc.basic2015water) %>%
+  drop_na(female.in.school) %>%
   drop_na(perc.1dollar) %>%
-  summarize(cov.poverty.water = cov(x = perc.basic2015water,
-                                    y = perc.1dollar))
-
+  summarize(cov.female.poverty = cov(x = perc.1dollar,
+                                    y = female.in.school))
 ```
 
 This was also consistent with the first code using `use = "complete"`. These results made Leslie realize, again, how important it was to think through how to treat the data, especially when there are missing values. 
 
-Now that they agreed on an appropriate way to compute covariance, Kiara interpreted the results. She explained that the covariance does not have a useful inherent meaning; it is not a percentage or a sum or a difference. In fact, the size of the covariance depends largely on the size of what is measured. For example, something measured in millions might have a covariance in the millions or hundreds of thousands. The value of the covariance indicates whether there is a relationship at all and the direction of the relationship, that is, whether the relationship is positive or negative. In this case, a non-zero value indicates that there is some relationship and the positive value indicates the relationship is positive. Leslie was not impressed, but Kiara explained that the covariance is not reported very often to quantify the relationship between two continuous variables. Instead the covariance is **standardized** by dividing it by the standard deviations of the two variables involved [@falk1997many]. The result is called the correlation coefficient and is referred to as r. "Like R?" said Leslie, amused. "Yep." Kiara confirmed.
+Now that they agreed on an appropriate way to compute covariance, Kiara interpreted the results. She explained that the covariance does not have a useful inherent meaning; it is not a percentage or a sum or a difference. In fact, the size of the covariance depends largely on the size of what is measured. For example, something measured in millions might have a covariance in the millions or hundreds of thousands. The value of the covariance indicates whether there is a relationship at all and the direction of the relationship, that is, whether the relationship is positive or negative. In this case, a non-zero value indicates that there is some relationship and the positive value indicates the relationship is positive. Leslie was not impressed, but Kiara explained that the covariance is not reported very often to quantify the relationship between two continuous variables. Instead the covariance is **standardized** by dividing it by the standard deviations of the two variables involved [@falk1997many]. The result is called the correlation coefficient and is referred to as $r$. "Like R?" said Leslie, amused. "Yep." Kiara confirmed.
 
-### Computing the Pearson's r correlation between two variables 
+### Computing the Pearson's $r$ correlation between two variables 
 
-Kiara wrote out the equation for the r correlation coefficient (Equation \@ref(eq:cor)).
+Kiara wrote out the equation for the $r$ correlation coefficient (Equation \@ref(eq:cor)).
 
 $$
 \begin{equation} 
@@ -333,9 +335,9 @@ r_{xy}=\frac{cov_{xy}}{{s_x}{s_y}}
 \end{equation}
 $$
 
-Kiara explained that this correlation coefficient is called Pearson's r after Karl Pearson who used an idea from Francis Galton and a mathematical formula from Auguste Bravais to develop one of the more commonly used statistics [@stanton2001; @zou2003correlation]. Pearson's r can range from -1 (a perfect negative relationship) to 0 (no relationship) to 1 (a perfect positive relationship) [@garner2010joy; @falk1997many]. 
+Kiara explained that this correlation coefficient is called Pearson's $r$ after Karl Pearson who used an idea from Francis Galton and a mathematical formula from Auguste Bravais to develop one of the more commonly used statistics [@stanton2001; @zou2003correlation]. Pearson's $r$ can range from -1 (a perfect negative relationship) to 0 (no relationship) to 1 (a perfect positive relationship) [@garner2010joy; @falk1997many]. 
 
-Leslie noticed that her book called Pearson's r something else, the Pearson's **product-moment** correlation coefficient. Kiara said she had seen this before and looked it up to see if she could figure out what a **product-moment** is. In her reading, she found that **moment** was another term for the mean and a **product-moment** was a term for the mean of some products [@garner2010joy]. Leslie noticed that Equation \@ref(eq:cor) did not seem to show the mean of some products. Kiara thought she might know why. The formula for r can be organized in many different ways, one of which is as the mean of the summed products of z-scores (Section \@ref(zscore)) from x and y. Kiara wrote out the alternate version of the r calculation that fits better with the product-moment language (Equation \@ref(eq:corz)).  
+Leslie noticed that her book called Pearson's $r$ something else, the Pearson's **product-moment** correlation coefficient. Kiara said she had seen this before and looked it up to see if she could figure out what a **product-moment** is. In her reading, she found that **moment** was another term for the mean and a **product-moment** was a term for the mean of some products [@garner2010joy]. Leslie noticed that Equation \@ref(eq:cor) did not seem to show the mean of some products. Kiara thought she might know why. The formula for r can be organized in many different ways, one of which is as the mean of the summed products of z-scores (Section \@ref(zscore)) from x and y. Kiara wrote out the alternate version of the r calculation that fits better with the product-moment language (Equation \@ref(eq:corz)).  
 
 $$
 \begin{equation} 
