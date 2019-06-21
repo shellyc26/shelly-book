@@ -212,7 +212,7 @@ Leslie asks if they can still use ANOVA when there are floor and ceiling effects
 
 Kiara mentions that the limitation with ceiling and floor effects usually is a problem when the underlying measure has a wider range than what is measured. In the case of technology use, the range of zero to 100 percent of the time is as wide as it can be, so the observations at the ceiling and floor of this measure are just accurately reflecting very low and very high levels of technology use among many in the sample. 
 
-### Unlock Achievement 1: Check your understanding
+### Unlock achievement 1: Check your understanding
 
 Describe the different parts of a boxplot including the upper and lower bounds of the box, the middle line through the box, and the whiskers. 
 
@@ -785,7 +785,7 @@ In this case, the effect size is medium. There is a medium strength relationship
 
 > The mean time spent on technology use was significantly different across degree groups [$F$(`r techuse.by.deg$parameter[1]`,`r techuse.by.deg$parameter[2]`) = `r round(techuse.by.deg$statistic)`; $p$ < .05] indicating these groups likely came from populations with different mean time spent on technology use. The highest mean was `r use.stats[5,1]`% of time used for technology for those with graduate degrees. The lowest mean was `r use.stats[1,1]`% of the time for those with less than a high school diploma. A set of planned comparisons found that the mean time spent using technology was statistically significantly ($p$ < .05) lower for (1) those with *< high school* education (m = 24.8) compared to those with *high school or junior college* (m = 51.7), (2) those with a high school education (m = 49.61) compared to those with any college (m = 67.0), (3) those with a junior college degree (m = 62.4) compared to those with more college than that (m = 68.2), and (4) those with a bachelor's (m = 67.9) compared to those with a master's degree (m = 68.7). Overall the patterns show statistically significant increases in time spent using technology for those with more education. The strength of the relationship between degree and time using technology was medium $\omega^2$ = .11.
 
-### Unlock Achievement 4: Check your understanding
+### Unlock achievement 4: Check your understanding
 
 Describe how the interpretation of these findings might change if $\omega^2 = .04$. 
 
@@ -1228,7 +1228,7 @@ In this case, consistent with the ANOVA results, the effect size for the Kruskal
 
 > A Kruskal-Wallis test found a statistically significant difference in technology use time across degree groups ($H$ = 142.21; $p$ < .05). Based on post-hoc tests, those with less than a high school education had statistically significantly lower ranked times than all of the other groups ($p$ < .05), people with a bachelor's degree, a master's degree, or a junior college degree also had significantly higher ranks than those with a high school diploma. There were no significant differences among the three college groups. There was a medium effect size for the relationship between degree and ranked values of technology use ($\eta^2 = .098$).
 
-### Achievement 6: Check your understanding
+### Unlock achievement 6: Check your understanding
 
 Next to each test, put the ANOVA assumption violation it addresses.
 
